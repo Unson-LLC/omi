@@ -159,10 +159,10 @@ private struct ChatJournalTerminalTarget {
 
 extension UserDefaults {
   @objc dynamic var multiChatEnabled: Bool {
-    return bool(forKey: "multiChatEnabled")
+    return bool(forKey: .multiChatEnabled)
   }
   @objc dynamic var playwrightUseExtension: Bool {
-    return bool(forKey: "playwrightUseExtension")
+    return bool(forKey: .playwrightUseExtension)
   }
 }
 
@@ -1394,9 +1394,9 @@ class ChatProvider: ObservableObject {
     // Pre-6594 installs may have the old agentSDK tag saved; the settings
     // picker no longer offers it, so leaving it stored would leave the UI
     // in an inconsistent state.
-    let stored = UserDefaults.standard.string(forKey: "chatBridgeMode")
+    let stored = UserDefaults.standard.string(forKey: .chatBridgeMode)
     if stored != BridgeMode.rx4.rawValue {
-      UserDefaults.standard.set(BridgeMode.rx4.rawValue, forKey: "chatBridgeMode")
+      UserDefaults.standard.set(BridgeMode.rx4.rawValue, forKey: .chatBridgeMode)
       log("ChatProvider: migrated legacy bridgeMode -> rx4")
     }
 
@@ -4243,7 +4243,7 @@ class ChatProvider: ObservableObject {
             responseMetrics.recordToolRequested(name: name)
             toolTiming.toolStartTimes[trackedId] = Date()
             if name.contains("browser") || name.contains("playwright") {
-              let token = UserDefaults.standard.string(forKey: "playwrightExtensionToken") ?? ""
+              let token = UserDefaults.standard.string(forKey: .playwrightExtensionToken) ?? ""
               if token.isEmpty {
                 log(
                   "ChatProvider: Browser tool \(ChatTelemetryDimension.toolName(name)) "
