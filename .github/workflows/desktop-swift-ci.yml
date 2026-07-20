@@ -18,6 +18,7 @@ jobs:
       diff_base: ${{ steps.changed.outputs.diff_base }}
       should_run: ${{ steps.changed.outputs.should_run }}
       should_release_compile: ${{ steps.changed.outputs.should_release_compile }}
+      skip_changelog: ${{ steps.changed.outputs.skip_changelog }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -70,7 +71,14 @@ jobs:
             fi
           fi
           echo "should_release_compile=$SHOULD_RELEASE_COMPILE" >> "$GITHUB_OUTPUT"
-          echo "desktop_swift=$DESKTOP_SWIFT package_swift=$PACKAGE_SWIFT package_resolved=$PACKAGE_RESOLVED should_run=$SHOULD_RUN should_release_compile=$SHOULD_RELEASE_COMPILE"
+
+          SKIP_CHANGELOG=false
+          if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}" = "true" ]; then
+            SKIP_CHANGELOG=true
+          fi
+          echo "skip_changelog=$SKIP_CHANGELOG" >> "$GITHUB_OUTPUT"
+
+          echo "desktop_swift=$DESKTOP_SWIFT package_swift=$PACKAGE_SWIFT package_resolved=$PACKAGE_RESOLVED should_run=$SHOULD_RUN should_release_compile=$SHOULD_RELEASE_COMPILE skip_changelog=$SKIP_CHANGELOG"
 
   desktop-swift:
     name: Desktop Swift Build & Tests
@@ -117,7 +125,12 @@ jobs:
 
       - name: Run macOS-scoped manifest checks
         run: |
-          python3 .github/scripts/run_checks.py --lane ci --platform macos --base "${{ needs.changes.outputs.diff_base }}" --skip-pr-body-checks
+          python3 .github/scripts/run_checks.py \
+            --lane ci \
+            --platform macos \
+            --base "${{ needs.changes.outputs.diff_base }}" \
+            --skip-pr-body-checks \
+            ${{ needs.changes.outputs.skip_changelog == 'true' && '--skip-changelog' || '' }}
 
       # Debug build+test only on the PR critical path. Release compile is a
       # separate job (main push, or PRs that touch Package.swift) so we do not
