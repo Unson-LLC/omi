@@ -210,6 +210,7 @@ pub struct AnthropicMessage {
 }
 
 /// Anthropic content block type (system prompt blocks are always "text").
+#[expect(dead_code, reason = "reserved for the Anthropic system-content schema")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum AnthropicContentBlockType {
@@ -217,12 +218,14 @@ pub enum AnthropicContentBlockType {
 }
 
 /// Anthropic cache control type (currently only "ephemeral" is supported).
+#[expect(dead_code, reason = "reserved for the Anthropic system-content schema")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum AnthropicCacheControlType {
     Ephemeral,
 }
 
+#[expect(dead_code, reason = "reserved for the Anthropic system-content schema")]
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 pub struct AnthropicSystemContentBlock {
     #[serde(rename = "type")]
@@ -231,6 +234,7 @@ pub struct AnthropicSystemContentBlock {
     pub cache_control: AnthropicCacheControl,
 }
 
+#[expect(dead_code, reason = "reserved for the Anthropic system-content schema")]
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 pub struct AnthropicCacheControl {
     #[serde(rename = "type")]
