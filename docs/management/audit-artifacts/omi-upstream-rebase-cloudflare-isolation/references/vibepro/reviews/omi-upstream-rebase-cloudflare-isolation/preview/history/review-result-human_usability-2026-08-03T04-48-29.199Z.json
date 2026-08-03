@@ -1,0 +1,130 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "preview",
+  "role": "human_usability",
+  "status": "needs_changes",
+  "summary": "主要導線は現HEADで確認できたが、一覧の視覚証跡で遷移chevronが文字化けした四角形として描画されており、利用者向け完成品質の証明が不足している。",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "final HEAD、current-head検証、visual residual、4画面のgolden、Cloudflare list/detail実装、disabled/zero/empty/error/retry/l10n/Semantics widget testsをread-onlyで確認した。",
+    "evidence": ".vibepro/qa/omi-cloudflare-current/cloudflare-list.png; .vibepro/qa/omi-cloudflare-current/visual-residual.json",
+    "inputs": [
+      "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart"
+    ]
+  },
+  "judgment_delta": [
+    "0% residualは同じ誤描画との一致に過ぎず、Material iconを正しく含むvisual harnessまたは同等のアプリ描画証跡が必要と判定した。物理iPhone、VoiceOver、deployed Worker、production telemetryはunverifiedのまま。"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "3ea0a0a74edd45bff7d96f71757502cca76bb4ff",
+    "current_head_sha": "3ea0a0a74edd45bff7d96f71757502cca76bb4ff",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "3ea0a0a74edd45bff7d96f71757502cca76bb4ff",
+      "current_head_sha": "3ea0a0a74edd45bff7d96f71757502cca76bb4ff",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T04:48:29.199Z",
+  "git_context": {
+    "head_sha": "3ea0a0a74edd45bff7d96f71757502cca76bb4ff",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T04:48:29.122Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "final HEAD freshness required for user-facing preview gate"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "3ea0a0a74edd45bff7d96f71757502cca76bb4ff",
+    "surface_files": [
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "sha256": "ae313b2245b975c3db5a49af161178abb2f22662181ee412189d7ff9b0aa086c",
+        "size": 5828
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "0e5ea2b45a3bf7542db08ac6a35a83b339bf78dc40dbc14989c6905f1378215b",
+        "size": 12187
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "c52a99c2ca2538f149df3baeef036c015ec4a7ecce2276e329599f7bf85dd50b"
+  },
+  "source_fingerprint": "16f52b0a5f835424eda00dce835fc6837c751057cc818e80383c65b4ba206d3c",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_arch_fe24",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "low",
+    "thread_id": "/root/omi_arch_fe24",
+    "session_id": "human-usability-3ea0-final",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-3ea0-final.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/review-request-human_usability.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-3ea0-final.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "human-usability-3ea0-final",
+      "implementation_session_id": "omi-upstream-rebase-cloudflare-isolation-implementation",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

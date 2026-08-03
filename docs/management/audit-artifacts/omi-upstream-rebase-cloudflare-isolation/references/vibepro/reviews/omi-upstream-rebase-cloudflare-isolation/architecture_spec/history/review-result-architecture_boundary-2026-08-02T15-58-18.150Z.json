@@ -1,0 +1,184 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "architecture_spec",
+  "role": "architecture_boundary",
+  "status": "needs_changes",
+  "summary": "Cloudflare read-only/token/WAL/OSS境界は整合するが、不正Worker URLをdisabledにするStory/ADR契約とisConfigured実装が不一致。",
+  "findings": [
+    {
+      "severity": "medium",
+      "id": "configuration-invalid-url-enabled-contract-mismatch",
+      "detail": "isConfiguredがURL/token非空のみでtrueとなり、不正scheme/userinfo/query URLでも入口を有効化する。URL妥当性をenabled判定へ統合し、入口非表示とHTTP未呼出しの回帰fixtureが必要。"
+    }
+  ],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "現HEAD 6df4a9aの71パス、API/model/provider/UI、main/Conversations、WAL adapter、4 test、Story/Spec/ADR/runbook、l10n、current-head証跡を独立検査。GET専用、redirect無効、token非露出、Firebase/WAL不変は確認。",
+    "evidence": "25 focused tests pass; focused analyzer No issues; 71 path digest cc0f8f6be36aa1c63933516ff0e71a4576737a9f0e62e975c4a3da48ad9ee163",
+    "inputs": [
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+      "app/lib/main.dart",
+      "app/lib/pages/conversations/conversations_page.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/operational/omi-self-hosted-local-overlay.md"
+    ]
+  },
+  "judgment_delta": [
+    "初期pass可能から、不正URLがenabledとなるcontract mismatchを確認したためneeds_changesへ変更。"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "6df4a9a268ce9f15c16db601f055761b5e757379",
+    "current_head_sha": "6df4a9a268ce9f15c16db601f055761b5e757379",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "6df4a9a268ce9f15c16db601f055761b5e757379",
+      "current_head_sha": "6df4a9a268ce9f15c16db601f055761b5e757379",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T15:58:18.150Z",
+  "git_context": {
+    "head_sha": "6df4a9a268ce9f15c16db601f055761b5e757379",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T15:58:18.007Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "content_surface",
+    "source": "content_surface_default",
+    "reason": "review freshness follows the inspected content surface"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "content_surface",
+    "status": "recorded",
+    "reason": "content surface recorded for 10 file(s)",
+    "recorded_head_sha": "6df4a9a268ce9f15c16db601f055761b5e757379",
+    "surface_files": [
+      {
+        "path": "app/lib/main.dart",
+        "sha256": "7b42a01a0fc8cc2239620f3e0f5fa47df1866b4c48c1a7b00f04ae1e781fa8d4",
+        "size": 20431
+      },
+      {
+        "path": "app/lib/pages/conversations/conversations_page.dart",
+        "sha256": "840a3f210d52d3b4a382c5df42c2a4dc750d139f14604f07e4e090ee36fd66c0",
+        "size": 20326
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "sha256": "b5b8fc680377012ea6ed91044203ab9b10a78d74f65f5c4ac6e74201c8b152b1",
+        "size": 5508
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+        "sha256": "407db3305e4f36a78c73aa84482e7d5e7311ecb561c0a03c0cf7be868a36733b",
+        "size": 1437
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "sha256": "813e4b49e5b9ee7e2efa94f14ed770c882773b0133a8111fe91561a6cea89dd0",
+        "size": 7152
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "65a6db1c5f948e4144803fc2063292d6857c58f8db9ba21e442875a9c9c704e9",
+        "size": 7869
+      },
+      {
+        "path": "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "d3a4d338951eb70ba98ca15e14cc149d585f9451f390933447fd68867cfb7537",
+        "size": 4944
+      },
+      {
+        "path": "docs/operational/omi-self-hosted-local-overlay.md",
+        "sha256": "e7b389141ccb788a524f78c249d1df2dc73f83bdd9ce0e52e9cf96d4a3559904",
+        "size": 2394
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "212d94a22f766b3579ef8d433b547f43ecd93598cebb8eb222d454d3b433b834",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "7e85ceccadc8c0ad162b5b2040cb743725ecac93c354a2bbcc8a4d061542b500"
+  },
+  "source_fingerprint": "f6cc3c3dda06fe6e7da47936dacf1ede2ed93f003429242183869417e0eb231f",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_gate_evidence_review",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "medium",
+    "thread_id": "/root/omi_gate_evidence_review",
+    "session_id": "/root/omi_gate_evidence_review",
+    "tool_call_id": null,
+    "transcript_artifact": null,
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/review-request-architecture_boundary.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": "Terra preflight review at HEAD 6df4a9a found configuration-invalid-url-enabled-contract-mismatch; 25 tests pass, 71 path inventory exact, iPhone/deployed Worker separate unverified lanes",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "/root/omi_gate_evidence_review",
+      "implementation_session_id": "/root/terra_omi_rebase_impl",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

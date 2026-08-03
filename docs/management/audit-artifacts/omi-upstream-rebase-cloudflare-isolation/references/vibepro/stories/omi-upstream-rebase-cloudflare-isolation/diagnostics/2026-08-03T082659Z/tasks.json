@@ -1,0 +1,680 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-08-03T08:27:36.497Z",
+  "story": {
+    "story_id": "omi-upstream-rebase-cloudflare-isolation",
+    "title": "Omi OSS最新版への再ベースとCloudflareセルフホスト差分の隔離",
+    "ssot": "local",
+    "status": "active",
+    "horizon": "quarter",
+    "view": "business",
+    "period": null,
+    "started_at": null,
+    "due_at": null,
+    "category": "product"
+  },
+  "source_run": {
+    "run_id": "2026-08-03T082659Z",
+    "gate_status": "block"
+  },
+  "tasks": [
+    {
+      "id": "VP-TASK-STATIC-002-BLOCK",
+      "source_type": "finding",
+      "source_id": "VP-STATIC-002",
+      "finding_id": "VP-STATIC-002",
+      "title": "秘密情報の可能性がある値が含まれている（即時対応）",
+      "priority": "critical",
+      "status": "todo",
+      "order": 10,
+      "gate_effect": "block",
+      "execution_policy": "proposal_only",
+      "mutates_repository": false,
+      "target_count": 3,
+      "target_files": [
+        "backend/.env.dev.template",
+        "backend/.env.local-dev.template",
+        "backend/.env.offline.template"
+      ],
+      "target_routes": [],
+      "target_groups": [],
+      "read_first_files": [
+        {
+          "file": "backend/.env.dev.template",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/.env.local-dev.template",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/.env.offline.template",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        }
+      ],
+      "recommended_strategy": {
+        "id": "manual-review",
+        "reason": "公開前に該当値を削除し、必要な値はサーバー側または安全な環境変数管理へ移す。"
+      },
+      "implementation_steps": [
+        {
+          "id": "review-finding",
+          "title": "検出内容を確認する",
+          "detail": "205 件のgate対象の秘密情報候補を検出した。内訳: block: 71件, review: 134件, info: 422件。"
+        }
+      ],
+      "acceptance_criteria": [
+        "公開前に該当値を削除し、必要な値はサーバー側または安全な環境変数管理へ移す。"
+      ],
+      "graph_context": null,
+      "pre_fix_briefing": null
+    },
+    {
+      "id": "VP-TASK-STATIC-002-REVIEW",
+      "source_type": "finding",
+      "source_id": "VP-STATIC-002",
+      "finding_id": "VP-STATIC-002",
+      "title": "秘密情報の可能性がある値が含まれている（要確認）",
+      "priority": "high",
+      "status": "todo",
+      "order": 15,
+      "gate_effect": "review",
+      "execution_policy": "proposal_only",
+      "mutates_repository": false,
+      "target_count": 44,
+      "target_files": [
+        ".github/scripts/test_check_deployment_secret_boundary.py",
+        ".github/scripts/test_publish_desktop_candidate_tag.py",
+        "backend/charts/backend-secrets/dev_omi_backend_secrets_values.yaml",
+        "backend/charts/backend-secrets/prod_omi_backend_secrets_values.yaml",
+        "backend/llm_gateway/routers/anthropic_messages.py",
+        "backend/routers/auth.py",
+        "backend/routers/google_calendar.py",
+        "backend/routers/integrations.py",
+        "backend/routers/mcp_sse.py",
+        "backend/routers/task_integrations.py",
+        "backend/scripts/smoke_mcp_chatgpt_review.py",
+        "backend/testing/e2e/test_task_integrations.py",
+        "backend/utils/conversations/calendar_linking.py",
+        "backend/utils/llm/clients.py",
+        "backend/utils/llm/gateway_anthropic.py",
+        "backend/utils/llm/providers.py",
+        "backend/utils/mcp_client.py",
+        "backend/utils/other/hume.py",
+        "backend/utils/retrieval/tools/calendar_tools.py",
+        "desktop/windows/e2e/datasources.spec.mjs",
+        "desktop/windows/e2e/gpu-fallback.spec.mjs",
+        "desktop/windows/e2e/onboarding-layout.spec.mjs",
+        "desktop/windows/e2e/onboarding-permission.spec.mjs",
+        "desktop/windows/src/renderer/src/lib/analytics.ts",
+        "desktop/windows/src/renderer/src/lib/omiApi.generated.ts",
+        "mcp/src/mcp_server_omi/server.py",
+        "omi/firmware/scripts/devkit/play_sound_on_friend.py",
+        "plugins/hume-ai/app.py",
+        "plugins/import/manual-import/app.py",
+        "plugins/omi-dropbox-app/main.py",
+        "plugins/omi-github-app/agent_providers.py",
+        "plugins/omi-github-app/claude_code_agentic.py",
+        "plugins/omi-github-app/claude_coder.py",
+        "plugins/omi-github-app/issue_detector.py",
+        "plugins/omi-github-app/main.py",
+        "plugins/omi-google-calendar-app/main.py",
+        "plugins/omi-linear-app/main.py",
+        "plugins/omi-notion-app/main.py",
+        "plugins/omi-twitter-chat-tools-app/main.py",
+        "plugins/omi-whoop-app/main.py",
+        "sdks/python-cli/omi_cli/config.py",
+        "web/admin/lib/services/omi-api/omiApi.generated.ts",
+        "web/app/src/lib/omiApi.generated.ts",
+        "web/personas-open-source/src/lib/omiApi.generated.ts"
+      ],
+      "target_routes": [],
+      "target_groups": [],
+      "read_first_files": [
+        {
+          "file": ".github/scripts/test_check_deployment_secret_boundary.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": ".github/scripts/test_publish_desktop_candidate_tag.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/charts/backend-secrets/dev_omi_backend_secrets_values.yaml",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/charts/backend-secrets/prod_omi_backend_secrets_values.yaml",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/llm_gateway/routers/anthropic_messages.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/routers/auth.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/routers/google_calendar.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/routers/integrations.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/routers/mcp_sse.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/routers/task_integrations.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/scripts/smoke_mcp_chatgpt_review.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/testing/e2e/test_task_integrations.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/conversations/calendar_linking.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/llm/clients.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/llm/gateway_anthropic.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/llm/providers.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/mcp_client.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/other/hume.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "backend/utils/retrieval/tools/calendar_tools.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "desktop/windows/e2e/datasources.spec.mjs",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "desktop/windows/e2e/gpu-fallback.spec.mjs",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "desktop/windows/e2e/onboarding-layout.spec.mjs",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "desktop/windows/e2e/onboarding-permission.spec.mjs",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "desktop/windows/src/renderer/src/lib/analytics.ts",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "desktop/windows/src/renderer/src/lib/omiApi.generated.ts",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "mcp/src/mcp_server_omi/server.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "omi/firmware/scripts/devkit/play_sound_on_friend.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/hume-ai/app.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/import/manual-import/app.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-dropbox-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-github-app/agent_providers.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-github-app/claude_code_agentic.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-github-app/claude_coder.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-github-app/issue_detector.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-github-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-google-calendar-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-linear-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-notion-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-twitter-chat-tools-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "plugins/omi-whoop-app/main.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "sdks/python-cli/omi_cli/config.py",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "web/admin/lib/services/omi-api/omiApi.generated.ts",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "web/app/src/lib/omiApi.generated.ts",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        },
+        {
+          "file": "web/personas-open-source/src/lib/omiApi.generated.ts",
+          "reason": "検出事項 VP-STATIC-002 の確認対象"
+        }
+      ],
+      "recommended_strategy": {
+        "id": "manual-review",
+        "reason": "公開前に該当値を削除し、必要な値はサーバー側または安全な環境変数管理へ移す。"
+      },
+      "implementation_steps": [
+        {
+          "id": "review-finding",
+          "title": "検出内容を確認する",
+          "detail": "205 件のgate対象の秘密情報候補を検出した。内訳: block: 71件, review: 134件, info: 422件。"
+        }
+      ],
+      "acceptance_criteria": [
+        "公開前に該当値を削除し、必要な値はサーバー側または安全な環境変数管理へ移す。"
+      ],
+      "graph_context": null,
+      "pre_fix_briefing": null
+    },
+    {
+      "id": "omi-upstream-rebase-cloudflare-isolation-source-alignment-review",
+      "source_type": "source_alignment_finding",
+      "source_id": "omi-upstream-rebase-cloudflare-isolation-source-alignment-review",
+      "finding_id": null,
+      "title": "Story/Spec/ADR不整合をレビューする",
+      "priority": "high",
+      "status": "done",
+      "order": 30,
+      "execution_policy": "proposal_only",
+      "mutates_repository": false,
+      "target_count": 0,
+      "target_files": [],
+      "target_routes": [],
+      "target_groups": [],
+      "read_first_files": [],
+      "recommended_strategy": {
+        "id": "source-alignment-review",
+        "reason": "コードとしては正しいUIやAPIでも、ユーザーが本当に達成したい成果とずれている可能性がある。"
+      },
+      "implementation_steps": [
+        {
+          "id": "read-sources",
+          "title": "正本を読む",
+          "detail": "Story、Spec、Architecture/ADRの参照を読み、要件・受け入れ基準・境界判断を並べる"
+        },
+        {
+          "id": "read-graph",
+          "title": "Graph影響範囲を読む",
+          "detail": "Graphifyのmatched/related/hub/communityを読み、実際の影響範囲を確認する"
+        },
+        {
+          "id": "classify-mismatch",
+          "title": "不整合を分類する",
+          "detail": "Storyが誤り、Specが誤り、ADRが不足、コードが意図外のどれかを判定する"
+        },
+        {
+          "id": "record-outcome",
+          "title": "判断を記録する",
+          "detail": "修正する場合はタスク化し、正しい場合はレビュー済み理由を正本またはPR本文へ残す"
+        }
+      ],
+      "acceptance_criteria": [
+        "各潜在バグ候補について、Story/Spec/ADR/コードのどれを修正するか判断している",
+        "Graphifyのhub/communityを読んだ上で影響範囲を説明できる",
+        "要件が正しい場合はレビュー済み理由を正本またはPR本文に残している"
+      ],
+      "source_recovery": null,
+      "recovery_drafts": [],
+      "source_alignment_findings": [
+        {
+          "id": "omi-upstream-rebase-cloudflare-isolation-business_context_gap",
+          "story_id": "omi-upstream-rebase-cloudflare-isolation",
+          "title": "Omi OSS最新版への再ベースとCloudflareセルフホスト差分の隔離",
+          "type": "business_context_gap",
+          "severity": "high",
+          "reason": "Storyの事業/利用文脈が未確定。",
+          "potential_bug": "コードとしては正しいUIやAPIでも、ユーザーが本当に達成したい成果とずれている可能性がある。",
+          "recommended_review": "対象ユーザー、利用場面、成功状態をStory正本に明記してからSpecを承認する。",
+          "evidence": {
+            "story_source_status": "implicit",
+            "spec_status": "needs_recovery",
+            "architecture_status": "implicit",
+            "source_type": "config_story",
+            "confidence": "low",
+            "open_questions": [
+              "period",
+              "business_context",
+              "business_metric"
+            ],
+            "story_contract": {
+              "status": "ready",
+              "story_type": "new_capability",
+              "unresolved_checks": []
+            },
+            "docs": [],
+            "files": [],
+            "open_question": "business_context"
+          },
+          "refs": {
+            "story": [],
+            "spec": [],
+            "architecture": []
+          },
+          "graph": {
+            "matched_files": [],
+            "related_files": [],
+            "hub_nodes": [],
+            "affected_communities": [],
+            "related_edge_count": 0,
+            "impact_score": 0,
+            "cross_community": false
+          },
+          "execution_policy": "proposal_only",
+          "mutates_repository": false
+        },
+        {
+          "id": "omi-upstream-rebase-cloudflare-isolation-missing_spec_source",
+          "story_id": "omi-upstream-rebase-cloudflare-isolation",
+          "title": "Omi OSS最新版への再ベースとCloudflareセルフホスト差分の隔離",
+          "type": "missing_spec_source",
+          "severity": "high",
+          "reason": "Spec正本が未復元のため、受け入れ基準がコード由来の仮説に留まっている。",
+          "potential_bug": "実装上の分岐や表示が、そのまま本来の要件だと誤認されている可能性がある。",
+          "recommended_review": "Spec草案を作り、コード由来条件と人間が承認する受け入れ基準を分ける。",
+          "evidence": {
+            "story_source_status": "implicit",
+            "spec_status": "needs_recovery",
+            "architecture_status": "implicit",
+            "source_type": "config_story",
+            "confidence": "low",
+            "open_questions": [
+              "period",
+              "business_context",
+              "business_metric"
+            ],
+            "story_contract": {
+              "status": "ready",
+              "story_type": "new_capability",
+              "unresolved_checks": []
+            },
+            "docs": [],
+            "files": []
+          },
+          "refs": {
+            "story": [],
+            "spec": [],
+            "architecture": []
+          },
+          "graph": {
+            "matched_files": [],
+            "related_files": [],
+            "hub_nodes": [],
+            "affected_communities": [],
+            "related_edge_count": 0,
+            "impact_score": 0,
+            "cross_community": false
+          },
+          "execution_policy": "proposal_only",
+          "mutates_repository": false
+        },
+        {
+          "id": "omi-upstream-rebase-cloudflare-isolation-business_metric_gap",
+          "story_id": "omi-upstream-rebase-cloudflare-isolation",
+          "title": "Omi OSS最新版への再ベースとCloudflareセルフホスト差分の隔離",
+          "type": "business_metric_gap",
+          "severity": "medium",
+          "reason": "Storyの成功指標または観測観点が未確定。",
+          "potential_bug": "受け入れ基準を満たしても、プロダクト上の改善を検知できない可能性がある。",
+          "recommended_review": "少なくとも1つのKPI、ログ、運用確認観点をSpecまたはStoryへ紐づける。",
+          "evidence": {
+            "story_source_status": "implicit",
+            "spec_status": "needs_recovery",
+            "architecture_status": "implicit",
+            "source_type": "config_story",
+            "confidence": "low",
+            "open_questions": [
+              "period",
+              "business_context",
+              "business_metric"
+            ],
+            "story_contract": {
+              "status": "ready",
+              "story_type": "new_capability",
+              "unresolved_checks": []
+            },
+            "docs": [],
+            "files": [],
+            "open_question": "business_metric"
+          },
+          "refs": {
+            "story": [],
+            "spec": [],
+            "architecture": []
+          },
+          "graph": {
+            "matched_files": [],
+            "related_files": [],
+            "hub_nodes": [],
+            "affected_communities": [],
+            "related_edge_count": 0,
+            "impact_score": 0,
+            "cross_community": false
+          },
+          "execution_policy": "proposal_only",
+          "mutates_repository": false
+        }
+      ],
+      "graph_context": {
+        "matched_route_count": 0,
+        "target_file_count": 0,
+        "matched_file_count": 0,
+        "matched_files": [],
+        "unmatched_files": [],
+        "matched_node_count": 0,
+        "affected_communities": [],
+        "hub_nodes": [],
+        "related_files": [],
+        "related_edge_count": 0,
+        "impact_score": 0,
+        "community_span": 0,
+        "cross_community": false
+      },
+      "pre_fix_briefing": null,
+      "completed_at": "2026-08-03T08:27:36.497Z",
+      "completion_evidence": {
+        "run_id": "2026-08-03T082659Z",
+        "reason": "source omi-upstream-rebase-cloudflare-isolation-source-alignment-review was not detected in the latest diagnosis"
+      }
+    },
+    {
+      "id": "VP-TASK-STATIC-003",
+      "source_type": "finding",
+      "source_id": "VP-STATIC-003",
+      "finding_id": "VP-STATIC-003",
+      "title": "XSS につながり得る DOM 操作がある",
+      "priority": "high",
+      "status": "todo",
+      "order": 50,
+      "gate_effect": null,
+      "execution_policy": "proposal_only",
+      "mutates_repository": false,
+      "target_count": 21,
+      "target_files": [
+        "backend/database/redis_db.py",
+        "backend/database/sync_jobs.py",
+        "backend/migrations/002_populate_historical_usage.py",
+        "backend/migrations/003_report_top_transcription_users.py",
+        "backend/parakeet/gpu_worker.py",
+        "backend/parakeet/stream_handler.py",
+        "backend/parakeet/transcribe.py",
+        "backend/utils/fair_use.py",
+        "backend/utils/sync/backfill.py",
+        "plugins/composio/templates/notion_import.html",
+        "plugins/db.py",
+        "plugins/import/manual-import/index.html",
+        "plugins/iq_rating/main.py",
+        "plugins/omi-clickup-app/main.py",
+        "plugins/omi-slack-app/main.py",
+        "plugins/omi-twitter-app/main_simple.py",
+        "plugins/templates/chatgpt/index.html",
+        "plugins/templates/setup_zapier.html",
+        "plugins/templates/subscription/index.html",
+        "scripts/low_conv_high_transcription.py",
+        "scripts/transcription_vs_conversations.py"
+      ],
+      "target_routes": [],
+      "target_groups": [],
+      "read_first_files": [
+        {
+          "file": "backend/database/redis_db.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/database/sync_jobs.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/migrations/002_populate_historical_usage.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/migrations/003_report_top_transcription_users.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/parakeet/gpu_worker.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/parakeet/stream_handler.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/parakeet/transcribe.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/utils/fair_use.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "backend/utils/sync/backfill.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/composio/templates/notion_import.html",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/db.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/import/manual-import/index.html",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/iq_rating/main.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/omi-clickup-app/main.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/omi-slack-app/main.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/omi-twitter-app/main_simple.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/templates/chatgpt/index.html",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/templates/setup_zapier.html",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "plugins/templates/subscription/index.html",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "scripts/low_conv_high_transcription.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        },
+        {
+          "file": "scripts/transcription_vs_conversations.py",
+          "reason": "検出事項 VP-STATIC-003 の確認対象"
+        }
+      ],
+      "recommended_strategy": {
+        "id": "manual-review",
+        "reason": "ユーザー入力をHTMLとして挿入しない。必要な場合はサニタイズし、textContentなど安全な代替を使う。"
+      },
+      "implementation_steps": [
+        {
+          "id": "review-finding",
+          "title": "検出内容を確認する",
+          "detail": "62 件のgate対象の危険なDOM操作候補を検出した。内訳: block: 0件, review: 62件, info: 6件。"
+        }
+      ],
+      "acceptance_criteria": [
+        "ユーザー入力をHTMLとして挿入しない。必要な場合はサニタイズし、textContentなど安全な代替を使う。"
+      ],
+      "graph_context": null,
+      "pre_fix_briefing": null
+    }
+  ]
+}

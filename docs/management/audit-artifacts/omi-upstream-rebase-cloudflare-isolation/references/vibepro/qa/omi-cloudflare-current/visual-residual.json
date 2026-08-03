@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1.0",
+  "artifact_kind": "visual_residual",
+  "qa_id": "omi-cloudflare-current",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "created_at": "2026-08-03T09:10:44.982Z",
+  "status": "pass",
+  "thresholdPct": 0.1,
+  "meanAbsResidualPct": 0,
+  "probes": [
+    {
+      "probe_id": "cloudflare-detail",
+      "status": "compared",
+      "meanAbsResidualPct": 0,
+      "current_screenshot": ".vibepro/qa/omi-cloudflare-current/cloudflare-detail.png",
+      "baseline_screenshot": ".vibepro/qa/baseline/cloudflare-detail.png"
+    },
+    {
+      "probe_id": "cloudflare-empty",
+      "status": "compared",
+      "meanAbsResidualPct": 0,
+      "current_screenshot": ".vibepro/qa/omi-cloudflare-current/cloudflare-empty.png",
+      "baseline_screenshot": ".vibepro/qa/baseline/cloudflare-empty.png"
+    },
+    {
+      "probe_id": "cloudflare-error",
+      "status": "compared",
+      "meanAbsResidualPct": 0,
+      "current_screenshot": ".vibepro/qa/omi-cloudflare-current/cloudflare-error.png",
+      "baseline_screenshot": ".vibepro/qa/baseline/cloudflare-error.png"
+    },
+    {
+      "probe_id": "cloudflare-list",
+      "status": "compared",
+      "meanAbsResidualPct": 0,
+      "current_screenshot": ".vibepro/qa/omi-cloudflare-current/cloudflare-list.png",
+      "baseline_screenshot": ".vibepro/qa/baseline/cloudflare-list.png"
+    }
+  ],
+  "source": {
+    "current_dir": ".vibepro/qa/omi-cloudflare-current",
+    "flow_run_id": null,
+    "flow_verification_json": null
+  },
+  "git_context": {
+    "head_sha": "9465b75d22cffe230b956bc43f4459931ac9c470",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T09:10:45.254Z"
+  }
+}

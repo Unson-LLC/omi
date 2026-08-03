@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "summary": "Current HEAD 9465b75 passes the human-usability review. The prior ARB/generated-output provenance and direct HTTP 302 test findings are resolved.",
+  "inspection_summary": "Read-only Terra review of the current HEAD, focused Flutter tests, visual probes, ADR, Story, and operational boundary. Canonical verification was intentionally left to the coordinator.",
+  "inspection_evidence": "The direct 302 test asserts GET, followRedirects=false, maxRedirects=0, and a token-free scoped HTTP 302 error. Focused API, widget, configuration, and WAL tests passed. The ADR makes ARB the hand-authored SSOT and records regeneration on current upstream. Four visual probes retain zero residual and their three UI source hashes match current HEAD.",
+  "inspection_inputs": [
+    "HEAD 9465b75d22cffe230b956bc43f4459931ac9c470",
+    "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+    "app/lib/pages/conversations/conversations_page.dart",
+    "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+    ".vibepro/qa/omi-cloudflare-current/producer.json",
+    ".vibepro/qa/omi-cloudflare-current/visual-residual.json"
+  ],
+  "judgment_delta": "The earlier needs_changes judgment becomes pass because the ADR now distinguishes ARB authorship from current-upstream generation, the missing 302 behavior is directly tested and passing, and unchanged UI source hashes preserve the zero-residual visual evidence.",
+  "findings": [],
+  "evidence_boundary": "Physical iPhone, VoiceOver, deployed Worker, and production telemetry remain unverified."
+}

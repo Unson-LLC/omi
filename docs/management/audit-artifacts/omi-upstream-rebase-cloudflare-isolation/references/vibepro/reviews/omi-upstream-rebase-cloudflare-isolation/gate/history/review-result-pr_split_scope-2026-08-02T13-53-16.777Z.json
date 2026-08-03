@@ -1,0 +1,152 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "gate",
+  "role": "pr_split_scope",
+  "status": "needs_changes",
+  "summary": "Flutter製品変更は一つの論理スライスだが無関係な.gitignore運用設定を分離し、Flutter検証証拠を現在HEADへ付与する必要がある",
+  "findings": [
+    {
+      "severity": "high",
+      "id": "pr-scope-mixed-repo-control",
+      "detail": ".gitignoreのVibePro運用パスは製品機能と独立しており本PRから除外必須"
+    },
+    {
+      "severity": "medium",
+      "id": "path-surface-split-plan-contract-gap",
+      "detail": "Story/Spec/ADR/runbookは実装契約と同一スライスであり生成split planの依存分類が不適切"
+    },
+    {
+      "severity": "medium",
+      "id": "regression-guard-current-head-verification-unconfirmed",
+      "detail": "split planのnpm検証はFlutter laneに不適切でcurrent-head実行証拠が必要"
+    }
+  ],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "70-file差分、split artifacts、Cloudflare実装、l10n生成物、契約文書、focused testsを独立確認",
+    "evidence": "HEAD 166f691f4 clean; diff-check pass; 52 generated l10n files; only .gitignore is independently releasable",
+    "inputs": [
+      ".gitignore",
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart"
+    ]
+  },
+  "judgment_delta": [
+    "70ファイルを複数製品PRへ分割する必要はないが、.gitignoreだけは独立運用変更なので除外し、Flutter証拠を正す必要がある"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "166f691f420720546ac67ce0e7b491919fe2f07c",
+    "current_head_sha": "166f691f420720546ac67ce0e7b491919fe2f07c",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "166f691f420720546ac67ce0e7b491919fe2f07c",
+      "current_head_sha": "166f691f420720546ac67ce0e7b491919fe2f07c",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T13:53:16.777Z",
+  "git_context": {
+    "head_sha": "166f691f420720546ac67ce0e7b491919fe2f07c",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T13:53:16.743Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "content_surface",
+    "source": "content_surface_default",
+    "reason": "review freshness follows the inspected content surface"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "content_surface",
+    "status": "recorded",
+    "reason": "content surface recorded for 3 file(s)",
+    "recorded_head_sha": "166f691f420720546ac67ce0e7b491919fe2f07c",
+    "surface_files": [
+      {
+        "path": ".gitignore",
+        "sha256": "9920054fc0acd3c996e950d88f6746aa7846c9de8f8829c399029e87bbad30fc",
+        "size": 5214
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "sha256": "5f049bc058519e1e11df2a4c144662f0a5b9cea18d4e3d23de9533c29e44cab6",
+        "size": 4007
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "b8a60425fac06d7096da58b2f1ff74d954862208ece7593948d508b2d5e2c0ce",
+        "size": 4440
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "15a79f8528d591e17c1701d0a562e16eda458039364517ce906d259217b9d09f"
+  },
+  "source_fingerprint": "4550a3f7de4c87c2d8a711e4fbea08e2054a9aa357fa3a7b44a631498a3412a7",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_pr_split_scope_review",
+    "agent_role": null,
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_pr_split_scope_review",
+    "session_id": "/root/omi_pr_split_scope_review",
+    "tool_call_id": null,
+    "transcript_artifact": null,
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-request-pr_split_scope.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": "Codex subagent final JSON received; collaboration agent closed",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "/root/omi_pr_split_scope_review",
+      "implementation_session_id": "/root/terra_omi_rebase_impl",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

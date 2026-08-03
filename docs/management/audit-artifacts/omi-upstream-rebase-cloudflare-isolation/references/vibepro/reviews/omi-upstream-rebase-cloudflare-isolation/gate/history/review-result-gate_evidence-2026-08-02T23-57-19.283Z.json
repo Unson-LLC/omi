@@ -1,0 +1,169 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "gate",
+  "role": "gate_evidence",
+  "status": "pass",
+  "summary": "Current frozen HEAD has coherent strict-HEAD verification evidence; prior path-surface, real-wiring, and count findings are resolved.",
+  "findings": [],
+  "finding_dispositions": [
+    {
+      "finding_id": "gate-evidence-counts-unparsed",
+      "disposition": "accepted",
+      "resolved_by": [
+        ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-b043-final.md"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "gate-evidence-path-surface-contradiction",
+      "disposition": "accepted",
+      "resolved_by": [
+        ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-b043-final.md"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "gate-evidence-real-wiring-path-unrecorded",
+      "disposition": "accepted",
+      "resolved_by": [
+        ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-b043-final.md"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    }
+  ],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Applied regression_guard and path_surface_coverage to all 120 paths, strict-HEAD unit/integration/typecheck/e2e logs, real provider/page wiring, 49 ARB and generated locales, and Story/Spec/ADR/runbook boundaries. Parser counts remain null; direct non-truncated logs alone establish 42 plus six probes. Device and deployed Worker lanes remain unverified.",
+    "evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-b043-final.md",
+    "inputs": [
+      ".vibepro/verification/Makefile",
+      "app/lib/main.dart",
+      "app/lib/pages/conversations/conversations_page.dart",
+      "app/lib/self_hosted/cloudflare",
+      "app/test/self_hosted",
+      "app/lib/l10n",
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json"
+    ]
+  },
+  "judgment_delta": [
+    "Old contradictions are resolved by current exact-diff inventory, real wiring/typecheck coverage, upstream-equal Memories keys, and direct logs; stale summaries were excluded."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "b0432f1f1153f97cac5ae98c36b7a42e30e9493c",
+    "current_head_sha": "b0432f1f1153f97cac5ae98c36b7a42e30e9493c",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "b0432f1f1153f97cac5ae98c36b7a42e30e9493c",
+      "current_head_sha": "b0432f1f1153f97cac5ae98c36b7a42e30e9493c",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T23:57:19.283Z",
+  "git_context": {
+    "head_sha": "b0432f1f1153f97cac5ae98c36b7a42e30e9493c",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T23:57:19.273Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "bind final gate evidence to the frozen release candidate"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "b0432f1f1153f97cac5ae98c36b7a42e30e9493c",
+    "surface_files": [
+      {
+        "path": "app/lib/main.dart",
+        "sha256": "1c20dd2a7378cba93db0ac50275bdab3b4ae854903bcc55d36fa0abaeef9d7f8",
+        "size": 20432
+      },
+      {
+        "path": "app/lib/pages/conversations/conversations_page.dart",
+        "sha256": "840a3f210d52d3b4a382c5df42c2a4dc750d139f14604f07e4e090ee36fd66c0",
+        "size": 20326
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "9b702acc9426f691da2f426047823732de93c6231e2518a04206a7aae7b73e0c"
+  },
+  "source_fingerprint": "699e2a3d261b6e07cdf16d12e4d6735d3e3c850b8834e721fd69ef42cbeafbc3",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_gate_final_evidence",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "low",
+    "thread_id": "/root/omi_gate_final_evidence",
+    "session_id": "gate-evidence-b043-final",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-b043-final.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-request-gate_evidence.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-b043-final.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "gate-evidence-b043-final",
+      "implementation_session_id": "terra-runtime-contract-fix-7b261",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

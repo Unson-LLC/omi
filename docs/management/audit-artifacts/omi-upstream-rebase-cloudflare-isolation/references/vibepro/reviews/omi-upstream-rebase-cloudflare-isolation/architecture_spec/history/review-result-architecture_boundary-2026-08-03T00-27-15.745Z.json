@@ -1,0 +1,142 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "architecture_spec",
+  "role": "architecture_boundary",
+  "status": "pass",
+  "summary": "Current ff1 HEAD preserves the approved Cloudflare read-only architecture boundary; the budget decision document is audit-only.",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "reviewed database_state; risk_surfaces=database_state. Reviewed all 121 upstream/main...HEAD paths with regression_guard and path_surface_coverage; unknown paths 0.",
+    "evidence": "Strict-HEAD unit, integration, typecheck, and hermetic e2e evidence bind before/after to ff1bbfd35b9c26b19796cb591daa07abf09699e9; decision digest, config reference, reviewer, and audit document agree. Physical iPhone, VoiceOver, and deployed Worker remain unverified; upstream gen-l10n warnings remain.",
+    "inputs": [
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+      "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md"
+    ]
+  },
+  "judgment_delta": [
+    "Initial concern that the added budget decision could widen product architecture -> pass because it is an accepted audit-only record and all 120 prior product paths are unchanged."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "ff1bbfd35b9c26b19796cb591daa07abf09699e9",
+    "current_head_sha": "ff1bbfd35b9c26b19796cb591daa07abf09699e9",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "ff1bbfd35b9c26b19796cb591daa07abf09699e9",
+      "current_head_sha": "ff1bbfd35b9c26b19796cb591daa07abf09699e9",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T00:27:15.745Z",
+  "git_context": {
+    "head_sha": "ff1bbfd35b9c26b19796cb591daa07abf09699e9",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T00:27:15.713Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "content_surface",
+    "source": "content_surface_default",
+    "reason": "review freshness follows the inspected content surface"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "content_surface",
+    "status": "recorded",
+    "reason": "content surface recorded for 4 file(s)",
+    "recorded_head_sha": "ff1bbfd35b9c26b19796cb591daa07abf09699e9",
+    "surface_files": [
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+        "sha256": "adbf88e557c021572188be1aa13372744c58ac4562336cc835b32432ffea64de",
+        "size": 915
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+        "sha256": "87144198b316f6ffae6ff3ed62db2023caf7b17ced99b2d5505f25b2a7ef8fa8",
+        "size": 1524
+      },
+      {
+        "path": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md",
+        "sha256": "c000a6a25e42845f28658d0881187bbe2571ba42029e7f43341a36e5b9900e79",
+        "size": 1427
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "212d94a22f766b3579ef8d433b547f43ecd93598cebb8eb222d454d3b433b834",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "0965ef082de60f62421be4205b49c3fd17827df5b36883267f2662c55523b1dc"
+  },
+  "source_fingerprint": "5a027a1e6fff36b5fbe5bc6110bf59cd8f4d3171e82e21a7f3b9377b3ab20650",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_human_usability_final",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "low",
+    "thread_id": "/root/omi_human_usability_final",
+    "session_id": "architecture-boundary-ff1-budget-audit",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-ff1-budget-audit.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/review-request-architecture_boundary.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-ff1-budget-audit.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "architecture-boundary-ff1-budget-audit",
+      "implementation_session_id": "/root/terra_runtime_contract_fix",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

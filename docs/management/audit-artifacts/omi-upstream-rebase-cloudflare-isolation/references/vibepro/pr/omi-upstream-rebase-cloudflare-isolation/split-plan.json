@@ -1,0 +1,1892 @@
+{
+  "schema_version": "0.1.0",
+  "model": "story-pr-split-plan-v1",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "status": "single_pr_ok",
+  "recommended_strategy": "keep_current_pr_atomic_scope",
+  "automatic_recommendation": {
+    "status": "split_recommended",
+    "recommended_strategy": "split_by_lane_then_prepare"
+  },
+  "accepted_current_story_lineage": [],
+  "task_bound_repo_control": null,
+  "atomic_scope": {
+    "status": "accepted",
+    "strategy": "atomic_single_pr",
+    "reason": "requirements-ssot、runtime-behavior、misc-follow-upは同じread-only縦スライスの契約と接続点を検証するため不可分である。生成l10nはARB由来の派生物、overlay docは設定境界であり、これらを分割すると契約と実装の原子性が失われる。",
+    "review_facets": [
+      "requirements-ssot",
+      "runtime-behavior",
+      "misc-follow-up"
+    ],
+    "dependency_boundaries": [
+      {
+        "from": "requirements-ssot",
+        "to": "runtime-behavior"
+      },
+      {
+        "from": "runtime-behavior",
+        "to": "misc-follow-up"
+      }
+    ],
+    "generated_lane_ids": [
+      "requirements-ssot",
+      "runtime-behavior",
+      "misc-follow-up"
+    ],
+    "missing_review_facets": [],
+    "missing_reason_facets": [],
+    "missing_dependency_facets": [],
+    "invalid_dependency_boundaries": [],
+    "unsafe_scope_signals": [],
+    "unsafe_scope_reasons": [],
+    "review_owner_map_verified": true,
+    "verification_ready": true,
+    "current_passing_verification_count": 5,
+    "verification_evidence_refs": [
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/ci-evidence/Backend_Hermetic_Merge_Gate.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/ci-evidence/Android_Compile_Smoke.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/ci-evidence/Dart_Analyze_Tests.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/ci-evidence/Generated_Files.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json"
+    ],
+    "next_actions": [
+      {
+        "type": "continue_atomic_pr",
+        "command": "vibepro pr prepare . --story-id omi-upstream-rebase-cloudflare-isolation"
+      }
+    ],
+    "review_owner_map": [
+      {
+        "facet": "requirements-ssot",
+        "changed_paths": [
+          "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+          "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+          "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md"
+        ],
+        "owners": [
+          {
+            "stage": "gate",
+            "role": "gate_evidence",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_gate_evidence_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "docs/stories/omi-upstream-rebase-cloudflare-isolation.md"
+            ]
+          },
+          {
+            "stage": "gate",
+            "role": "pr_split_scope",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_pr_split_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+              "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+              "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md"
+            ]
+          },
+          {
+            "stage": "preview",
+            "role": "human_usability",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_arch_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md"
+            ]
+          }
+        ],
+        "uncovered_paths": [],
+        "owned": true
+      },
+      {
+        "facet": "runtime-behavior",
+        "changed_paths": [
+          "app/lib/l10n/app_ar.arb",
+          "app/lib/l10n/app_be.arb",
+          "app/lib/l10n/app_bg.arb",
+          "app/lib/l10n/app_bn.arb",
+          "app/lib/l10n/app_bs.arb",
+          "app/lib/l10n/app_ca.arb",
+          "app/lib/l10n/app_cs.arb",
+          "app/lib/l10n/app_da.arb",
+          "app/lib/l10n/app_de.arb",
+          "app/lib/l10n/app_el.arb",
+          "app/lib/l10n/app_en.arb",
+          "app/lib/l10n/app_es.arb",
+          "app/lib/l10n/app_et.arb",
+          "app/lib/l10n/app_fa.arb",
+          "app/lib/l10n/app_fi.arb",
+          "app/lib/l10n/app_fr.arb",
+          "app/lib/l10n/app_he.arb",
+          "app/lib/l10n/app_hi.arb",
+          "app/lib/l10n/app_hr.arb",
+          "app/lib/l10n/app_hu.arb",
+          "app/lib/l10n/app_id.arb",
+          "app/lib/l10n/app_it.arb",
+          "app/lib/l10n/app_ja.arb",
+          "app/lib/l10n/app_kn.arb",
+          "app/lib/l10n/app_ko.arb",
+          "app/lib/l10n/app_localizations.dart",
+          "app/lib/l10n/app_localizations_ar.dart",
+          "app/lib/l10n/app_localizations_be.dart",
+          "app/lib/l10n/app_localizations_bg.dart",
+          "app/lib/l10n/app_localizations_bn.dart",
+          "app/lib/l10n/app_localizations_bs.dart",
+          "app/lib/l10n/app_localizations_ca.dart",
+          "app/lib/l10n/app_localizations_cs.dart",
+          "app/lib/l10n/app_localizations_da.dart",
+          "app/lib/l10n/app_localizations_de.dart",
+          "app/lib/l10n/app_localizations_el.dart",
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/l10n/app_localizations_es.dart",
+          "app/lib/l10n/app_localizations_et.dart",
+          "app/lib/l10n/app_localizations_fa.dart",
+          "app/lib/l10n/app_localizations_fi.dart",
+          "app/lib/l10n/app_localizations_fr.dart",
+          "app/lib/l10n/app_localizations_he.dart",
+          "app/lib/l10n/app_localizations_hi.dart",
+          "app/lib/l10n/app_localizations_hr.dart",
+          "app/lib/l10n/app_localizations_hu.dart",
+          "app/lib/l10n/app_localizations_id.dart",
+          "app/lib/l10n/app_localizations_it.dart",
+          "app/lib/l10n/app_localizations_ja.dart",
+          "app/lib/l10n/app_localizations_kn.dart",
+          "app/lib/l10n/app_localizations_ko.dart",
+          "app/lib/l10n/app_localizations_lt.dart",
+          "app/lib/l10n/app_localizations_lv.dart",
+          "app/lib/l10n/app_localizations_mk.dart",
+          "app/lib/l10n/app_localizations_mr.dart",
+          "app/lib/l10n/app_localizations_ms.dart",
+          "app/lib/l10n/app_localizations_nl.dart",
+          "app/lib/l10n/app_localizations_no.dart",
+          "app/lib/l10n/app_localizations_pl.dart",
+          "app/lib/l10n/app_localizations_pt.dart",
+          "app/lib/l10n/app_localizations_ro.dart",
+          "app/lib/l10n/app_localizations_ru.dart",
+          "app/lib/l10n/app_localizations_sk.dart",
+          "app/lib/l10n/app_localizations_sl.dart",
+          "app/lib/l10n/app_localizations_sr.dart",
+          "app/lib/l10n/app_localizations_sv.dart",
+          "app/lib/l10n/app_localizations_ta.dart",
+          "app/lib/l10n/app_localizations_te.dart",
+          "app/lib/l10n/app_localizations_th.dart",
+          "app/lib/l10n/app_localizations_tl.dart",
+          "app/lib/l10n/app_localizations_tr.dart",
+          "app/lib/l10n/app_localizations_uk.dart",
+          "app/lib/l10n/app_localizations_ur.dart",
+          "app/lib/l10n/app_localizations_vi.dart",
+          "app/lib/l10n/app_localizations_zh.dart",
+          "app/lib/l10n/app_lt.arb",
+          "app/lib/l10n/app_lv.arb",
+          "app/lib/l10n/app_mk.arb",
+          "app/lib/l10n/app_mr.arb",
+          "app/lib/l10n/app_ms.arb",
+          "app/lib/l10n/app_nl.arb",
+          "app/lib/l10n/app_no.arb",
+          "app/lib/l10n/app_pl.arb",
+          "app/lib/l10n/app_pt.arb",
+          "app/lib/l10n/app_ro.arb",
+          "app/lib/l10n/app_ru.arb",
+          "app/lib/l10n/app_sk.arb",
+          "app/lib/l10n/app_sl.arb",
+          "app/lib/l10n/app_sr.arb",
+          "app/lib/l10n/app_sv.arb",
+          "app/lib/l10n/app_ta.arb",
+          "app/lib/l10n/app_te.arb",
+          "app/lib/l10n/app_th.arb",
+          "app/lib/l10n/app_tl.arb",
+          "app/lib/l10n/app_tr.arb",
+          "app/lib/l10n/app_uk.arb",
+          "app/lib/l10n/app_ur.arb",
+          "app/lib/l10n/app_vi.arb",
+          "app/lib/l10n/app_zh.arb",
+          "app/lib/main.dart",
+          "app/lib/pages/conversations/conversations_page.dart",
+          "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+          "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+          "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+          "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart"
+        ],
+        "owners": [
+          {
+            "stage": "gate",
+            "role": "gate_evidence",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_gate_evidence_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+              "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart"
+            ]
+          },
+          {
+            "stage": "gate",
+            "role": "pr_split_scope",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_pr_split_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "app/lib/l10n/app_ar.arb",
+              "app/lib/l10n/app_be.arb",
+              "app/lib/l10n/app_bg.arb",
+              "app/lib/l10n/app_bn.arb",
+              "app/lib/l10n/app_bs.arb",
+              "app/lib/l10n/app_ca.arb",
+              "app/lib/l10n/app_cs.arb",
+              "app/lib/l10n/app_da.arb",
+              "app/lib/l10n/app_de.arb",
+              "app/lib/l10n/app_el.arb",
+              "app/lib/l10n/app_en.arb",
+              "app/lib/l10n/app_es.arb",
+              "app/lib/l10n/app_et.arb",
+              "app/lib/l10n/app_fa.arb",
+              "app/lib/l10n/app_fi.arb",
+              "app/lib/l10n/app_fr.arb",
+              "app/lib/l10n/app_he.arb",
+              "app/lib/l10n/app_hi.arb",
+              "app/lib/l10n/app_hr.arb",
+              "app/lib/l10n/app_hu.arb",
+              "app/lib/l10n/app_id.arb",
+              "app/lib/l10n/app_it.arb",
+              "app/lib/l10n/app_ja.arb",
+              "app/lib/l10n/app_kn.arb",
+              "app/lib/l10n/app_ko.arb",
+              "app/lib/l10n/app_localizations.dart",
+              "app/lib/l10n/app_localizations_ar.dart",
+              "app/lib/l10n/app_localizations_be.dart",
+              "app/lib/l10n/app_localizations_bg.dart",
+              "app/lib/l10n/app_localizations_bn.dart",
+              "app/lib/l10n/app_localizations_bs.dart",
+              "app/lib/l10n/app_localizations_ca.dart",
+              "app/lib/l10n/app_localizations_cs.dart",
+              "app/lib/l10n/app_localizations_da.dart",
+              "app/lib/l10n/app_localizations_de.dart",
+              "app/lib/l10n/app_localizations_el.dart",
+              "app/lib/l10n/app_localizations_en.dart",
+              "app/lib/l10n/app_localizations_es.dart",
+              "app/lib/l10n/app_localizations_et.dart",
+              "app/lib/l10n/app_localizations_fa.dart",
+              "app/lib/l10n/app_localizations_fi.dart",
+              "app/lib/l10n/app_localizations_fr.dart",
+              "app/lib/l10n/app_localizations_he.dart",
+              "app/lib/l10n/app_localizations_hi.dart",
+              "app/lib/l10n/app_localizations_hr.dart",
+              "app/lib/l10n/app_localizations_hu.dart",
+              "app/lib/l10n/app_localizations_id.dart",
+              "app/lib/l10n/app_localizations_it.dart",
+              "app/lib/l10n/app_localizations_ja.dart",
+              "app/lib/l10n/app_localizations_kn.dart",
+              "app/lib/l10n/app_localizations_ko.dart",
+              "app/lib/l10n/app_localizations_lt.dart",
+              "app/lib/l10n/app_localizations_lv.dart",
+              "app/lib/l10n/app_localizations_mk.dart",
+              "app/lib/l10n/app_localizations_mr.dart",
+              "app/lib/l10n/app_localizations_ms.dart",
+              "app/lib/l10n/app_localizations_nl.dart",
+              "app/lib/l10n/app_localizations_no.dart",
+              "app/lib/l10n/app_localizations_pl.dart",
+              "app/lib/l10n/app_localizations_pt.dart",
+              "app/lib/l10n/app_localizations_ro.dart",
+              "app/lib/l10n/app_localizations_ru.dart",
+              "app/lib/l10n/app_localizations_sk.dart",
+              "app/lib/l10n/app_localizations_sl.dart",
+              "app/lib/l10n/app_localizations_sr.dart",
+              "app/lib/l10n/app_localizations_sv.dart",
+              "app/lib/l10n/app_localizations_ta.dart",
+              "app/lib/l10n/app_localizations_te.dart",
+              "app/lib/l10n/app_localizations_th.dart",
+              "app/lib/l10n/app_localizations_tl.dart",
+              "app/lib/l10n/app_localizations_tr.dart",
+              "app/lib/l10n/app_localizations_uk.dart",
+              "app/lib/l10n/app_localizations_ur.dart",
+              "app/lib/l10n/app_localizations_vi.dart",
+              "app/lib/l10n/app_localizations_zh.dart",
+              "app/lib/l10n/app_lt.arb",
+              "app/lib/l10n/app_lv.arb",
+              "app/lib/l10n/app_mk.arb",
+              "app/lib/l10n/app_mr.arb",
+              "app/lib/l10n/app_ms.arb",
+              "app/lib/l10n/app_nl.arb",
+              "app/lib/l10n/app_no.arb",
+              "app/lib/l10n/app_pl.arb",
+              "app/lib/l10n/app_pt.arb",
+              "app/lib/l10n/app_ro.arb",
+              "app/lib/l10n/app_ru.arb",
+              "app/lib/l10n/app_sk.arb",
+              "app/lib/l10n/app_sl.arb",
+              "app/lib/l10n/app_sr.arb",
+              "app/lib/l10n/app_sv.arb",
+              "app/lib/l10n/app_ta.arb",
+              "app/lib/l10n/app_te.arb",
+              "app/lib/l10n/app_th.arb",
+              "app/lib/l10n/app_tl.arb",
+              "app/lib/l10n/app_tr.arb",
+              "app/lib/l10n/app_uk.arb",
+              "app/lib/l10n/app_ur.arb",
+              "app/lib/l10n/app_vi.arb",
+              "app/lib/l10n/app_zh.arb",
+              "app/lib/main.dart",
+              "app/lib/pages/conversations/conversations_page.dart",
+              "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+              "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+              "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+              "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+              "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+              "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+              "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+              "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart"
+            ]
+          },
+          {
+            "stage": "preview",
+            "role": "human_usability",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_arch_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "app/lib/pages/conversations/conversations_page.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+              "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+              "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+              "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+              "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart"
+            ]
+          }
+        ],
+        "uncovered_paths": [],
+        "owned": true
+      },
+      {
+        "facet": "misc-follow-up",
+        "changed_paths": [
+          "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md",
+          "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md",
+          "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md",
+          "docs/operational/omi-self-hosted-local-overlay.md"
+        ],
+        "owners": [
+          {
+            "stage": "gate",
+            "role": "gate_evidence",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_gate_evidence_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "docs/operational/omi-self-hosted-local-overlay.md"
+            ]
+          },
+          {
+            "stage": "gate",
+            "role": "pr_split_scope",
+            "effective_status": "pass",
+            "binding_mode": "strict_head",
+            "reviewer_identity": "separate_session",
+            "reviewer_identity_source": "lifecycle_agent_binding",
+            "reviewer_session_id": "/root/omi_pr_split_fe24",
+            "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+            "covered_paths": [
+              "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md",
+              "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md",
+              "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md",
+              "docs/operational/omi-self-hosted-local-overlay.md"
+            ]
+          }
+        ],
+        "uncovered_paths": [],
+        "owned": true
+      }
+    ],
+    "unowned_review_facets": [],
+    "automatic_split_required": true,
+    "rejection_reasons": [],
+    "source_ref": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md"
+  },
+  "rationale": [
+    "差分が 122 files あり、レビュー可能な目安 30 files を超えている",
+    "baseからのcommitが 32 件あるため履歴確認が必要だが、別Story lineageは検出されていない",
+    "3 lanes に分けると、要求正本・実装・検証基盤・repo制御を別々にレビューできる",
+    "Graphifyで 66 changed files が一致し、147 related files を影響調査候補にした",
+    "型付きatomic scopeを採用: requirements-ssot、runtime-behavior、misc-follow-upは同じread-only縦スライスの契約と接続点を検証するため不可分である。生成l10nはARB由来の派生物、overlay docは設定境界であり、これらを分割すると契約と実装の原子性が失われる。"
+  ],
+  "graph_context": {
+    "available": true,
+    "graph_path": ".vibepro/graphify/graph.json",
+    "edge_source_key": "links",
+    "node_count": 102003,
+    "edge_count": 285905,
+    "matched_file_count": 66,
+    "related_file_count": 147,
+    "investigation_files": [
+      "app/ios/Runner/AppleHealthService.swift",
+      "app/ios/Runner/AppleRemindersService.swift",
+      "app/ios/Runner/PhoneCalls/OmiPhoneCallsPlugin.swift",
+      "app/lib/firebase_options_dev.dart",
+      "app/lib/firebase_options_prod.dart",
+      "app/lib/l10n/app_localizations.dart",
+      "app/lib/l10n/app_localizations_ar.dart",
+      "app/lib/l10n/app_localizations_be.dart",
+      "app/lib/l10n/app_localizations_bg.dart",
+      "app/lib/l10n/app_localizations_bn.dart",
+      "app/lib/l10n/app_localizations_bs.dart",
+      "app/lib/l10n/app_localizations_ca.dart",
+      "app/lib/l10n/app_localizations_cs.dart",
+      "app/lib/l10n/app_localizations_da.dart",
+      "app/lib/l10n/app_localizations_de.dart",
+      "app/lib/l10n/app_localizations_el.dart",
+      "app/lib/l10n/app_localizations_en.dart",
+      "app/lib/l10n/app_localizations_es.dart",
+      "app/lib/l10n/app_localizations_et.dart",
+      "app/lib/l10n/app_localizations_fa.dart",
+      "app/lib/l10n/app_localizations_fi.dart",
+      "app/lib/l10n/app_localizations_fr.dart",
+      "app/lib/l10n/app_localizations_he.dart",
+      "app/lib/l10n/app_localizations_hi.dart",
+      "app/lib/l10n/app_localizations_hr.dart",
+      "app/lib/l10n/app_localizations_hu.dart",
+      "app/lib/l10n/app_localizations_id.dart",
+      "app/lib/l10n/app_localizations_it.dart",
+      "app/lib/l10n/app_localizations_ja.dart",
+      "app/lib/l10n/app_localizations_kn.dart"
+    ],
+    "impact_by_file": [
+      {
+        "file": "app/lib/l10n/app_localizations_ar.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ar_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_applocalizationsar",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ar_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_be.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_be_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_applocalizationsbe",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_be_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_bg.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_bg_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_applocalizationsbg",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bg_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_bn.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_bn_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_applocalizationsbn",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bn_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_bs.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_bs_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_applocalizationsbs",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_bs_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ca.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ca_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_applocalizationsca",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ca_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_cs.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_cs_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_applocalizationscs",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_cs_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_da.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_da_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_applocalizationsda",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_da_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_de.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_de_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_applocalizationsde",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_de_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_el.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_el_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_applocalizationsel",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_el_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_en.dart",
+        "matched_nodes": [
+          "app_localizations_dart",
+          "app_lib_l10n_app_localizations_en_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_en_dart_applocalizationsen",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_en_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_en_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_en_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_en_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_en_dart_cancelatperiodend"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_ar.dart",
+          "app/lib/l10n/app_localizations_be.dart",
+          "app/lib/l10n/app_localizations_bg.dart",
+          "app/lib/l10n/app_localizations_bn.dart",
+          "app/lib/l10n/app_localizations_bs.dart",
+          "app/lib/l10n/app_localizations_ca.dart",
+          "app/lib/l10n/app_localizations_cs.dart",
+          "app/lib/l10n/app_localizations_da.dart",
+          "app/lib/l10n/app_localizations_de.dart",
+          "app/lib/l10n/app_localizations_el.dart",
+          "app/lib/l10n/app_localizations_es.dart",
+          "app/lib/l10n/app_localizations_et.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_es.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_es_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_applocalizationses",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_es_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_et.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_et_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_applocalizationset",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_et_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_fa.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_fa_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_applocalizationsfa",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fa_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_fi.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_fi_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_applocalizationsfi",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fi_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_fr.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_fr_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_applocalizationsfr",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_fr_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_he.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_he_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_applocalizationshe",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_he_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_hi.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_hi_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_applocalizationshi",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hi_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_hr.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_hr_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_applocalizationshr",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hr_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_hu.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_hu_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_applocalizationshu",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_hu_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_id.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_id_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_applocalizationsid",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_id_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_it.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_it_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_applocalizationsit",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_it_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ja.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ja_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_applocalizationsja",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ja_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_kn.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_kn_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_applocalizationskn",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_kn_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ko.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ko_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_applocalizationsko",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ko_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_lt.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_lt_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_applocalizationslt",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lt_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_lv.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_lv_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_applocalizationslv",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_lv_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_mk.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_mk_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_applocalizationsmk",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mk_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_mr.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_mr_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_applocalizationsmr",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_mr_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ms.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ms_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_applocalizationsms",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ms_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_nl.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_nl_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_applocalizationsnl",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_nl_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_no.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_no_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_applocalizationsno",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_no_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_pl.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_pl_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_applocalizationspl",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pl_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_pt.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_pt_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_applocalizationspt",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_pt_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ro.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ro_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_applocalizationsro",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ro_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ru.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ru_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_applocalizationsru",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ru_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_sk.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_sk_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_applocalizationssk",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sk_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_sl.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_sl_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_applocalizationssl",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sl_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_sr.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_sr_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_applocalizationssr",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sr_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_sv.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_sv_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_applocalizationssv",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_sv_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ta.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ta_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_applocalizationsta",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ta_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_te.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_te_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_applocalizationste",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_te_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_th.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_th_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_applocalizationsth",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_th_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_tl.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_tl_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_applocalizationstl",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tl_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_tr.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_tr_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_applocalizationstr",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_tr_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_uk.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_uk_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_applocalizationsuk",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_uk_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_ur.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_ur_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_applocalizationsur",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_ur_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_vi.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_vi_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_applocalizationsvi",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_vi_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations_zh.dart",
+        "matched_nodes": [
+          "app_lib_l10n_app_localizations_zh_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_applocalizationszh",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_selectedcount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_mergeconversationsmessage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_cancelatperiodend",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_zh_dart_renewson"
+        ],
+        "related_files": [
+          "app/lib/l10n/app_localizations_en.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/l10n/app_localizations.dart",
+        "matched_nodes": [
+          "package_flutter_localizations_flutter_localizations_dart",
+          "app_lib_l10n_app_localizations_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_dart_applocalizations",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_dart_applocalizationsdelegate",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_dart_of",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_dart_secondscount",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_dart_samplenumber",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_l10n_app_localizations_dart_selectedcount"
+        ],
+        "related_files": [
+          "app/ios/Runner/AppleHealthService.swift",
+          "app/ios/Runner/AppleRemindersService.swift",
+          "app/ios/Runner/PhoneCalls/OmiPhoneCallsPlugin.swift",
+          "app/lib/main.dart",
+          "app/lib/pages/apps/providers/add_app_provider.dart",
+          "app/lib/pages/apps/widgets/api_keys_widget.dart",
+          "app/lib/services/devices/transports/watch_transport.dart",
+          "app/test/providers/capture_provider_test.dart",
+          "app/test/utils/app_localizations_helper_test.dart",
+          "app/test/widgets/conversation_detail_copy_id_test.dart",
+          "app/test/widgets/device_storage_card_test.dart",
+          "app/test/widgets/fair_use_page_test.dart"
+        ]
+      },
+      {
+        "file": "app/lib/main.dart",
+        "matched_nodes": [
+          "package_omi_startup_routing_dart",
+          "package_omi_utils_analytics_rage_click_context_tracker_dart",
+          "package_firebase_core_firebase_core_dart",
+          "app_lib_main_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_main_dart_myapp",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_main_dart_myappstate",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_main_dart_customerrorwidget",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_main_dart_awesomenotifications"
+        ],
+        "related_files": [
+          "app/lib/firebase_options_dev.dart",
+          "app/lib/firebase_options_prod.dart",
+          "app/lib/l10n/app_localizations.dart",
+          "app/lib/pages/action_items/widgets/task_selection_action_bar.dart",
+          "app/lib/pages/apps/add_app.dart",
+          "app/lib/pages/apps/app_detail/widgets/add_review_widget.dart",
+          "app/lib/pages/apps/widgets/capability_category_section.dart",
+          "app/lib/pages/apps/widgets/filter_sheet.dart",
+          "app/lib/pages/apps/widgets/notification_scopes_chips_widget.dart",
+          "app/lib/pages/chat/widgets/voice_recorder_widget.dart",
+          "app/lib/pages/conversation_detail/page.dart",
+          "app/lib/pages/conversations/widgets/conversations_section_header.dart"
+        ]
+      },
+      {
+        "file": "app/lib/pages/conversations/conversations_page.dart",
+        "matched_nodes": [
+          "package_omi_pages_conversations_widgets_processing_capture_dart",
+          "package_omi_services_app_review_service_dart",
+          "package_omi_pages_phone_calls_active_call_banner_dart",
+          "app_lib_pages_conversations_conversations_page_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_conversations_page_dart_conversationspage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_conversations_page_dart_conversationspagestate",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_conversations_page_dart_refreshgoals",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_conversations_page_dart_addgoal"
+        ],
+        "related_files": [
+          "app/lib/pages/action_items/action_items_page.dart",
+          "app/lib/pages/conversation_detail/page.dart",
+          "app/lib/pages/conversations/widgets/capture.dart",
+          "app/lib/pages/conversations/widgets/conversations_group_widget.dart",
+          "app/lib/pages/conversations/widgets/daily_score_widget.dart",
+          "app/lib/pages/conversations/widgets/move_to_folder_sheet.dart",
+          "app/lib/pages/conversations/widgets/recording_list_item.dart",
+          "app/lib/pages/home/home_content.dart",
+          "app/lib/pages/home/page.dart",
+          "app/lib/pages/memories/page.dart",
+          "app/lib/pages/memories/widgets/memory_item.dart",
+          "app/lib/pages/onboarding/conversation_created_widget.dart"
+        ]
+      },
+      {
+        "file": "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+        "matched_nodes": [
+          "package_omi_self_hosted_cloudflare_cloudflare_transcript_provider_dart",
+          "package_omi_self_hosted_cloudflare_cloudflare_transcripts_page_dart",
+          "app_lib_pages_conversations_widgets_conversations_section_header_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_widgets_conversations_section_header_dart_conversationssectionheader",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_widgets_conversations_section_header_dart_shouldshow",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_widgets_conversations_section_header_dart_build",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_pages_conversations_widgets_conversations_section_header_dart_padding"
+        ],
+        "related_files": [
+          "app/lib/main.dart",
+          "app/lib/widgets/extensions/functions.dart",
+          "app/lib/widgets/language_picker.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart"
+        ]
+      },
+      {
+        "file": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "matched_nodes": [
+          "cloudflare_transcript_models_dart",
+          "cloudflare_transcript_exception_dart",
+          "app_lib_self_hosted_cloudflare_cloudflare_transcript_api_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_api_dart_cloudflaretranscripthttpapi",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_api_dart_cloudflaretranscriptapiexception",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_api_dart_parsesession",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_api_dart_validatetranscriptdetail",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_api_dart_endpoint"
+        ],
+        "related_files": [
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+          "app/lib/services/sockets/transcription_polling_service.dart",
+          "sdks/device/dart/lib/stt/stt.dart"
+        ]
+      },
+      {
+        "file": "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+        "matched_nodes": [
+          "app_lib_self_hosted_cloudflare_cloudflare_transcript_configuration_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_configuration_dart_cloudflaretranscriptconfiguration",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_configuration_dart_cloudflaretranscriptconfigurationexception",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_configuration_dart_isvalidworkeruri",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_configuration_dart_isallowedscheme",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_configuration_dart_tostring"
+        ],
+        "related_files": []
+      },
+      {
+        "file": "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+        "matched_nodes": [
+          "app_lib_self_hosted_cloudflare_cloudflare_transcript_exception_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_exception_dart_cloudflaretranscriptapiexception",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_exception_dart_tostring"
+        ],
+        "related_files": []
+      },
+      {
+        "file": "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+        "matched_nodes": [
+          "app_lib_self_hosted_cloudflare_cloudflare_transcript_models_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_models_dart_cloudflaretranscriptsession",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_models_dart_cloudflaretranscriptchunk",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_models_dart_cloudflaretranscriptdetail",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_models_dart_requiredjsonint"
+        ],
+        "related_files": [
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart"
+        ]
+      },
+      {
+        "file": "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+        "matched_nodes": [
+          "app_lib_self_hosted_cloudflare_cloudflare_transcript_provider_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcript_provider_dart_cloudflaretranscriptprovider",
+          "cloudflare_transcript_api_dart"
+        ],
+        "related_files": [
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+          "app/lib/services/devices/transports/watch_transport.dart"
+        ]
+      },
+      {
+        "file": "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "matched_nodes": [
+          "app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_cloudflaretranscriptspage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_cloudflaretranscriptspagestate",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_sessiontile",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_cloudflaretranscriptdetailpage",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_cloudflaretranscriptdetailpagestate",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_errorstate",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_cloudflare_cloudflare_transcripts_page_dart_initstate"
+        ],
+        "related_files": [
+          "app/lib/pages/apps/widgets/api_keys_widget.dart",
+          "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+          "app/lib/widgets/extensions/functions.dart",
+          "app/lib/widgets/language_picker.dart"
+        ]
+      },
+      {
+        "file": "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+        "matched_nodes": [
+          "app_lib_self_hosted_sync_self_hosted_wal_sync_adapter_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_lib_self_hosted_sync_self_hosted_wal_sync_adapter_dart_noopselfhostedwalsyncadapter",
+          "cloudflare_cloudflare_transcript_configuration_dart"
+        ],
+        "related_files": []
+      },
+      {
+        "file": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "matched_nodes": [
+          "app_test_self_hosted_cloudflare_cloudflare_transcript_api_test_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_api_test_dart_main",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_api_test_dart_isnonsecretapiexception",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_api_test_dart_expectlater",
+          "package_http_testing_dart"
+        ],
+        "related_files": [
+          "app/lib/services/sockets/transcription_polling_service.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+          "sdks/device/dart/lib/stt/stt.dart",
+          "sdks/device/dart/test/stt_test.dart"
+        ]
+      },
+      {
+        "file": "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+        "matched_nodes": [
+          "app_test_self_hosted_cloudflare_cloudflare_transcript_configuration_test_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_configuration_test_dart_main"
+        ],
+        "related_files": [
+          "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+          "sdks/device/dart/test/stt_test.dart"
+        ]
+      },
+      {
+        "file": "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+        "matched_nodes": [
+          "app_test_self_hosted_cloudflare_cloudflare_transcript_provider_test_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_provider_test_dart_fakeapi",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_provider_test_dart_main",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcript_provider_test_dart_cloudflaretranscriptdetail"
+        ],
+        "related_files": [
+          "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+          "sdks/device/dart/test/stt_test.dart"
+        ]
+      },
+      {
+        "file": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "matched_nodes": [
+          "package_omi_self_hosted_cloudflare_cloudflare_transcript_configuration_dart",
+          "package_omi_self_hosted_cloudflare_cloudflare_transcript_api_dart",
+          "package_omi_self_hosted_cloudflare_cloudflare_transcript_models_dart",
+          "app_test_self_hosted_cloudflare_cloudflare_transcripts_page_test_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcripts_page_test_dart_localecase",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcripts_page_test_dart_fakeapi",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcripts_page_test_dart_main",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_cloudflare_cloudflare_transcripts_page_test_dart_scaffold"
+        ],
+        "related_files": [
+          "app/lib/pages/apps/widgets/filter_sheet.dart",
+          "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+          "app/lib/widgets/extensions/functions.dart",
+          "app/lib/widgets/language_picker.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+          "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+          "sdks/device/dart/test/stt_test.dart"
+        ]
+      },
+      {
+        "file": "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+        "matched_nodes": [
+          "app_test_self_hosted_sync_self_hosted_wal_sync_adapter_environment_test_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_sync_self_hosted_wal_sync_adapter_environment_test_dart_main"
+        ],
+        "related_files": [
+          "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+          "sdks/device/dart/test/stt_test.dart"
+        ]
+      },
+      {
+        "file": "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+        "matched_nodes": [
+          "package_omi_self_hosted_sync_self_hosted_wal_sync_adapter_dart",
+          "app_test_self_hosted_sync_self_hosted_wal_sync_adapter_test_dart",
+          "users_ksato_workspace_code_worktrees_omi_worktrees_omi_upstream_rebase_cloudflare_isolation_app_test_self_hosted_sync_self_hosted_wal_sync_adapter_test_dart_main"
+        ],
+        "related_files": [
+          "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+          "sdks/device/dart/test/stt_test.dart"
+        ]
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "requirements-ssot",
+      "order": 10,
+      "title": "Story / Spec / Architecture / Policy SSOT",
+      "category": "requirements",
+      "recommendation": "separate_pr",
+      "files": [
+        "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md"
+      ],
+      "required_gates": [
+        "Requirement Gate"
+      ],
+      "review_focus": [
+        "Story / Spec / Architecture / Policy の正本が互いに矛盾していないか",
+        "実装差分が要求の範囲を超えていないか",
+        "Storyに明示されたREADME/helpなどの利用者向け出力面が受け入れ基準と対応しているか"
+      ],
+      "file_count": 3,
+      "graph_investigation_files": [],
+      "suggested_branch": "feat/omi-upstream-rebase-cloudflare-isolation-requirements-ssot"
+    },
+    {
+      "id": "runtime-behavior",
+      "order": 20,
+      "title": "Runtime behavior and unit coverage",
+      "category": "implementation",
+      "recommendation": "primary_pr",
+      "files": [
+        "app/lib/l10n/app_ar.arb",
+        "app/lib/l10n/app_be.arb",
+        "app/lib/l10n/app_bg.arb",
+        "app/lib/l10n/app_bn.arb",
+        "app/lib/l10n/app_bs.arb",
+        "app/lib/l10n/app_ca.arb",
+        "app/lib/l10n/app_cs.arb",
+        "app/lib/l10n/app_da.arb",
+        "app/lib/l10n/app_de.arb",
+        "app/lib/l10n/app_el.arb",
+        "app/lib/l10n/app_en.arb",
+        "app/lib/l10n/app_es.arb",
+        "app/lib/l10n/app_et.arb",
+        "app/lib/l10n/app_fa.arb",
+        "app/lib/l10n/app_fi.arb",
+        "app/lib/l10n/app_fr.arb",
+        "app/lib/l10n/app_he.arb",
+        "app/lib/l10n/app_hi.arb",
+        "app/lib/l10n/app_hr.arb",
+        "app/lib/l10n/app_hu.arb",
+        "app/lib/l10n/app_id.arb",
+        "app/lib/l10n/app_it.arb",
+        "app/lib/l10n/app_ja.arb",
+        "app/lib/l10n/app_kn.arb",
+        "app/lib/l10n/app_ko.arb",
+        "app/lib/l10n/app_localizations.dart",
+        "app/lib/l10n/app_localizations_ar.dart",
+        "app/lib/l10n/app_localizations_be.dart",
+        "app/lib/l10n/app_localizations_bg.dart",
+        "app/lib/l10n/app_localizations_bn.dart",
+        "app/lib/l10n/app_localizations_bs.dart",
+        "app/lib/l10n/app_localizations_ca.dart",
+        "app/lib/l10n/app_localizations_cs.dart",
+        "app/lib/l10n/app_localizations_da.dart",
+        "app/lib/l10n/app_localizations_de.dart",
+        "app/lib/l10n/app_localizations_el.dart",
+        "app/lib/l10n/app_localizations_en.dart",
+        "app/lib/l10n/app_localizations_es.dart",
+        "app/lib/l10n/app_localizations_et.dart",
+        "app/lib/l10n/app_localizations_fa.dart",
+        "app/lib/l10n/app_localizations_fi.dart",
+        "app/lib/l10n/app_localizations_fr.dart",
+        "app/lib/l10n/app_localizations_he.dart",
+        "app/lib/l10n/app_localizations_hi.dart",
+        "app/lib/l10n/app_localizations_hr.dart",
+        "app/lib/l10n/app_localizations_hu.dart",
+        "app/lib/l10n/app_localizations_id.dart",
+        "app/lib/l10n/app_localizations_it.dart",
+        "app/lib/l10n/app_localizations_ja.dart",
+        "app/lib/l10n/app_localizations_kn.dart",
+        "app/lib/l10n/app_localizations_ko.dart",
+        "app/lib/l10n/app_localizations_lt.dart",
+        "app/lib/l10n/app_localizations_lv.dart",
+        "app/lib/l10n/app_localizations_mk.dart",
+        "app/lib/l10n/app_localizations_mr.dart",
+        "app/lib/l10n/app_localizations_ms.dart",
+        "app/lib/l10n/app_localizations_nl.dart",
+        "app/lib/l10n/app_localizations_no.dart",
+        "app/lib/l10n/app_localizations_pl.dart",
+        "app/lib/l10n/app_localizations_pt.dart",
+        "app/lib/l10n/app_localizations_ro.dart",
+        "app/lib/l10n/app_localizations_ru.dart",
+        "app/lib/l10n/app_localizations_sk.dart",
+        "app/lib/l10n/app_localizations_sl.dart",
+        "app/lib/l10n/app_localizations_sr.dart",
+        "app/lib/l10n/app_localizations_sv.dart",
+        "app/lib/l10n/app_localizations_ta.dart",
+        "app/lib/l10n/app_localizations_te.dart",
+        "app/lib/l10n/app_localizations_th.dart",
+        "app/lib/l10n/app_localizations_tl.dart",
+        "app/lib/l10n/app_localizations_tr.dart",
+        "app/lib/l10n/app_localizations_uk.dart",
+        "app/lib/l10n/app_localizations_ur.dart",
+        "app/lib/l10n/app_localizations_vi.dart",
+        "app/lib/l10n/app_localizations_zh.dart",
+        "app/lib/l10n/app_lt.arb",
+        "app/lib/l10n/app_lv.arb",
+        "app/lib/l10n/app_mk.arb",
+        "app/lib/l10n/app_mr.arb",
+        "app/lib/l10n/app_ms.arb",
+        "app/lib/l10n/app_nl.arb",
+        "app/lib/l10n/app_no.arb",
+        "app/lib/l10n/app_pl.arb",
+        "app/lib/l10n/app_pt.arb",
+        "app/lib/l10n/app_ro.arb",
+        "app/lib/l10n/app_ru.arb",
+        "app/lib/l10n/app_sk.arb",
+        "app/lib/l10n/app_sl.arb",
+        "app/lib/l10n/app_sr.arb",
+        "app/lib/l10n/app_sv.arb",
+        "app/lib/l10n/app_ta.arb",
+        "app/lib/l10n/app_te.arb",
+        "app/lib/l10n/app_th.arb",
+        "app/lib/l10n/app_tl.arb",
+        "app/lib/l10n/app_tr.arb",
+        "app/lib/l10n/app_uk.arb",
+        "app/lib/l10n/app_ur.arb",
+        "app/lib/l10n/app_vi.arb",
+        "app/lib/l10n/app_zh.arb",
+        "app/lib/main.dart",
+        "app/lib/pages/conversations/conversations_page.dart",
+        "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+        "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+        "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+        "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+        "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+        "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+        "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+        "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+        "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+        "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart"
+      ],
+      "required_gates": [
+        "Requirement Gate",
+        "Unit Gate",
+        "Integration Gate"
+      ],
+      "review_focus": [
+        "受け入れ基準と実装分岐が対応しているか",
+        "Graphifyで隣接するファイルまで影響確認されているか"
+      ],
+      "file_count": 115,
+      "graph_investigation_files": [
+        "app/ios/Runner/AppleHealthService.swift",
+        "app/ios/Runner/AppleRemindersService.swift",
+        "app/ios/Runner/PhoneCalls/OmiPhoneCallsPlugin.swift",
+        "app/lib/firebase_options_dev.dart",
+        "app/lib/firebase_options_prod.dart",
+        "app/lib/pages/action_items/action_items_page.dart",
+        "app/lib/pages/action_items/widgets/task_selection_action_bar.dart",
+        "app/lib/pages/apps/add_app.dart",
+        "app/lib/pages/apps/app_detail/widgets/add_review_widget.dart",
+        "app/lib/pages/apps/providers/add_app_provider.dart",
+        "app/lib/pages/apps/widgets/api_keys_widget.dart",
+        "app/lib/pages/apps/widgets/capability_category_section.dart"
+      ],
+      "suggested_branch": "feat/omi-upstream-rebase-cloudflare-isolation-runtime-behavior"
+    },
+    {
+      "id": "misc-follow-up",
+      "order": 90,
+      "title": "Miscellaneous follow-up",
+      "category": "other",
+      "recommendation": "separate_pr",
+      "files": [
+        "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md",
+        "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md",
+        "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md",
+        "docs/operational/omi-self-hosted-local-overlay.md"
+      ],
+      "required_gates": [
+        "Manual Review"
+      ],
+      "review_focus": [
+        "Storyとの対応が不明な差分をPRから外すか、Storyに根拠を追記する"
+      ],
+      "file_count": 4,
+      "graph_investigation_files": [],
+      "suggested_branch": "feat/omi-upstream-rebase-cloudflare-isolation-misc-follow-up"
+    }
+  ],
+  "merge_order": [
+    "requirements-ssot",
+    "runtime-behavior",
+    "misc-follow-up"
+  ],
+  "stacked_gate_plan": {
+    "schema_version": "0.1.0",
+    "model": "stacked-pr-gate-plan-v1",
+    "summary": {
+      "lane_count": 3,
+      "cumulative_gate_count": 3,
+      "requires_cumulative_e2e": false,
+      "requires_atomic_head_validation": true
+    },
+    "lane_plans": [
+      {
+        "lane_id": "requirements-ssot",
+        "gate_mode": "cumulative_atomic_head",
+        "depends_on": [],
+        "isolated_checks": [],
+        "cumulative_checks": [
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712070",
+          "CI Backend Hermetic E2E: https://github.com/Unson-LLC/omi/actions/runs/30801993226/job/91648676592",
+          "npm run test:e2e --prefix .vibepro/verification",
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712087",
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712084"
+        ],
+        "review_note": "requirements-ssot は独立PRではなく同一atomic HEADのreview facetとして確認し、全facetを含む累積状態で最終Gateを再実行する。"
+      },
+      {
+        "lane_id": "runtime-behavior",
+        "gate_mode": "cumulative_atomic_head",
+        "depends_on": [
+          "requirements-ssot"
+        ],
+        "isolated_checks": [],
+        "cumulative_checks": [
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712070",
+          "CI Backend Hermetic E2E: https://github.com/Unson-LLC/omi/actions/runs/30801993226/job/91648676592",
+          "npm run test:e2e --prefix .vibepro/verification",
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712087",
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712084"
+        ],
+        "review_note": "runtime-behavior は独立PRではなく同一atomic HEADのreview facetとして確認し、全facetを含む累積状態で最終Gateを再実行する。"
+      },
+      {
+        "lane_id": "misc-follow-up",
+        "gate_mode": "cumulative_atomic_head",
+        "depends_on": [
+          "requirements-ssot",
+          "runtime-behavior"
+        ],
+        "isolated_checks": [],
+        "cumulative_checks": [
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712070",
+          "CI Backend Hermetic E2E: https://github.com/Unson-LLC/omi/actions/runs/30801993226/job/91648676592",
+          "npm run test:e2e --prefix .vibepro/verification",
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712087",
+          "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712084"
+        ],
+        "review_note": "misc-follow-up は独立PRではなく同一atomic HEADのreview facetとして確認し、全facetを含む累積状態で最終Gateを再実行する。"
+      }
+    ],
+    "final_validation": {
+      "required": true,
+      "trigger": "typed atomic scopeで宣言した全review facetを同一HEADに含める",
+      "commands": [
+        "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712070",
+        "CI Backend Hermetic E2E: https://github.com/Unson-LLC/omi/actions/runs/30801993226/job/91648676592",
+        "npm run test:e2e --prefix .vibepro/verification",
+        "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712087",
+        "CI Mobile App Checks: https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712084"
+      ]
+    }
+  },
+  "next_actions": [
+    "現PRのまま進め、split-planをレビュー観点として使う"
+  ]
+}

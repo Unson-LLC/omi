@@ -1,0 +1,142 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "architecture_spec",
+  "role": "architecture_boundary",
+  "status": "pass",
+  "summary": "current HEADでarchitecture boundaryと4 lane artifact整合性を確認",
+  "findings": [],
+  "finding_dispositions": [
+    {
+      "finding_id": "architecture-evidence-unit-lane-misattributed",
+      "disposition": "accepted",
+      "resolved_by": [
+        ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    }
+  ],
+  "artifacts": [],
+  "inspection": {
+    "summary": "reviewed database_state; risk_surfaces=database_state。設計、実配線、Cloudflare GET-only隔離、既存Omi/Firebase/WAL authority、tests、49 locale l10n、runner-direct 4 laneを再照合した",
+    "evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json",
+    "inputs": [
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      "app/lib/main.dart",
+      "app/test/self_hosted"
+    ]
+  },
+  "judgment_delta": [
+    "unit lane誤帰属をrunner-direct unit.json/unit.logへ修正しintegration laneとも分離したためneeds_changesからpassへ更新",
+    "database_stateを含む実diff inventory、forbidden path guard、実配線analyze、既存導線fixtureによりregression_guardとpath_surface_coverageを満たす"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+    "current_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+      "current_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T23:06:39.172Z",
+  "git_context": {
+    "head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T23:06:39.163Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "needs_changes recoveryのcurrent HEAD freshness policyを維持"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+    "surface_files": [
+      {
+        "path": "app/lib/main.dart",
+        "sha256": "1c20dd2a7378cba93db0ac50275bdab3b4ae854903bcc55d36fa0abaeef9d7f8",
+        "size": 20432
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "4bd06305f5be21b8057239d44fa2826430927b23b72a2dc66a740ab55d96bcda"
+  },
+  "source_fingerprint": "4c2ec076328548792ec50b1ebee2c6bcb9a4af509fcef96d471f9fe30d5aef93",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_human_usability_final",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_human_usability_final",
+    "session_id": "architecture-boundary-d985-unit-fixed",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-d985-unit-fixed-pass.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/review-request-architecture_boundary.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-d985-unit-fixed-pass.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "architecture-boundary-d985-unit-fixed",
+      "implementation_session_id": "terra-runtime-contract-d985",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

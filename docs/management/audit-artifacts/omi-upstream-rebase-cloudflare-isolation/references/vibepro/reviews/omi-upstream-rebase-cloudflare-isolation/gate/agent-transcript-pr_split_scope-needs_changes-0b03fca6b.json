@@ -1,0 +1,39 @@
+{
+  "status": "needs_changes",
+  "summary": "実差分はatomicなread-only Flutter sliceとして妥当だが、split-plan生成物がStoryのatomic宣言を誤解釈し、不適切な分割・検証計画を提示しているため現HEADではpass不可。",
+  "inspection_summary": "現HEADとclean状態、74-file差分、Story/Spec/ADR/runbook、budget decision b78df561、Flutter実装・回帰テスト、生成l10n、Worker・端末overlay除外、VibePro split-plan/pr-prepare/現HEAD verificationを確認した。regression_guardは満たすが、path_surface_coverageはStoryとgate artifactの矛盾で未達。deployed Workerとphysical iPhoneは別laneの未確認証跡として維持されている。",
+  "inspection_evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json; .vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/{unit,integration,e2e,typecheck}.{json,log}; focused Flutter widget test output",
+  "inspection_inputs": [
+    "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/operational/omi-self-hosted-local-overlay.md",
+    "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-b78df561.md",
+    "app/lib/main.dart",
+    "app/lib/pages/conversations/conversations_page.dart",
+    "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+    "app/lib/self_hosted/cloudflare/",
+    "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+    "app/test/self_hosted/cloudflare/",
+    "app/test/self_hosted/sync/",
+    "app/lib/l10n/app_en.arb",
+    "app/lib/l10n/app_ja.arb",
+    "app/lib/l10n/app_localizations*.dart",
+    ".github/workflows/mobile-app-checks.yml",
+    ".vibepro/verification/Makefile",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/pr-prepare.json"
+  ],
+  "judgment_delta": [
+    "repo-control混在、既存header、現HEAD verification、Worker item suppressionの旧懸念は解消した。",
+    "path-surface-split-plan-contract-gapはStoryのpr_scope_reasonをリテラル'>-'として扱うparser欠陥のためactiveだった。",
+    "PR contentは74 files中50 generated l10n、6 tests、7 contract/ops/audit docsで一つのread-only sliceとしてatomic性を支持する。"
+  ],
+  "findings": [
+    {
+      "severity": "medium",
+      "id": "path-surface-split-plan-contract-gap",
+      "detail": "split-plan.jsonがfrontmatterのfolded scalarを誤読してatomic_scopeをrejectしたため、parser修正とartifact再生成が必要。"
+    }
+  ]
+}

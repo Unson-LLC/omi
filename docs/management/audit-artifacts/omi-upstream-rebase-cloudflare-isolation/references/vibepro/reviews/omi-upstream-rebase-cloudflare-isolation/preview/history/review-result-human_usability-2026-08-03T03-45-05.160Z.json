@@ -1,0 +1,150 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "preview",
+  "role": "human_usability",
+  "status": "pass",
+  "summary": "Cloudflare opt-in GET-only list/detail UI preserves the existing Omi path and covers empty, failure, retry, localization, and semantics states.",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Inspected current-HEAD UI/provider/API boundaries, 14 focused widget tests, four current-head visual probes with zero residual, ARB localization, and hermetic E2E evidence.",
+    "evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-fe24e-final.md",
+    "inputs": [
+      "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+      "app/lib/pages/conversations/conversations_page.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.log",
+      ".vibepro/qa/omi-cloudflare-current/visual-residual.json"
+    ]
+  },
+  "judgment_delta": [
+    "Concern about regression of existing empty and daily-summary paths and exposure of Worker failure changed to pass after current-HEAD evidence confirmed disabled-state preservation, localized scoped retry, semantics, and four visual probes."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "fe24e061df2b95dde64667ef0bc8236187cd5dca",
+    "current_head_sha": "fe24e061df2b95dde64667ef0bc8236187cd5dca",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "fe24e061df2b95dde64667ef0bc8236187cd5dca",
+      "current_head_sha": "fe24e061df2b95dde64667ef0bc8236187cd5dca",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T03:45:05.160Z",
+  "git_context": {
+    "head_sha": "fe24e061df2b95dde64667ef0bc8236187cd5dca",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T03:45:05.141Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "Review inspected current final HEAD fe24e061df2b95dde64667ef0bc8236187cd5dca; physical iPhone, VoiceOver, deployed Worker, and production telemetry remain unverified."
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "fe24e061df2b95dde64667ef0bc8236187cd5dca",
+    "surface_files": [
+      {
+        "path": "app/lib/pages/conversations/conversations_page.dart",
+        "sha256": "840a3f210d52d3b4a382c5df42c2a4dc750d139f14604f07e4e090ee36fd66c0",
+        "size": 20326
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "sha256": "877978df58833b8daede6bebba0a085bb4c098b2d3ec0fbebef10793d5e3a951",
+        "size": 5496
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+        "sha256": "adbf88e557c021572188be1aa13372744c58ac4562336cc835b32432ffea64de",
+        "size": 915
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "sha256": "ae313b2245b975c3db5a49af161178abb2f22662181ee412189d7ff9b0aa086c",
+        "size": 5828
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "0e5ea2b45a3bf7542db08ac6a35a83b339bf78dc40dbc14989c6905f1378215b",
+        "size": 12187
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "6e34fcc38c08df51501c97361c15e4da2ae7783a2d8b27414213bb25c92514c3"
+  },
+  "source_fingerprint": "70a6ad08d00052bf8824fbe5cd1b586b5c63962dc185fec467bffdacb2c337a9",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_preview_fe24",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "medium",
+    "thread_id": "/root/omi_preview_fe24",
+    "session_id": null,
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-fe24e-final.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/review-request-human_usability.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-fe24e-final.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "/root/omi_preview_fe24",
+      "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

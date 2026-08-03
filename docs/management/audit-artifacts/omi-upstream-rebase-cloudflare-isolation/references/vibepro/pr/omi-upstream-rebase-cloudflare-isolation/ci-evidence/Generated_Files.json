@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "status": "pass",
+  "exit_code": 0,
+  "head_sha": "9465b75d22cffe230b956bc43f4459931ac9c470",
+  "observed": {
+    "check": "Generated Files",
+    "conclusion": "SUCCESS",
+    "run_url": "https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712087",
+    "head_sha": "9465b75d22cffe230b956bc43f4459931ac9c470"
+  },
+  "ci_check": {
+    "name": "Generated Files",
+    "status": "COMPLETED",
+    "conclusion": "SUCCESS",
+    "workflow_name": "Mobile App Checks",
+    "details_url": "https://github.com/Unson-LLC/omi/actions/runs/30801993531/job/91648712087"
+  }
+}

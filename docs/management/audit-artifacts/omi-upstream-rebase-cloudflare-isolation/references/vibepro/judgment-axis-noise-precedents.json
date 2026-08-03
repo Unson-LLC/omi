@@ -1,0 +1,294 @@
+{
+  "schema_version": "0.1.0",
+  "model": "vibepro-judgment-axis-noise-precedent-ledger-v1",
+  "entries": [
+    {
+      "fingerprint": "scope_reviewability|changed_files:75|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:75",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T18:31:33.527Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "rollback_sensitive|changed_surface:rollback_or_rollout",
+      "axis": "rollback_sensitive",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695338201-779cc086",
+      "source": "gate:judgment_axis_rollback_sensitive",
+      "reason": "rollback and rollout boundary: remove or invalidate compile-time Cloudflare defines to restore OSS-only UI; this slice writes no stored or migrated state; deployed Worker and physical device evidence remain separate and unverified",
+      "artifact": "docs/operational/omi-self-hosted-local-overlay.md",
+      "activation_candidates": [
+        "changed_surface:rollback_or_rollout"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T18:31:33.527Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:76|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:76",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T18:58:34.875Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:77|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:77",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T19:56:35.536Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:177|graphify:related_files|mixed_surface:repo_control_with_product_change|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:177",
+        "mixed_surface:repo_control_with_product_change",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T20:36:49.629Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "release_ops|route:release_engineering",
+      "axis": "release_ops",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785704187370-ab494245",
+      "source": "gate:judgment_axis_release_ops",
+      "reason": "The operator, rollback, and evidence boundary are documented in the runbook. This decision accepts the bounded follow-up without claiming a deployed Worker, production telemetry, physical iPhone, or VoiceOver result.",
+      "artifact": "docs/operational/omi-self-hosted-local-overlay.md",
+      "activation_candidates": [
+        "route:release_engineering"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T21:13:04.976Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:125|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:125",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T21:13:04.976Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "release_ops|changed_path:release_ops|route:release_engineering",
+      "axis": "release_ops",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785704187370-ab494245",
+      "source": "gate:judgment_axis_release_ops",
+      "reason": "The operator, rollback, and evidence boundary are documented in the runbook. This decision accepts the bounded follow-up without claiming a deployed Worker, production telemetry, physical iPhone, or VoiceOver result.",
+      "artifact": "docs/operational/omi-self-hosted-local-overlay.md",
+      "activation_candidates": [
+        "route:release_engineering",
+        "changed_path:release_ops"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T21:56:01.431Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:225|graphify:related_files|mixed_surface:repo_control_with_product_change|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:225",
+        "mixed_surface:repo_control_with_product_change",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T21:56:01.431Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:119|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:119",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-02T23:58:46.265Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:120|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:120",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T00:36:48.761Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:234|graphify:related_files|mixed_surface:repo_control_with_product_change|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:234",
+        "mixed_surface:repo_control_with_product_change",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T01:14:26.042Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:121|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:121",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T02:38:29.154Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:122|graphify:related_files|mixed_surface:repo_control_with_product_change|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:122",
+        "mixed_surface:repo_control_with_product_change",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T04:18:35.120Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:122|graphify:related_files|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:122",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T04:40:49.251Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "scope_reviewability|changed_files:3928|graphify:related_files|mixed_surface:repo_control_with_product_change|scope:needs_clean_branch",
+      "axis": "scope_reviewability",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695339291-59294f19",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "activation_candidates": [
+        "scope:needs_clean_branch",
+        "changed_files:3928",
+        "mixed_surface:repo_control_with_product_change",
+        "graphify:related_files"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T09:42:50.477Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    },
+    {
+      "fingerprint": "rollback_sensitive|changed_surface:rollback_or_rollout|pr_route:release_merge",
+      "axis": "rollback_sensitive",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "decision_id": "decision-1785695338201-779cc086",
+      "source": "gate:judgment_axis_rollback_sensitive",
+      "reason": "rollback and rollout boundary: remove or invalidate compile-time Cloudflare defines to restore OSS-only UI; this slice writes no stored or migrated state; deployed Worker and physical device evidence remain separate and unverified",
+      "artifact": "docs/operational/omi-self-hosted-local-overlay.md",
+      "activation_candidates": [
+        "pr_route:release_merge",
+        "changed_surface:rollback_or_rollout"
+      ],
+      "activation_precision_status": "active",
+      "recorded_at": "2026-08-03T09:42:50.477Z",
+      "note": "Advisory precedent only; matching this fingerprint never auto-closes future gates."
+    }
+  ]
+}

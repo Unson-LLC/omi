@@ -1,0 +1,154 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "architecture_spec",
+  "role": "architecture_boundary",
+  "status": "pass",
+  "summary": "Current HEAD preserves the isolated Cloudflare architecture and adds bounded operator release and rollback evidence",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Reviewed the full boundary at frozen HEAD 58aefa6098f3fe3214c6bc2fc40558048d3ce914: the HEAD delta is the operator runbook only; GET-only config-gated redirects-disabled Cloudflare access, three thin OSS seams, disconnected no-op WAL adapter, ARB-first localization, and exclusion of Firebase/signing/entitlement product deltas remain intact.",
+    "evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-58aefa-release-ops.md",
+    "inputs": [
+      "docs/operational/omi-self-hosted-local-overlay.md",
+      "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+      "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart"
+    ]
+  },
+  "judgment_delta": [
+    "Initial risk that release operations wording could broaden scope -> pass because rollout and rollback are explicitly local-overlay bounded, require separate device and deployed-Worker evidence, and leave upload/ack/delete and production claims unverified"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "current_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+      "current_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T06:16:35.399Z",
+  "git_context": {
+    "head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T06:16:35.385Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "Bind the architecture boundary verdict to current frozen HEAD after release operations documentation changed"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "surface_files": [
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "sha256": "877978df58833b8daede6bebba0a085bb4c098b2d3ec0fbebef10793d5e3a951",
+        "size": 5496
+      },
+      {
+        "path": "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+        "sha256": "b9e772e3b980c0a43cf53288d059518ab79c57732860f55ad0ef6cc553338329",
+        "size": 1155
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "sha256": "e3dc54e356903c8894de190967f32d985f523f5dfcab3dd79e31101563b5d490",
+        "size": 10684
+      },
+      {
+        "path": "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "d3a4d338951eb70ba98ca15e14cc149d585f9451f390933447fd68867cfb7537",
+        "size": 4944
+      },
+      {
+        "path": "docs/operational/omi-self-hosted-local-overlay.md",
+        "sha256": "c0c5489f7e4064746e0a55107bf43bd3739f49d885b0ec3508ac4ccafa38a61e",
+        "size": 4220
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "44982a78d131bea9539122609fbcc36052b6ca59ca8ce3d30ca06020d47be662"
+  },
+  "source_fingerprint": "f2a717f089450f28657e41b8e3eaeb2cef1894e13b4852c611b74e8d7cd26dbb",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_arch_fe24",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_arch_fe24",
+    "session_id": "arch-58aefa-release-ops",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-58aefa-release-ops.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/review-request-architecture_boundary.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-58aefa-release-ops.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "arch-58aefa-release-ops",
+      "implementation_session_id": "root-omi-upstream-rebase-cloudflare-isolation",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

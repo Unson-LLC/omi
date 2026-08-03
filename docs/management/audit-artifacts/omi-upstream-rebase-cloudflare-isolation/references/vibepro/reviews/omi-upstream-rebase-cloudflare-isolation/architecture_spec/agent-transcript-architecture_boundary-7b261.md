@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "summary": "HEAD 7b2614c のCloudflare読取専用機能は独立moduleに閉じ、OSS側接続はProvider登録とConversations headerに限定され、WAL adapterも既存同期経路へ未接続です。126-path surface、全49 locale、fallback/config/API/UI/docs/gate artifactを確認し、architecture_boundary・regression_guard・path_surface_coverageを満たすと判断しました。",
+  "inspection_summary": "upstream/main...HEADの126 changed pathsを分類し、Cloudflare source/connectors、WAL no-op seam、focused tests、Story/Spec/ADR/runbook、49 ARBと50 generated l10n files、current canonical unit evidenceをHEAD固定で確認しました。",
+  "inspection_evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json; .vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json; .vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.log",
+  "inspection_inputs": [
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+    "app/lib/main.dart",
+    "app/lib/pages/conversations/conversations_page.dart",
+    "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+    "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+    "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+    "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+    "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/operational/omi-self-hosted-local-overlay.md",
+    ".vibepro/verification/Makefile",
+    "49 app/lib/l10n/app_*.arb files and 50 app/lib/l10n/app_localizations*.dart files"
+  ],
+  "judgment_delta": "126-path境界拡散・locale fallback・既存Omi/WAL回帰を懸念したが、99 pathsはl10n派生surfaceで、手書きruntimeは独立moduleと薄い接続点、未接続WAL seamに限定され、current canonical unit evidenceが同一HEADで49/49・warning 0・回帰行列を確認したためpass。Worker、実機、VoiceOver、deployは未確認laneのまま昇格していない。",
+  "findings": []
+}

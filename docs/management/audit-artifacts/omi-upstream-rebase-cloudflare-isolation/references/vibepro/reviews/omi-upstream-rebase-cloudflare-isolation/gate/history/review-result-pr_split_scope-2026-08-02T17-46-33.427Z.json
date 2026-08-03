@@ -1,0 +1,182 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "gate",
+  "role": "pr_split_scope",
+  "status": "needs_changes",
+  "summary": "folded reasonと型付き依存関係は修復済みだが、stacked_gate_planがFlutter検証コマンドを保持せずnpm fallbackを出力するため差し戻し",
+  "findings": [
+    {
+      "severity": "medium",
+      "id": "path-surface-split-plan-contract-gap",
+      "detail": "stacked_gate_planが現HEADで成功した4本のMakefileベースFlutter検証コマンドを保持せずnpm testとnpm run typecheckへフォールバックする"
+    }
+  ],
+  "finding_dispositions": [
+    {
+      "finding_id": "path-surface-split-plan-frontmatter-parse",
+      "disposition": "accepted",
+      "resolved_by": [
+        ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "path-surface-worker-item-silent-suppression",
+      "disposition": "accepted",
+      "resolved_by": [
+        "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "pr-scope-mixed-repo-control",
+      "disposition": "accepted",
+      "resolved_by": [
+        "docs/stories/omi-upstream-rebase-cloudflare-isolation.md"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "regression-guard-current-head-verification-unconfirmed",
+      "disposition": "accepted",
+      "resolved_by": [
+        ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "regression-guard-existing-header-branches-unverified",
+      "disposition": "accepted",
+      "resolved_by": [
+        "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    }
+  ],
+  "artifacts": [],
+  "inspection": {
+    "summary": "HEAD 0b03fca6bの74変更パス、Story frontmatter、regenerated split-plan、exact-head verificationを照合。原子性と依存関係は成立したがconsumer-facing stacked gate commandが不正。",
+    "evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-pr_split_scope-replacement-0b03fca6b.json",
+    "inputs": [
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart"
+    ]
+  },
+  "judgment_delta": [
+    "YAML folded scalar誤読はresolved、ただしFlutter validation command保持欠落を新たに特定したためneeds_changes"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+    "current_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+      "current_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T17:46:33.427Z",
+  "git_context": {
+    "head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T17:46:33.380Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "source HEAD and path surface remained unchanged during replacement review"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+    "surface_files": [
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "dcdb34c2badc9917748f90f5b533208fb54c91ac4a0571511e93d59abc202663",
+        "size": 8632
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "212d94a22f766b3579ef8d433b547f43ecd93598cebb8eb222d454d3b433b834",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "edd48ce00f757356d266b26027fbf790266e5e82f077dbd1481eea9b94348f8d"
+  },
+  "source_fingerprint": "8ae64f885939be0d109140dab45c922e7518d6e26d6431d41e18f1f8f315788e",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_pr_split_scope_review",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "medium",
+    "thread_id": "/root/omi_pr_split_scope_review",
+    "session_id": "/root/omi_pr_split_scope_review",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-pr_split_scope-replacement-0b03fca6b.json",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-request-pr_split_scope.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-pr_split_scope-replacement-0b03fca6b.json",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "/root/omi_pr_split_scope_review",
+      "implementation_session_id": "/root/terra_omi_rebase_impl",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

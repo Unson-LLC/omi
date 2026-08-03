@@ -1,0 +1,136 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "gate",
+  "role": "pr_split_scope",
+  "status": "needs_changes",
+  "summary": "The product slice is coherent, but the current split-plan rejects the Story atomic_single_pr declaration pending regenerated current-head owner coverage.",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Independently checked current HEAD diff, Story/Spec/ADR/runbook, GET-only Cloudflare module, WAL no-op, focused tests, localization correspondence, forbidden paths, and split-plan artifacts.",
+    "evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json; focused integration 42 tests plus configuration probes; upstream/main...HEAD 123-path inventory",
+    "inputs": [
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart"
+    ]
+  },
+  "judgment_delta": [
+    "Implementation remains one bounded vertical slice, but the consumer-facing current split-plan still says split_recommended and atomic rejected, therefore needs_changes until pr prepare regenerates the artifact after current-head reviews."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "current_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+      "current_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T07:56:46.346Z",
+  "git_context": {
+    "head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T07:56:46.327Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "preserve the PR-final gate review on the frozen current-head candidate"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "surface_files": [
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "sha256": "877978df58833b8daede6bebba0a085bb4c098b2d3ec0fbebef10793d5e3a951",
+        "size": 5496
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "0e5ea2b45a3bf7542db08ac6a35a83b339bf78dc40dbc14989c6905f1378215b",
+        "size": 12187
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "48f3c5aa2743961c677ee7a8dad0ed18de58156b397bbea8c688239bc1931d0b",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "5901bd3083102c2ce1ad720e095a33e376476b4f0d12761c0c5ba83a2e2b794f"
+  },
+  "source_fingerprint": "76f16c510995964405c1b81e1cc18291db4015383a97e0ff2d795693b3def097",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_pr_split_fe24",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "omi-pr-split-current-head-c9932b",
+    "session_id": "omi-pr-split-current-head-c9932b",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-pr_split_scope-c9932b.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-request-pr_split_scope.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-pr_split_scope-c9932b.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "omi-pr-split-current-head-c9932b",
+      "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

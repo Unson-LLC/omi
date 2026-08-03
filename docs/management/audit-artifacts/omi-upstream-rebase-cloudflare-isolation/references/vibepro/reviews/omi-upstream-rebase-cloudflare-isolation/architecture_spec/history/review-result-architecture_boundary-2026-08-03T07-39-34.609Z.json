@@ -1,0 +1,850 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "architecture_spec",
+  "role": "architecture_boundary",
+  "status": "pass",
+  "summary": "Aggregate architecture boundary review passed; risk_surfaces=database_state.",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Reviewed all planned changed paths covering risk_surfaces=database_state, including all ARB/generated localization surfaces, thin OSS wiring, GET-only Cloudflare module, disconnected WAL adapter, focused tests, Story/spec/ADR/runbook and current-HEAD verification.",
+    "evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json",
+    "inputs": [
+      "app/lib/l10n/app_ar.arb",
+      "app/lib/l10n/app_be.arb",
+      "app/lib/l10n/app_bg.arb",
+      "app/lib/l10n/app_bn.arb",
+      "app/lib/l10n/app_bs.arb",
+      "app/lib/l10n/app_ca.arb",
+      "app/lib/l10n/app_cs.arb",
+      "app/lib/l10n/app_da.arb",
+      "app/lib/l10n/app_de.arb",
+      "app/lib/l10n/app_el.arb",
+      "app/lib/l10n/app_en.arb",
+      "app/lib/l10n/app_es.arb",
+      "app/lib/l10n/app_et.arb",
+      "app/lib/l10n/app_fa.arb",
+      "app/lib/l10n/app_fi.arb",
+      "app/lib/l10n/app_fr.arb",
+      "app/lib/l10n/app_he.arb",
+      "app/lib/l10n/app_hi.arb",
+      "app/lib/l10n/app_hr.arb",
+      "app/lib/l10n/app_hu.arb",
+      "app/lib/l10n/app_id.arb",
+      "app/lib/l10n/app_it.arb",
+      "app/lib/l10n/app_ja.arb",
+      "app/lib/l10n/app_kn.arb",
+      "app/lib/l10n/app_ko.arb",
+      "app/lib/l10n/app_localizations.dart",
+      "app/lib/l10n/app_localizations_ar.dart",
+      "app/lib/l10n/app_localizations_be.dart",
+      "app/lib/l10n/app_localizations_bg.dart",
+      "app/lib/l10n/app_localizations_bn.dart",
+      "app/lib/l10n/app_localizations_bs.dart",
+      "app/lib/l10n/app_localizations_ca.dart",
+      "app/lib/l10n/app_localizations_cs.dart",
+      "app/lib/l10n/app_localizations_da.dart",
+      "app/lib/l10n/app_localizations_de.dart",
+      "app/lib/l10n/app_localizations_el.dart",
+      "app/lib/l10n/app_localizations_en.dart",
+      "app/lib/l10n/app_localizations_es.dart",
+      "app/lib/l10n/app_localizations_et.dart",
+      "app/lib/l10n/app_localizations_fa.dart",
+      "app/lib/l10n/app_localizations_fi.dart",
+      "app/lib/l10n/app_localizations_fr.dart",
+      "app/lib/l10n/app_localizations_he.dart",
+      "app/lib/l10n/app_localizations_hi.dart",
+      "app/lib/l10n/app_localizations_hr.dart",
+      "app/lib/l10n/app_localizations_hu.dart",
+      "app/lib/l10n/app_localizations_id.dart",
+      "app/lib/l10n/app_localizations_it.dart",
+      "app/lib/l10n/app_localizations_ja.dart",
+      "app/lib/l10n/app_localizations_kn.dart",
+      "app/lib/l10n/app_localizations_ko.dart",
+      "app/lib/l10n/app_localizations_lt.dart",
+      "app/lib/l10n/app_localizations_lv.dart",
+      "app/lib/l10n/app_localizations_mk.dart",
+      "app/lib/l10n/app_localizations_mr.dart",
+      "app/lib/l10n/app_localizations_ms.dart",
+      "app/lib/l10n/app_localizations_nl.dart",
+      "app/lib/l10n/app_localizations_no.dart",
+      "app/lib/l10n/app_localizations_pl.dart",
+      "app/lib/l10n/app_localizations_pt.dart",
+      "app/lib/l10n/app_localizations_ro.dart",
+      "app/lib/l10n/app_localizations_ru.dart",
+      "app/lib/l10n/app_localizations_sk.dart",
+      "app/lib/l10n/app_localizations_sl.dart",
+      "app/lib/l10n/app_localizations_sr.dart",
+      "app/lib/l10n/app_localizations_sv.dart",
+      "app/lib/l10n/app_localizations_ta.dart",
+      "app/lib/l10n/app_localizations_te.dart",
+      "app/lib/l10n/app_localizations_th.dart",
+      "app/lib/l10n/app_localizations_tl.dart",
+      "app/lib/l10n/app_localizations_tr.dart",
+      "app/lib/l10n/app_localizations_uk.dart",
+      "app/lib/l10n/app_localizations_ur.dart",
+      "app/lib/l10n/app_localizations_vi.dart",
+      "app/lib/l10n/app_localizations_zh.dart",
+      "app/lib/l10n/app_lt.arb",
+      "app/lib/l10n/app_lv.arb",
+      "app/lib/l10n/app_mk.arb",
+      "app/lib/l10n/app_mr.arb",
+      "app/lib/l10n/app_ms.arb",
+      "app/lib/l10n/app_nl.arb",
+      "app/lib/l10n/app_no.arb",
+      "app/lib/l10n/app_pl.arb",
+      "app/lib/l10n/app_pt.arb",
+      "app/lib/l10n/app_ro.arb",
+      "app/lib/l10n/app_ru.arb",
+      "app/lib/l10n/app_sk.arb",
+      "app/lib/l10n/app_sl.arb",
+      "app/lib/l10n/app_sr.arb",
+      "app/lib/l10n/app_sv.arb",
+      "app/lib/l10n/app_ta.arb",
+      "app/lib/l10n/app_te.arb",
+      "app/lib/l10n/app_th.arb",
+      "app/lib/l10n/app_tl.arb",
+      "app/lib/l10n/app_tr.arb",
+      "app/lib/l10n/app_uk.arb",
+      "app/lib/l10n/app_ur.arb",
+      "app/lib/l10n/app_vi.arb",
+      "app/lib/l10n/app_zh.arb",
+      "app/lib/main.dart",
+      "app/lib/pages/conversations/conversations_page.dart",
+      "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+      "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+      "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+      "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+      "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md",
+      "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md",
+      "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md",
+      "docs/operational/omi-self-hosted-local-overlay.md",
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md"
+    ]
+  },
+  "judgment_delta": [
+    "Initial database-state, regression, and path-surface risks were resolved by complete changed-path inspection, disabled/Omi-zero/error/retry/API failure fixtures, all-locale key coverage, current-HEAD verification, and proof that the WAL adapter has no production call site; device and deployed-runtime evidence remain unverified."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "current_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+      "current_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T07:39:34.609Z",
+  "git_context": {
+    "head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T07:39:34.353Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "preserve the recorded strict HEAD freshness policy during recovery"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "c9932b8a0c5801a77c97deb1d555f7c72f211031",
+    "surface_files": [
+      {
+        "path": "app/lib/l10n/app_ar.arb",
+        "sha256": "354a3dec0ad9eceaca636315292393c985db146e357da979fa1c12cb9cd5e202",
+        "size": 228369
+      },
+      {
+        "path": "app/lib/l10n/app_be.arb",
+        "sha256": "2c4e5eb30b32dd2685c9c3fc7468f2b93f3b0dc25e63121b318e4bf7de7a19c2",
+        "size": 497250
+      },
+      {
+        "path": "app/lib/l10n/app_bg.arb",
+        "sha256": "83c961f9ef111c226433b96f5caee8c883f890a44e934e7bcf337eb0827d614d",
+        "size": 273398
+      },
+      {
+        "path": "app/lib/l10n/app_bn.arb",
+        "sha256": "84b6a4ad23d59c25e2f0211bda0092721b682a3bc40c833e0dafdb1b3268532c",
+        "size": 569621
+      },
+      {
+        "path": "app/lib/l10n/app_bs.arb",
+        "sha256": "9130a94687ccaea4077f1aa9c766dffba9166adf78e99ed79001310a19425656",
+        "size": 423066
+      },
+      {
+        "path": "app/lib/l10n/app_ca.arb",
+        "sha256": "a27f31fab306055ab3ad9ae00adb9fbfefa14bc78a39bf8bc1b4c54b593399b9",
+        "size": 196426
+      },
+      {
+        "path": "app/lib/l10n/app_cs.arb",
+        "sha256": "c88f0d6946575c52afe3dc17c9aa44dc473445236dff654003abe1a2026716df",
+        "size": 193584
+      },
+      {
+        "path": "app/lib/l10n/app_da.arb",
+        "sha256": "5a9a0a98258b0e51b3cfb96f92e1565b3519a44f945d0a0c08b1ee3e26302991",
+        "size": 181691
+      },
+      {
+        "path": "app/lib/l10n/app_de.arb",
+        "sha256": "c52624f7d263105b434d4ef9ef62157433ebe8af0b93ab9e9d053fc98529baf4",
+        "size": 199287
+      },
+      {
+        "path": "app/lib/l10n/app_el.arb",
+        "sha256": "74edc928cb5e88ff669a26540a8b0b2ca743fb29d463be18b56975ad8f4a8345",
+        "size": 284890
+      },
+      {
+        "path": "app/lib/l10n/app_en.arb",
+        "sha256": "41bb0ef11f272084aa90b50284517ee03d17fd7d2b70b48e654c93a1de90d15d",
+        "size": 441158
+      },
+      {
+        "path": "app/lib/l10n/app_es.arb",
+        "sha256": "39b1497065d49fcb9e69974d67fb41a49a7b57c420d65beb92a277696e9d12db",
+        "size": 193744
+      },
+      {
+        "path": "app/lib/l10n/app_et.arb",
+        "sha256": "b67f75c6118030b336e0cfa716a67b8e6646ab9a33321384c6fc945c8440dde9",
+        "size": 187369
+      },
+      {
+        "path": "app/lib/l10n/app_fa.arb",
+        "sha256": "0b4cc7d56f79c5a8e2fc0ba442e68c27e90df0d734eff7bd0babf63ad770a3f5",
+        "size": 479912
+      },
+      {
+        "path": "app/lib/l10n/app_fi.arb",
+        "sha256": "50148812b751e4b2f959416a0dcfddbc47f988e952fe53c31b60ae1a693c01d5",
+        "size": 190465
+      },
+      {
+        "path": "app/lib/l10n/app_fr.arb",
+        "sha256": "eea6d3f9c8a1432a1abe553f102c9fbcf36bbaa7340fa4eb5f13e47599b25877",
+        "size": 206220
+      },
+      {
+        "path": "app/lib/l10n/app_he.arb",
+        "sha256": "6cf8653daa33e2d5b96997793f5fe356307c740fe206f8938d3a932f4dcea717",
+        "size": 446898
+      },
+      {
+        "path": "app/lib/l10n/app_hi.arb",
+        "sha256": "b254fcc48bda7b301bfb73b8eb7c0bc1b0b8e74cc0bba8568de97a62c42783ea",
+        "size": 317314
+      },
+      {
+        "path": "app/lib/l10n/app_hr.arb",
+        "sha256": "1e566cae77427940825ee990805b6f2e0c4d10e53e38f1cdaf6551048c9a44d4",
+        "size": 423588
+      },
+      {
+        "path": "app/lib/l10n/app_hu.arb",
+        "sha256": "9b0d719a0b384e6e481cc27f5f92cd1bfb3f1611c24ac04c860cdc86400eaa6a",
+        "size": 205463
+      },
+      {
+        "path": "app/lib/l10n/app_id.arb",
+        "sha256": "84f3eb6d6ba495b41242f5dcc24b269e1b3bf3a0867534722c67d09dca305e38",
+        "size": 187039
+      },
+      {
+        "path": "app/lib/l10n/app_it.arb",
+        "sha256": "6092d4f27ef4cb10fbae41debd91a7417f5e5e13d90a96ea0d0b6f2a4a1585dc",
+        "size": 194755
+      },
+      {
+        "path": "app/lib/l10n/app_ja.arb",
+        "sha256": "96b91cd8c30812cd7e64304127d639a38787163c6aae680b20ee573e5451096a",
+        "size": 214920
+      },
+      {
+        "path": "app/lib/l10n/app_kn.arb",
+        "sha256": "8a7afc9e24681b47c11101c16a7c39b4124f758d1eee7b0b07d334f53c41332b",
+        "size": 580893
+      },
+      {
+        "path": "app/lib/l10n/app_ko.arb",
+        "sha256": "830fe9c11a441284d94ef9145a5c0bfdf01981f6cab15a612ef30ebd346f27f0",
+        "size": 198793
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ar.dart",
+        "sha256": "bce9a73d015ca7315939c98a6d0581531b5caca092e152934ae2446520d5143b",
+        "size": 298985
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_be.dart",
+        "sha256": "62eca6398867ee2b779297076efe4dcef578790ce03a2a7916a59cd5e7428c19",
+        "size": 335727
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_bg.dart",
+        "sha256": "6e658ce05f15f83a9db3309a19f2ddbf9782c0d9dce264e0b996ea421d3a95fb",
+        "size": 344297
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_bn.dart",
+        "sha256": "4b2a7c071ad54952aa984034b23b6e3318ae9314f3a63b1ec4078d01dd7dc92c",
+        "size": 407928
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_bs.dart",
+        "sha256": "a9936080793ea57e8c595e210624b571f58aacaa8a9571bc1dbcec29199dde2f",
+        "size": 261522
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ca.dart",
+        "sha256": "120e0a366540ec950f3aa8079f72ada1097a53bfa390e975ffd00a5ce4dc441e",
+        "size": 268202
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_cs.dart",
+        "sha256": "1798944d58dc08a452e47a929f20f6f773ce64aaa5568b75b0d0f6bcb66df299",
+        "size": 264382
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_da.dart",
+        "sha256": "f30074dff63274132a5254191b45eaa79d307d64c5551d186281e8982733086f",
+        "size": 251747
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_de.dart",
+        "sha256": "abf37289c67081ae240d8c3849d3b56ae93dfc34c604c4c5da8ebb696942b7da",
+        "size": 270766
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_el.dart",
+        "sha256": "c5437ace6dd45ff27e2ebb83533ceefd5c588adcdb7f8e0667d57a37630b2f51",
+        "size": 355097
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_en.dart",
+        "sha256": "3633e0e17cbc9e700d52c423d71671702bab9c5fedd77a034689bc4da2c758f6",
+        "size": 249617
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_es.dart",
+        "sha256": "ddcbc0bf0d027744f3a657d892c2bbd2ae85aae6854c6ad7a62763a3f47f9c49",
+        "size": 263962
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_et.dart",
+        "sha256": "4aebf092681f4d210e467bb6177384729e5de736a27723d7a7ef9b1e9644dc32",
+        "size": 257494
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_fa.dart",
+        "sha256": "c7170051c93ea21bc429c6c32e1fc83c635167c729a38a80e85b8ede7161880a",
+        "size": 318189
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_fi.dart",
+        "sha256": "2b5c58f63e3df7e133961e7631b71f6e8ac6de15dcec64c56acd99bd71d7cc43",
+        "size": 260607
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_fr.dart",
+        "sha256": "3a843b6d22471e95a8c5ce3f33209b88122b90f70babbc285438b8b7027a5a97",
+        "size": 276815
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_he.dart",
+        "sha256": "1662db7bab11830e9af6ca7859b19fc39c9d56ff1838c7c0fac2efe1ba257450",
+        "size": 284775
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_hi.dart",
+        "sha256": "4b512542454f97cc598b624bc4c0e5f0811f4ba743bdca09661da15b9865b067",
+        "size": 386683
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_hr.dart",
+        "sha256": "3789c7cb0be7636b84c72ba6388b04accfa47a6fdaf3ff3ee80a2d751f880d65",
+        "size": 262088
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_hu.dart",
+        "sha256": "50eda61860c6e1abf7e3c17e091ee46381b5e28040eebe8e62a5417bdbba45e3",
+        "size": 273080
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_id.dart",
+        "sha256": "60c2d30403cf3ca501463e49d17a8b77032acb13a50a1ebcd20d8e0faab74467",
+        "size": 256258
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_it.dart",
+        "sha256": "9fac55bc9a9afca845efccec567b15cc2bf0a75ac4aafdc1dd28b6a233a81607",
+        "size": 265443
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ja.dart",
+        "sha256": "5d585f980cd4644029668098d5fcfa8b2f71426657c3bb30e9fb971f541d5f59",
+        "size": 284839
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_kn.dart",
+        "sha256": "a4b6612fd77baf630fcda63f2a0f7813afb4800dfa3dbf879a84678f0d98cc74",
+        "size": 419373
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ko.dart",
+        "sha256": "551039977b31f2d548bc944c9ab92bfcd0d4af0580112910943938e92a1f1069",
+        "size": 267797
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_lt.dart",
+        "sha256": "e51c1fefb06ce6ec3a0f1095a04ceaad2eca5a9c2e4188a970429de192bd6568",
+        "size": 264533
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_lv.dart",
+        "sha256": "9e7f1f61447b3b58090fd3fd62a036d29d371ec27ceff3ae26329989d523bb2c",
+        "size": 265622
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_mk.dart",
+        "sha256": "92ae2556821fecf9c4eb6cef5be1e3ff8ea51e9e972820689673a8d1d0990862",
+        "size": 341131
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_mr.dart",
+        "sha256": "92c56e05ae44b866c870058dc2de25e07b8accd45c58e55cf83522af492fb429",
+        "size": 396122
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ms.dart",
+        "sha256": "5be81df0ad14833362c233b7ae62bab0c1e9326babd0f87cdbe4fc2c248b2bff",
+        "size": 258628
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_nl.dart",
+        "sha256": "6af830ebb87ad5300be388fa2c804232f9cfe4a3e4efdbbfe538e6873264c248",
+        "size": 259854
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_no.dart",
+        "sha256": "c78b1273b2ee4d23887ffe86de098b4f1f66032d3528b20552e77f973455bf98",
+        "size": 254298
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_pl.dart",
+        "sha256": "a4d2b8f51ffe4e8b494fad3c8a674bc4b201e224c2de0e099117ac310fcbcbb6",
+        "size": 265404
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_pt.dart",
+        "sha256": "dc8e3d936be3c34c4f46bc29f2cef238d9d2f23abb449251399169c68d6f49cb",
+        "size": 261352
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ro.dart",
+        "sha256": "e2ddeabab6f175b5b5b18c2a7b2bf62f7fa6347f37d841a7c98e81e217e1b0ad",
+        "size": 269898
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ru.dart",
+        "sha256": "eab81c6240ff8e83ef3bfafd4f4df96a7b9eaf6b8e6658caa4d14acd458b7b9a",
+        "size": 339046
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sk.dart",
+        "sha256": "8df1a5f723f26b4ad9d174bdf400d527182076157526167621bdd262b6f2b269",
+        "size": 263436
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sl.dart",
+        "sha256": "58637fa3d4df1de075f21914baeadf1e2a811df890bc6d134586c3634d4f9c01",
+        "size": 260979
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sr.dart",
+        "sha256": "68a3bf5d7c74180a3e61629e470197ee7f95607b6fa3368eed16d63ecd0c9c23",
+        "size": 329164
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sv.dart",
+        "sha256": "4510015137331ed4dc4fa7b6685e734e456b4abb4b72fafee9fc4c1deaf59e2e",
+        "size": 257502
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ta.dart",
+        "sha256": "cc6e50e9140f9de6fe224bc2e58a87438cb3cf08ca31b27f2138fc6cf18ee51f",
+        "size": 455535
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_te.dart",
+        "sha256": "de54c3e5693c312d05922eb614164699ece5c603ac4d9c417312436e09e70397",
+        "size": 435500
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_th.dart",
+        "sha256": "49959047a9e11df54a258da23e9dd14003e2b5e50c0da586b6baa2d356e64325",
+        "size": 388641
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_tl.dart",
+        "sha256": "d9951d0e5ff9287a6bbd79e0d0a92a1c50d736014b102de0a14da599f0b4777a",
+        "size": 271093
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_tr.dart",
+        "sha256": "a5dbe571533dff0b4821010b31bfac6f8c156317c0e4a9d098dd1f676235c6b1",
+        "size": 263898
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_uk.dart",
+        "sha256": "6b97b7d13e5f4e5e8e81d66a127b1cc1bc8f43b86e687aef6d624f694c83e13a",
+        "size": 335803
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ur.dart",
+        "sha256": "ce917a971a717210323ae896935aee9ea397157d223fab94b46c9eda5498e25d",
+        "size": 322365
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_vi.dart",
+        "sha256": "6a61b0f95c9155ccc83a119659cdcd66bd1f20dfdd91db3259571273510d33ee",
+        "size": 283438
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_zh.dart",
+        "sha256": "ef7193fc62d7b6ef1286dcf9ece80eb281711df81e162ced43f8ed5f95dcf90c",
+        "size": 237867
+      },
+      {
+        "path": "app/lib/l10n/app_localizations.dart",
+        "sha256": "b36c297f6accf946c8e3f780d02bc0959a42bb0e025924989266031901c4033c",
+        "size": 524452
+      },
+      {
+        "path": "app/lib/l10n/app_lt.arb",
+        "sha256": "94ccf76de180a8b7b6a3514ee18dfba4e0ef937136131bc821b04cb2bb7142b3",
+        "size": 194316
+      },
+      {
+        "path": "app/lib/l10n/app_lv.arb",
+        "sha256": "baeae5c82ac2f64c1f84f78ba54631a75562d0623a5d29c70eba00d2ae652db0",
+        "size": 195384
+      },
+      {
+        "path": "app/lib/l10n/app_mk.arb",
+        "sha256": "7f6ad72241149a75bbb128e87b07dd8653a59269c4ce19b6fbedf3b4c4731def",
+        "size": 502535
+      },
+      {
+        "path": "app/lib/l10n/app_mr.arb",
+        "sha256": "a3834afec85215d0f144d765ec491469108ecd3c06299cd31055ed4691adf304",
+        "size": 557790
+      },
+      {
+        "path": "app/lib/l10n/app_ms.arb",
+        "sha256": "9ef9ffd5ff9f1f8f28cf844a4369cf82afb22bf38a37e03a76eaa983cd141c53",
+        "size": 188362
+      },
+      {
+        "path": "app/lib/l10n/app_nl.arb",
+        "sha256": "7d030841641ab23fc47e3f61f4105def7705aae7b582410c63af193143030c2a",
+        "size": 189541
+      },
+      {
+        "path": "app/lib/l10n/app_no.arb",
+        "sha256": "73bb156ef827c6de76686b179f114b43a1244f0e2438af8d052b642fd1ce435b",
+        "size": 184165
+      },
+      {
+        "path": "app/lib/l10n/app_pl.arb",
+        "sha256": "870cc0a2f2138e874ee20c5c5b271a4b56c57462a0429e70516b754bdd23fa34",
+        "size": 195795
+      },
+      {
+        "path": "app/lib/l10n/app_pt.arb",
+        "sha256": "ee737bf6d89c99eb02f11a637cf883a0d2c82523e8494a3b0a8308468d039564",
+        "size": 191938
+      },
+      {
+        "path": "app/lib/l10n/app_ro.arb",
+        "sha256": "5743f5c1623303fb253ce9a203fb0fb7c3fdac22c830ff7eea22bc6c035802d9",
+        "size": 199493
+      },
+      {
+        "path": "app/lib/l10n/app_ru.arb",
+        "sha256": "e2cc067607115e9f61313be2f94a088cb83143b4747f9e9c123eaa9dd738ccac",
+        "size": 269656
+      },
+      {
+        "path": "app/lib/l10n/app_sk.arb",
+        "sha256": "9f7609d8acd8057ae150752150cedd2a63e0a90ad4e25441687e4616e1558f39",
+        "size": 193590
+      },
+      {
+        "path": "app/lib/l10n/app_sl.arb",
+        "sha256": "ce114f84837ded5e8ab2a9abde770eca89286b57ce47cd391335c1a6a9328113",
+        "size": 422512
+      },
+      {
+        "path": "app/lib/l10n/app_sr.arb",
+        "sha256": "1db0373e47d8bbb496e736bf7d89e7a0214c2718793757ea7f67cfb6d7b88725",
+        "size": 490811
+      },
+      {
+        "path": "app/lib/l10n/app_sv.arb",
+        "sha256": "5e05f224be897126045929d6d1180cdb2950c039ba8c0b4f71da0ea33a7da85a",
+        "size": 187345
+      },
+      {
+        "path": "app/lib/l10n/app_ta.arb",
+        "sha256": "dc1db0f4caa7caa765e8a344e9c7d424c8329c71d77d19dcafca389544e29c2c",
+        "size": 616840
+      },
+      {
+        "path": "app/lib/l10n/app_te.arb",
+        "sha256": "fa885ea2e5da5f3b98b01427674dd6ca28668bd7605f34cacf413b5aace9919f",
+        "size": 596929
+      },
+      {
+        "path": "app/lib/l10n/app_th.arb",
+        "sha256": "9ea81a9baff550719f5659593fcb4130c8f09b44f17d2723f0768e88cca8e68c",
+        "size": 319367
+      },
+      {
+        "path": "app/lib/l10n/app_tl.arb",
+        "sha256": "f4ecfb5a7d01c20f476ebb848d5417180fe1cf117572c8af846bc2ffeb444c27",
+        "size": 432260
+      },
+      {
+        "path": "app/lib/l10n/app_tr.arb",
+        "sha256": "1d331f41163a219222839afeebc8decbabe1c40bca9bcd6e7624e26e40fa2c65",
+        "size": 194183
+      },
+      {
+        "path": "app/lib/l10n/app_uk.arb",
+        "sha256": "4c223ea5f742a2bd4dc4101f0a61557d4ddf2bf8dbdfb5f0c73d5185084a7dfe",
+        "size": 265735
+      },
+      {
+        "path": "app/lib/l10n/app_ur.arb",
+        "sha256": "4dac31dc7f5ce972cabf767458b1a3f3e885abd35b0c320396d1c0c46d9fe305",
+        "size": 484008
+      },
+      {
+        "path": "app/lib/l10n/app_vi.arb",
+        "sha256": "ca73962ddbe9f4de02cf57761354c1a20134cf4641af837d14f064b122e901b8",
+        "size": 213695
+      },
+      {
+        "path": "app/lib/l10n/app_zh.arb",
+        "sha256": "edc013c90f62a76f2a718951ccb64b64f86b97f2c187512ef0a874692ec81c02",
+        "size": 169964
+      },
+      {
+        "path": "app/lib/main.dart",
+        "sha256": "1c20dd2a7378cba93db0ac50275bdab3b4ae854903bcc55d36fa0abaeef9d7f8",
+        "size": 20432
+      },
+      {
+        "path": "app/lib/pages/conversations/conversations_page.dart",
+        "sha256": "840a3f210d52d3b4a382c5df42c2a4dc750d139f14604f07e4e090ee36fd66c0",
+        "size": 20326
+      },
+      {
+        "path": "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+        "sha256": "14cf471217d62b6785b08298f52d14442381f13657e9206ec647be21fcd970c1",
+        "size": 2223
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "sha256": "877978df58833b8daede6bebba0a085bb4c098b2d3ec0fbebef10793d5e3a951",
+        "size": 5496
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+        "sha256": "814507de4e0e702cf55ab1b4d027c5a1f7e00f30c14e7ad560ed5aa379266046",
+        "size": 1653
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+        "sha256": "8326a235386148a0baba6b64d483974b90566d54dc58325456a684580df26719",
+        "size": 432
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+        "sha256": "b70c9dafc39a84dd1166557cfd381518c2182ba8c2a16990e0d13ea395e1f7ad",
+        "size": 2580
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+        "sha256": "adbf88e557c021572188be1aa13372744c58ac4562336cc835b32432ffea64de",
+        "size": 915
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "sha256": "ae313b2245b975c3db5a49af161178abb2f22662181ee412189d7ff9b0aa086c",
+        "size": 5828
+      },
+      {
+        "path": "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+        "sha256": "b9e772e3b980c0a43cf53288d059518ab79c57732860f55ad0ef6cc553338329",
+        "size": 1155
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "sha256": "e3dc54e356903c8894de190967f32d985f523f5dfcab3dd79e31101563b5d490",
+        "size": 10684
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+        "sha256": "9947d4b5cedfd2833dfd36b35d6f090c5fbce87f1c1288afa00da40e10f9522a",
+        "size": 1765
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+        "sha256": "87144198b316f6ffae6ff3ed62db2023caf7b17ced99b2d5505f25b2a7ef8fa8",
+        "size": 1524
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "0e5ea2b45a3bf7542db08ac6a35a83b339bf78dc40dbc14989c6905f1378215b",
+        "size": 12187
+      },
+      {
+        "path": "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+        "sha256": "f1a7f56a904a0a3ec3ac435feb37189075ef69653ccac59bec5dae94f67c07ff",
+        "size": 661
+      },
+      {
+        "path": "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+        "sha256": "019f87d656d2e3ee261b9ae33bf32a47bfbcbd5da23e2f78dd3b82a1af1caf05",
+        "size": 658
+      },
+      {
+        "path": "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "d3a4d338951eb70ba98ca15e14cc149d585f9451f390933447fd68867cfb7537",
+        "size": 4944
+      },
+      {
+        "path": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md",
+        "sha256": "ebc276d203e48e14d863ed0a6380f0fba89e9b2ab2d7742a356211288ce5ff21",
+        "size": 1461
+      },
+      {
+        "path": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md",
+        "sha256": "c000a6a25e42845f28658d0881187bbe2571ba42029e7f43341a36e5b9900e79",
+        "size": 1427
+      },
+      {
+        "path": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md",
+        "sha256": "1f74735d207c318ebd6938db43010398ea8cee87387078db66fbbb91746e9e3a",
+        "size": 1420
+      },
+      {
+        "path": "docs/operational/omi-self-hosted-local-overlay.md",
+        "sha256": "c0c5489f7e4064746e0a55107bf43bd3739f49d885b0ec3508ac4ccafa38a61e",
+        "size": 4220
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "48f3c5aa2743961c677ee7a8dad0ed18de58156b397bbea8c688239bc1931d0b",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "37f80e19048d7e017cb34b7f0962967650c246a01153c93175c1a2514031ffcd"
+  },
+  "source_fingerprint": "976a5cd9fbc00eb532fda9129c6ceb6b6621421c6fb13cdbaff2d253474d5399",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_arch_fe24",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "omi-arch-current-head-c9932b",
+    "session_id": "omi-arch-current-head-c9932b",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-c9932b.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/review-request-architecture_boundary.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-c9932b.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "omi-arch-current-head-c9932b",
+      "implementation_session_id": "root-omi-implementation",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "gate",
+  "role": "gate_evidence",
+  "status": "needs_changes",
+  "summary": "Current raw unit runner passed, but the aggregate unit record is misbound to the E2E command and artifact, so gate evidence needs repair.",
+  "findings": [
+    {
+      "severity": "medium",
+      "id": "verification-unit-artifact-misbinding",
+      "detail": "verification-evidence.json kind=unit points to the E2E command/artifact; regenerate runner-direct unit evidence and re-review"
+    }
+  ],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Independent Terra review inspected frozen HEAD, aggregate and raw runner evidence, failure-path E2E, visual residual, release operations, and focused tests; only the aggregate unit record conflicts with raw evidence.",
+    "evidence": "Raw unit.json/unit.log show test:unit pass at current HEAD, while verification-evidence.json unit entry points to test:e2e/e2e.json; device and deployed evidence remain unverified.",
+    "inputs": [
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.log",
+      "docs/operational/omi-self-hosted-local-overlay.md"
+    ]
+  },
+  "judgment_delta": [
+    "Initial pass candidate from current raw runners and release evidence -> needs_changes after detecting the aggregate unit command/artifact misbinding."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "current_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+      "current_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-03T06:39:34.908Z",
+  "git_context": {
+    "head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-03T06:39:34.903Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "Current frozen HEAD final gate review"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "surface_files": [
+      {
+        "path": "docs/operational/omi-self-hosted-local-overlay.md",
+        "sha256": "c0c5489f7e4064746e0a55107bf43bd3739f49d885b0ec3508ac4ccafa38a61e",
+        "size": 4220
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "7d73432e5cdaa9b98814d12d1df626a8fee03add4ea67b1bb845e504796faa15"
+  },
+  "source_fingerprint": "c9e78b04deb8ed81bc3d9c9c4b42d2a1f395a21b7b88f1fab6a17ed003484bfe",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_gate_evidence_fe24",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_gate_evidence_fe24",
+    "session_id": "gate-evidence-58aefa-release-ops",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-58aefa-release-ops.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-request-gate_evidence.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-58aefa-release-ops.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "gate-evidence-58aefa-release-ops",
+      "implementation_session_id": "root-implementation-58aefa",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

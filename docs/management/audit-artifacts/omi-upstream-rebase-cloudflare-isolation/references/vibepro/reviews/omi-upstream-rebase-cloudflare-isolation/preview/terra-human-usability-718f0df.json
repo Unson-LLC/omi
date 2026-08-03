@@ -1,0 +1,23 @@
+{
+  "status": "needs_changes",
+  "head": "718f0df7eacc97eba5011a5c7e9960dc645b5d4c",
+  "model": "gpt-5.6-terra",
+  "summary": "Cloudflare UI states and config-gated GET-only behavior pass, but l10n regeneration policy wording is ambiguous and redirect-disabled behavior lacks a direct HTTP 3xx regression test.",
+  "findings": [
+    {
+      "id": "l10n-policy-clarity",
+      "severity": "medium",
+      "path": "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+      "reason": "Clarify that authored localization changes are ARB-only while generated Dart is regenerated on current upstream and old-fork outputs are never migrated."
+    },
+    {
+      "id": "redirect-regression-test",
+      "severity": "medium",
+      "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+      "reason": "Add a direct HTTP 3xx test that inspects followRedirects=false and maxRedirects=0 and observes the scoped non-secret failure."
+    }
+  ],
+  "evidence_limitations": [
+    "Hermetic Flutter and visual evidence does not prove physical iPhone, VoiceOver, deployed Worker, or production telemetry."
+  ]
+}

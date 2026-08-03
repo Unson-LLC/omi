@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VibePro PR Create</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f7f9;
+      --fg: #14171f;
+      --muted: #667085;
+      --panel: #ffffff;
+      --panel-2: #f0f3f8;
+      --border: #d7dee8;
+      --good: #0f766e;
+      --warn: #a16207;
+      --danger: #b42318;
+      --info: #1d4ed8;
+      --neutral: #475467;
+      --code: #eef2f7;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --fg: #e8edf5;
+        --muted: #9aa8bc;
+        --panel: #101827;
+        --panel-2: #172235;
+        --border: #2d3a4f;
+        --code: #1d2939;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { width: min(1220px, calc(100% - 24px)); margin: 16px auto 40px; }
+    .topbar, section, article.card, .lane, .timeline-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 18px 20px; margin-bottom: 12px; }
+    .brand { font-weight: 700; color: var(--info); }
+    section { padding: 18px; margin: 12px 0; }
+    h1, h2, h3 { margin: 0 0 10px; line-height: 1.25; letter-spacing: 0; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 15px; }
+    .meta, .muted, .eyebrow { color: var(--muted); }
+    .meta, .eyebrow { margin: 0; font-size: 12px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.08em; }
+    .hero { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+    .hero h2 { font-size: 22px; margin: 4px 0; }
+    .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; background: transparent; border: 0; padding: 0; }
+    .metric { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px; min-height: 92px; }
+    .metric span { display: block; color: var(--muted); font-size: 12px; }
+    .metric strong { display: block; margin: 6px 0; font-size: 20px; overflow-wrap: anywhere; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; background: transparent; border: 0; padding: 0; }
+    .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+    .flow-step { position: relative; padding: 14px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; min-height: 110px; overflow-wrap: anywhere; }
+    .flow-step:not(:last-child)::after { content: "->"; position: absolute; right: -12px; top: 44px; color: var(--muted); }
+    .cards, .node-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .card { padding: 14px; overflow-wrap: anywhere; }
+    .card p { margin: 6px 0 0; }
+    .lane-board { display: grid; grid-template-columns: repeat(4, minmax(240px, 1fr)); gap: 10px; overflow-x: auto; }
+    .lane { padding: 14px; min-width: 240px; }
+    .lane ul, .card ul { padding-left: 18px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; overflow-wrap: anywhere; }
+    th, td { border: 1px solid var(--border); padding: 8px; text-align: left; vertical-align: top; }
+    th { background: var(--panel-2); }
+    code, pre { background: var(--code); border-radius: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    code { padding: 0.1rem 0.3rem; }
+    pre { padding: 10px; overflow: auto; white-space: pre-wrap; }
+    .timeline { display: grid; gap: 10px; }
+    .timeline-item { padding: 12px; }
+    .status { display: inline-block; border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 12px; border: 1px solid currentColor; }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .danger { color: var(--danger); }
+    .info { color: var(--info); }
+    .neutral { color: var(--neutral); }
+    .dag-svg { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--panel-2); }
+    .dag-node { fill: var(--panel); stroke: var(--border); }
+    .dag-text { fill: var(--fg); font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .dag-edge { stroke: var(--muted); stroke-width: 1.5; marker-end: url(#arrow); }
+    @media (max-width: 860px) {
+      .metrics, .grid-2, .flow, .cards, .node-grid { grid-template-columns: 1fr; }
+      .flow-step:not(:last-child)::after { display: none; }
+      .hero, .topbar { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main data-vibepro-report="pr-create">
+    <header class="topbar">
+      <div>
+        <h1>VibePro PR Create</h1>
+        <p class="meta">Generated by VibePro at 2026-08-03T11:23:59.911Z</p>
+      </div>
+      <span class="brand">VibePro</span>
+    </header>
+
+      <section class="hero" data-dry-run="false">
+        <div>
+          <p class="eyebrow">PR creation audit</p>
+          <h2>feat: isolate Cloudflare self-hosted transcript slice on latest Omi</h2>
+          <p class="muted">main -> codex/omi-upstream-rebase-cloudflare-isolation</p>
+        </div>
+        <span class="status good">executed</span>
+      </section>
+      <section class="metrics">
+        <article class="metric"><span>Story</span><strong>omi-upstream-rebase-cloudflare-isolation</strong><span>no task</span></article>
+        <article class="metric"><span>PR URL</span><strong>https://github.com/Unson-LLC/omi/pull/1</strong><span>created</span></article>
+        <article class="metric"><span>Gate Override</span><strong>none</strong><span>-</span></article>
+        <article class="metric"><span>Commands</span><strong>4</strong><span>planned</span></article>
+      </section>
+
+    <section>
+      <h2>Artifact Freshness</h2>
+      <div class="cards">
+        <article class="card neutral">
+          <h3>pr_create</h3>
+          <p class="muted">current</p>
+          <p>pr-create artifact is bound to the current HEAD 9465b75d22cf</p>
+        </article>
+      </div>
+
+    <table>
+      <thead><tr><th>Item</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Artifact HEAD</td><td>9465b75d22cf</td></tr><tr><td>Current HEAD</td><td>9465b75d22cf</td></tr><tr><td>Checked At</td><td>2026-08-03T11:23:59.911Z</td></tr>
+      </tbody>
+    </table>
+
+    </section>
+
+
+    <section>
+      <h2>Gate Override</h2>
+      <div class="cards">
+
+          <article class="card good">
+            <h3>None</h3>
+
+            <p>Gate overrideは使われていません。</p>
+          </article>
+
+      </div>
+    </section>
+
+      <section>
+        <h2>Command Timeline</h2>
+        <div class="timeline">
+
+            <article class="timeline-item" data-command-index="0">
+              <strong>git push -u origin codex/omi-upstream-rebase-cloudflare-isolation</strong>
+              <span class="status good">exit=0</span>
+              <pre>Pre-push single-flight log: /Users/ksato/workspace/repos/omi/.git/worktrees/omi-upstream-rebase-cloudflare-isolation/omi-preflight/pre-push/preflight.log
+Running bounded pre-push checks against origin/main (merge-base 219095ff5076)
+Pre-push diff summary:
+  HEAD: 123 changed file(s) since 219095ff5076
+Unique changed files considered by hooks: 123
+==&gt; check_pr_preflight
+Check manifest: lane=local platform=macos exclusive_platform=False base=219095ff5076 head=HEAD files=123
+  SELECTED dev-harness-unit-tests: the hermetic dev-harness stack backs release qualification; the Jul 22 2026 beta qualification outage added a docker/native typesense runtime that must stay behaviorally covered
+  SELECTED setup-pre-push-prerequisites: make setup must provision the minimal, rerunnable backend environment required by selected pre-push checks
+  SELECTED check-manifest-contract: manifest validity and workflow drift guard
+  SELECTED diff-hygiene: all changes must be free of whitespace errors and conflict markers
+  SELECTED architecture-guardrails: advisory size checks plus oversized package-map baseline ratchet
+  SELECTED product-invariants: changed paths determine required invariant citations
+  SELECTED failure-class-protocol: fix commits declare a validated semantic failure class
+  SELECTED failure-class-guard-artifact-ratchet: FC-split-mutation-authority was declared on 30 first-parent integration changes in the 90 days to Jul 24 2026 while its definition still listed evidence_prs [9365, 9597] and named no guard artifact; a recurring class must produce a reusable guard surface, not more paperwork
+  SELECTED desktop-changelog-data: repository-wide desktop changelog schema contract
+  SELECTED brand-ui: INV-UI-1 applies to changed UI sources
+  SELECTED deferred-work-markers: new deferred-work markers must cite a tracking issue
+  SELECTED lifecycle-headers: rollout scaffolding may require lifecycle headers
+  SELECTED version-prefixed-filenames: repository-wide version-prefixed filename contract
+  SELECTED production-data-plane-routing: INV-DATA-1 mutation-tests every production-family mobile and desktop routing authority and rejects retired GKE desktop-backend ownership
+==&gt; dev-harness-unit-tests
+...................................sss.........ss..................sss.. [ 86%]
+...........                                                              [100%]
+75 passed, 8 skipped in 8.24s
+&lt;== PASS dev-harness-unit-tests (8.92s)
+==&gt; setup-pre-push-prerequisites
+make setup baseline prerequisites test passed.
+automatic worktree bootstrap uses canonical make setup
+backend dependency sync rerun test passed.
+linked-worktree repo-root fallback test passed.
+Repairing mistaken core.bare=true on primary checkout at /var/folders/36/r4ggny5d7nqclz7vpc2hphgr0000gp/T//omi-make-setup.sUm3Cn/misbare
+repair-git-primary-worktree test passed.
+Repairing mistaken core.bare=true on primary checkout at /var/folders/36/r4ggny5d7nqclz7vpc2hphgr0000gp/T//omi-make-setup.sUm3Cn/misbare
+Repairing mistaken core.bare=true on primary checkout at /var/folders/36/r4ggny5d7nqclz7vpc2hphgr0000gp/T//omi-make-setup.sUm3Cn/misbare
+Repairing mistaken core.bare=true on primary checkout at /var/folders/36/r4ggny5d7nqclz7vpc2hphgr0000gp/T//omi-make-setup.sUm3Cn/misbare
+Repairing mistaken core.bare=true on primary checkout at /var/folders/36/r4ggny5d7nqclz7vpc2hphgr0000gp/T//omi-make-setup.sUm3Cn/misbare
+repair-git-primary-worktree boolean-spelling test passed.
+&lt;== PASS setup-pre-push-prerequisites (1.83s)
+==&gt; check-manifest-contract
+........................................
+----------------------------------------------------------------------
+Ran 40 tests in 1.943s
+
+OK
+&lt;== PASS check-manifest-contract (2.00s)
+==&gt; diff-hygiene
+Diff hygiene checks passed.
+&lt;== PASS diff-hygiene (0.58s)
+==&gt; architecture-guardrails
+::warning file=app/lib/l10n/app_localizations.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations.dart is 18419 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ar.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ar.dart is 9728 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_be.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_be.dart is 9818 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_bg.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_bg.dart is 9826 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_bn.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_bn.dart is 9794 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_bs.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_bs.dart is 9815 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ca.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ca.dart is 9845 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_cs.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_cs.dart is 9788 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_da.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_da.dart is 9774 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_de.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_de.dart is 9871 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_el.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_el.dart is 9858 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_en.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_en.dart is 9782 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_es.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_es.dart is 9813 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_et.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_et.dart is 9784 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_fa.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_fa.dart is 9790 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_fi.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_fi.dart is 9789 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_fr.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_fr.dart is 9875 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_he.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_he.dart is 9713 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_hi.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_hi.dart is 9767 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_hr.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_hr.dart is 9822 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_hu.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_hu.dart is 9828 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_id.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_id.dart is 9798 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_it.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_it.dart is 9845 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ja.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ja.dart is 9626 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_kn.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_kn.dart is 9820 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ko.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ko.dart is 9627 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_lt.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_lt.dart is 9805 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_lv.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_lv.dart is 9810 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_mk.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_mk.dart is 9841 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_mr.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_mr.dart is 9797 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ms.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ms.dart is 9813 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_nl.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_nl.dart is 9816 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_no.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_no.dart is 9787 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_pl.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_pl.dart is 9815 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_pt.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_pt.dart is 9798 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ro.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ro.dart is 9834 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ru.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ru.dart is 9824 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_sk.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_sk.dart is 9780 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_sl.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_sl.dart is 9816 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_sr.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_sr.dart is 9802 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_sv.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_sv.dart is 9793 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ta.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ta.dart is 9858 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_te.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_te.dart is 9838 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_th.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_th.dart is 9734 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_tl.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_tl.dart is 9878 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_tr.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_tr.dart is 9800 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_uk.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_uk.dart is 9808 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_ur.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_ur.dart is 9802 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_vi.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_vi.dart is 9784 lines; consider splitting files over 800 lines.
+::warning file=app/lib/l10n/app_localizations_zh.dart,line=1,title=Large changed file::app/lib/l10n/app_localizations_zh.dart is 9608 lines; consider splitting files over 800 lines.
+::warning file=app/lib/pages/conversations/conversations_page.dart,line=241,title=Long function::Widget build(BuildContext context) is 213 lines; consider extracting focused helpers over 150 lines.
+::warning file=app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart,line=12,title=Long function::void main() is 225 lines; consider extracting focused helpers over 150 lines.
+## Architecture guardrails
+
+Advisory thresholds: files over 800 lines, functions over 150 lines.
+
+| Type | Location | Detail |
+| --- | --- | --- |
+| File size | app/lib/l10n/app_localizations.dart:1 | 18419 lines |
+| File size | app/lib/l10n/app_localizations_ar.dart:1 | 9728 lines |
+| File size | app/lib/l10n/app_localizations_be.dart:1 | 9818 lines |
+| File size | app/lib/l10n/app_localizations_bg.dart:1 | 9826 lines |
+| File size | app/lib/l10n/app_localizations_bn.dart:1 | 9794 lines |
+| File size | app/lib/l10n/app_localizations_bs.dart:1 | 9815 lines |
+| File size | app/lib/l10n/app_localizations_ca.dart:1 | 9845 lines |
+| File size | app/lib/l10n/app_localizations_cs.dart:1 | 9788 lines |
+| File size | app/lib/l10n/app_localizations_da.dart:1 | 9774 lines |
+| File size | app/lib/l10n/app_localizations_de.dart:1 | 9871 lines |
+| File size | app/lib/l10n/app_localizations_el.dart:1 | 9858 lines |
+| File size | app/lib/l10n/app_localizations_en.dart:1 | 9782 lines |
+| File size | app/lib/l10n/app_localizations_es.dart:1 | 9813 lines |
+| File size | app/lib/l10n/app_localizations_et.dart:1 | 9784 lines |
+| File size | app/lib/l10n/app_localizations_fa.dart:1 | 9790 lines |
+| File size | app/lib/l10n/app_localizations_fi.dart:1 | 9789 lines |
+| File size | app/lib/l10n/app_localizations_fr.dart:1 | 9875 lines |
+| File size | app/lib/l10n/app_localizations_he.dart:1 | 9713 lines |
+| File size | app/lib/l10n/app_localizations_hi.dart:1 | 9767 lines |
+| File size | app/lib/l10n/app_localizations_hr.dart:1 | 9822 lines |
+| File size | app/lib/l10n/app_localizations_hu.dart:1 | 9828 lines |
+| File size | app/lib/l10n/app_localizations_id.dart:1 | 9798 lines |
+| File size | app/lib/l10n/app_localizations_it.dart:1 | 9845 lines |
+| File size | app/lib/l10n/app_localizations_ja.dart:1 | 9626 lines |
+| File size | app/lib/l10n/app_localizations_kn.dart:1 | 9820 lines |
+| File size | app/lib/l10n/app_localizations_ko.dart:1 | 9627 lines |
+| File size | app/lib/l10n/app_localizations_lt.dart:1 | 9805 lines |
+| File size | app/lib/l10n/app_localizations_lv.dart:1 | 9810 lines |
+| File size | app/lib/l10n/app_localizations_mk.dart:1 | 9841 lines |
+| File size | app/lib/l10n/app_localizations_mr.dart:1 | 9797 lines |
+| File size | app/lib/l10n/app_localizations_ms.dart:1 | 9813 lines |
+| File size | app/lib/l10n/app_localizations_nl.dart:1 | 9816 lines |
+| File size | app/lib/l10n/app_localizations_no.dart:1 | 9787 lines |
+| File size | app/lib/l10n/app_localizations_pl.dart:1 | 9815 lines |
+| File size | app/lib/l10n/app_localizations_pt.dart:1 | 9798 lines |
+| File size | app/lib/l10n/app_localizations_ro.dart:1 | 9834 lines |
+| File size | app/lib/l10n/app_localizations_ru.dart:1 | 9824 lines |
+| File size | app/lib/l10n/app_localizations_sk.dart:1 | 9780 lines |
+| File size | app/lib/l10n/app_localizations_sl.dart:1 | 9816 lines |
+| File size | app/lib/l10n/app_localizations_sr.dart:1 | 9802 lines |
+| File size | app/lib/l10n/app_localizations_sv.dart:1 | 9793 lines |
+| File size | app/lib/l10n/app_localizations_ta.dart:1 | 9858 lines |
+| File size | app/lib/l10n/app_localizations_te.dart:1 | 9838 lines |
+| File size | app/lib/l10n/app_localizations_th.dart:1 | 9734 lines |
+| File size | app/lib/l10n/app_localizations_tl.dart:1 | 9878 lines |
+| File size | app/lib/l10n/app_localizations_tr.dart:1 | 9800 lines |
+| File size | app/lib/l10n/app_localizations_uk.dart:1 | 9808 lines |
+| File size | app/lib/l10n/app_localizations_ur.dart:1 | 9802 lines |
+| File size | app/lib/l10n/app_localizations_vi.dart:1 | 9784 lines |
+| File size | app/lib/l10n/app_localizations_zh.dart:1 | 9608 lines |
+| Function length | app/lib/pages/conversations/conversations_page.dart:241 | Widget build(BuildContext context) is 213 lines; consider extracting focused helpers over 150 lines. |
+| Function length | app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart:12 | void main() is 225 lines; consider extracting focused helpers over 150 lines. |
+::warning file=backend/utils/memory_ingestion,line=1,title=Package needs architecture map::backend/utils/memory_ingestion remains grandfathered without an architecture map at 17 source files (baseline: 17); add ARCHITECTURE.md or README.md opportunistically.
+::warning file=backend/utils/retrieval,line=1,title=Package needs architecture map::backend/utils/retrieval remains grandfathered without an architecture map at 30 source files (baseline: 30); add ARCHITECTURE.md or README.md opportunistically.
+## Package architecture maps
+
+Packages over 12 source files require a package-root `ARCHITECTURE.md` or `README.md`.
+
+| Level | Package | Source files |
+| --- | --- | ---: |
+| warning | backend/utils/memory_ingestion | 17 |
+| warning | backend/utils/retrieval | 30 |
+&lt;== PASS architecture-guardrails (0.34s)
+==&gt; product-invariants
+OK: no locked invariants require naming for these changes.
+&lt;== PASS product-invariants (0.03s)
+==&gt; failure-class-protocol
+{
+  &quot;command&quot;: &quot;validate&quot;,
+  &quot;errors&quot;: [],
+  &quot;ok&quot;: true,
+  &quot;schema_version&quot;: 1,
+  &quot;validation&quot;: {
+    &quot;base&quot;: &quot;219095ff5076fd7804f439e0c5e1aec9b8bdf8a9&quot;,
+    &quot;commit_subjects&quot;: [
+      &quot;test(self-hosted): cover disabled redirects&quot;,
+      &quot;docs(omi): document release and rollback operations&quot;,
+      &quot;style(cloudflare): format WAL environment test&quot;,
+      &quot;docs(vibepro): keep Omi release scope stable&quot;,
+      &quot;docs(vibepro): bind Omi release evidence&quot;,
+      &quot;docs(vibepro): approve final Omi review budget&quot;,
+      &quot;docs(vibepro): record review budget approval&quot;,
+      &quot;fix: Cloudflare\u7ffb\u8a33\u304b\u3089Memories\u5dee\u5206\u3092\u9664\u5916&quot;,
+      &quot;fix(vibepro): Cloudflare\u691c\u8a3c\u7bc4\u56f2\u3092\u5b9f\u914d\u7dda\u3078\u6574\u5408&quot;,
+      &quot;fix(scope): \u4e88\u7b97\u5224\u65ad\u6587\u66f8\u3092\u88fd\u54c1\u5dee\u5206\u304b\u3089\u5206\u96e2&quot;,
+      &quot;chore(vibepro): \u6700\u7d42Terra\u30ec\u30d3\u30e5\u30fc\u4e88\u7b97\u3092\u8a18\u9332&quot;,
+      &quot;fix(l10n): Cloudflare\u6587\u8a00\u3092\u5168locale\u3078\u8ffd\u52a0&quot;,
+      &quot;chore(vibepro): \u5931\u6557mode\u3068\u904b\u7528\u8a3c\u8de1\u3092\u660e\u793a&quot;,
+      &quot;fix(cloudflare): \u6587\u5b57\u8d77\u3053\u3057\u8868\u793a\u3092ARB\u5883\u754c\u3078\u7d71\u4e00&quot;,
+      &quot;fix(cloudflare): Cloudflare\u5fdc\u7b54\u5951\u7d04\u3092fail-closed\u5316&quot;,
+      &quot;docs: \u6700\u65b0\u518d\u30d9\u30fc\u30b9\u306e\u30ec\u30d3\u30e5\u30fc\u4e88\u7b97\u3092\u8a18\u9332&quot;,
+      &quot;docs: \u8ffd\u52a0\u30ec\u30d3\u30e5\u30fc\u4e88\u7b97\u627f\u8a8d\u3092\u8a18\u9332&quot;,
+      &quot;docs: \u73feHEAD\u30ec\u30d3\u30e5\u30fc\u4e88\u7b97\u627f\u8a8d\u3092\u8a18\u9332&quot;,
+      &quot;fix(cloudflare): WAL\u8a2d\u5b9a\u691c\u8a3c\u3092\u5171\u901a\u5316&quot;,
+      &quot;fix(cloudflare): \u4e0d\u6b63Worker URL\u3092\u7121\u52b9\u5316&quot;,
+      &quot;docs: \u8ffd\u52a0\u30ec\u30d3\u30e5\u30fc\u4e88\u7b97\u627f\u8a8d\u3092\u8a18\u9332&quot;,
+      &quot;chore: VibePro\u9664\u5916\u8a2d\u5b9a\u3092\u88fd\u54c1\u5dee\u5206\u304b\u3089\u5916\u3059&quot;,
+      &quot;test(cloudflare): \u7570\u5e38\u30ec\u30b9\u30dd\u30f3\u30b9\u5951\u7d04\u3092\u56fa\u5b9a&quot;,
+      &quot;docs: \u30ec\u30d3\u30e5\u30fc\u4e88\u7b97\u627f\u8a8d\u3092\u8a18\u9332&quot;,
+      &quot;chore: VibePro\u6210\u679c\u7269\u3092\u4f5c\u696d\u30c4\u30ea\u30fc\u304b\u3089\u5206\u96e2&quot;,
+      &quot;docs: PR\u30b9\u30b3\u30fc\u30d7\u5ba3\u8a00\u3092VibePro\u5f62\u5f0f\u3078\u4fee\u6b63&quot;,
+      &quot;docs: Story\u306ePR\u5883\u754c\u3068\u904b\u7528\u8a3c\u62e0\u3092\u660e\u78ba\u5316&quot;,
+      &quot;docs: Spec\u306bthreat model\u56f3\u3092\u8ffd\u52a0&quot;,
+      &quot;feat(cloudflare): read slice\u306e\u5951\u7d04\u3092\u5f37\u5316&quot;,
+      &quot;fix: Cloudflare\u4f1a\u8a71\u306e\u7a7a\u72b6\u614b\u3092\u660e\u78ba\u5316&quot;,
+      &quot;fix: Cloudflare\u4f1a\u8a71\u5165\u53e3\u3068Worker\u5951\u7d04\u3092\u6574\u5408&quot;,
+      &quot;feat: Cloudflare\u4f1a\u8a71\u95b2\u89a7\u3092self-hosted\u5c64\u3078\u5206\u96e2&quot;
+    ],
+    &quot;declaration&quot;: &quot;none&quot;,
+    &quot;definition_count&quot;: 70,
+    &quot;has_fix_commit&quot;: true,
+    &quot;head&quot;: &quot;HEAD&quot;,
+    &quot;merge_base&quot;: &quot;219095ff5076fd7804f439e0c5e1aec9b8bdf8a9&quot;
+  }
+}
+&lt;== PASS failure-class-protocol (0.13s)
+==&gt; failure-class-guard-artifact-ratchet
+Failure-class guard ratchet: window=90d since=2026-05-05 threshold=3 classes_declared=29
+  GRANDFATHERED FC-unprovisioned-rollout-target: 3 declaration(s) — 3 first-parent integration changes in the same window; the definition describes a deploy-lane endpoint-provisioning check that does not exist yet as a nameable artifact.
+OK: every class at or above the threshold names a guard artifact or is explicitly grandfathered.
+&lt;== PASS failure-class-guard-artifact-ratchet (0.61s)
+==&gt; desktop-changelog-data
+&lt;== PASS desktop-changelog-data (0.05s)
+==&gt; brand-ui
+OK: INV-UI-1 — no purple increase across 60 changed UI file(s).
+&lt;== PASS brand-ui (2.13s)
+==&gt; deferred-work-markers
+OK: new deferred-work markers reference tracking issues.
+&lt;== PASS deferred-work-markers (1.39s)
+==&gt; lifecycle-headers
+OK: lifecycle headers and frozen baseline are valid.
+&lt;== PASS lifecycle-headers (2.31s)
+==&gt; version-prefixed-filenames
+OK: no new version-prefixed source filenames outside version packages.
+&lt;== PASS version-prefixed-filenames (0.09s)
+==&gt; production-data-plane-routing
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.542s
+
+OK
+&lt;== PASS production-data-plane-routing (0.59s)
+Manifest checks passed: 14 check(s).
+PR preflight: lane=local base=219095ff5076fd7804f439e0c5e1aec9b8bdf8a9 (219095ff5076) head=HEAD files=123
+  SELECTED dev-harness-unit-tests: the hermetic dev-harness stack backs release qualification; the Jul 22 2026 beta qualification outage added a docker/native typesense runtime that must stay behaviorally covered
+  SELECTED setup-pre-push-prerequisites: make setup must provision the minimal, rerunnable backend environment required by selected pre-push checks
+  SELECTED check-manifest-contract: manifest validity and workflow drift guard
+  SELECTED diff-hygiene: all changes must be free of whitespace errors and conflict markers
+  SELECTED architecture-guardrails: advisory size checks plus oversized package-map baseline ratchet
+  SELECTED product-invariants: changed paths determine required invariant citations
+  SELECTED failure-class-protocol: fix commits declare a validated semantic failure class
+  SELECTED failure-class-guard-artifact-ratchet: FC-split-mutation-authority was declared on 30 first-parent integration changes in the 90 days to Jul 24 2026 while its definition still listed evidence_prs [9365, 9597] and named no guard artifact; a recurring class must produce a reusable guard surface, not more paperwork
+  SELECTED desktop-changelog-data: repository-wide desktop changelog schema contract
+  SELECTED brand-ui: INV-UI-1 applies to changed UI sources
+  SELECTED deferred-work-markers: new deferred-work markers must cite a tracking issue
+  SELECTED lifecycle-headers: rollout scaffolding may require lifecycle headers
+  SELECTED version-prefixed-filenames: repository-wide version-prefixed filename contract
+  SELECTED production-data-plane-routing: INV-DATA-1 mutation-tests every production-family mobile and desktop routing authority and rejects retired GKE desktop-backend ownership
+PR metadata: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/.vibepro/pr/omi-upstream-rebase-cloudflare-isolation/pre-push-body.md, updated_at=local file
+PR preflight passed: 14 checks in 21.52s.
+&lt;== PASS check_pr_preflight (22s)
+==&gt; /Users/ksato/.local/bin/python3.11 .github/scripts/check-desktop-prod-promotion-policy.py
+desktop Stable pointer-promotion policy OK
+&lt;== PASS /Users/ksato/.local/bin/python3.11 .github/scripts/check-desktop-prod-promotion-policy.py (0s)
+==&gt; /Users/ksato/.local/bin/python3.11 .github/scripts/check-deployment-concurrency.py --self-test
+deployment concurrency policy self-test OK
+&lt;== PASS /Users/ksato/.local/bin/python3.11 .github/scripts/check-deployment-concurrency.py --self-test (0s)
+==&gt; /Users/ksato/.local/bin/python3.11 .github/scripts/check-deployment-concurrency.py
+deployment concurrency policy OK (24 persistent writers, 1 run-scoped exemption)
+&lt;== PASS /Users/ksato/.local/bin/python3.11 .github/scripts/check-deployment-concurrency.py (1s)
+==&gt; check_backend_runtime_env_if_needed
+&lt;== PASS check_backend_runtime_env_if_needed (0s)
+==&gt; check_backend_typecheck_if_needed
+Skipping backend type check: changed paths do not affect the typed boundary.
+&lt;== PASS check_backend_typecheck_if_needed (0s)
+==&gt; check_runtime_image_source_closure_if_needed
+&lt;== PASS check_runtime_image_source_closure_if_needed (0s)
+==&gt; check_backend_unit_tests_if_needed
+&lt;== PASS check_backend_unit_tests_if_needed (0s)
+==&gt; check_openapi_contract_if_needed
+&lt;== PASS check_openapi_contract_if_needed (0s)
+==&gt; check_release_process_guards_if_needed
+&lt;== PASS check_release_process_guards_if_needed (0s)
+==&gt; check_workflows_if_needed
+&lt;== PASS check_workflows_if_needed (0s)
+==&gt; check_flutter_generated_if_needed
+==&gt; Flutter build_runner generated-output check
+  Generating the build script.
+[FlutterGen] v5.10.0 Loading ...
+[FlutterGen] Reading options from pubspec.yaml
+[FlutterGen] Specified build.yaml as input but the file does not exists.
+  Reading the asset graph.
+  Checking for updates.
+  Updating the asset graph.
+  Building, incremental build.
+  0s json_serializable on 746 inputs; integration_test/animation_performance_test.dart
+  0s json_serializable on 746 inputs: 1 skipped; integration_test/app_performance_test.dart
+  1s json_serializable on 746 inputs: 676 skipped; spent 1s tracking; test/unit/firmware_update_prompt_coordinator_test.dart
+  2s json_serializable on 746 inputs: 746 skipped; spent 2s tracking
+  0s envied_generator:envied on 746 inputs; integration_test/animation_performance_test.dart
+  0s envied_generator:envied on 746 inputs: 746 skipped
+  0s source_gen:combining_builder on 746 inputs; integration_test/animation_performance_test.dart
+  0s source_gen:combining_builder on 746 inputs: 746 skipped
+  0s flutter_gen_runner on 1 input; $package$
+  0s flutter_gen_runner on 1 input: 1 skipped
+  Running the post build.
+  Writing the asset graph.
+  Built with build_runner in 4s; wrote 0 outputs.
+==&gt; Flutter l10n generated-output check
+Because l10n.yaml exists, the options defined there will be used instead.
+To use the command line arguments, delete the l10n.yaml file in the Flutter project.
+
+
+&quot;ar&quot;: 4 untranslated message(s).
+&quot;be&quot;: 4 untranslated message(s).
+&quot;bg&quot;: 4 untranslated message(s).
+&quot;bn&quot;: 4 untranslated message(s).
+&quot;bs&quot;: 4 untranslated message(s).
+&quot;ca&quot;: 4 untranslated message(s).
+&quot;cs&quot;: 4 untranslated message(s).
+&quot;da&quot;: 4 untranslated message(s).
+&quot;de&quot;: 4 untranslated message(s).
+&quot;el&quot;: 4 untranslated message(s).
+&quot;es&quot;: 4 untranslated message(s).
+&quot;et&quot;: 4 untranslated message(s).
+&quot;fa&quot;: 4 untranslated message(s).
+&quot;fi&quot;: 4 untranslated message(s).
+&quot;fr&quot;: 4 untranslated message(s).
+&quot;he&quot;: 4 untranslated message(s).
+&quot;hi&quot;: 4 untranslated message(s).
+&quot;hr&quot;: 4 untranslated message(s).
+&quot;hu&quot;: 4 untranslated message(s).
+&quot;id&quot;: 4 untranslated message(s).
+&quot;it&quot;: 4 untranslated message(s).
+&quot;ja&quot;: 4 untranslated message(s).
+&quot;kn&quot;: 4 untranslated message(s).
+&quot;ko&quot;: 4 untranslated message(s).
+&quot;lt&quot;: 4 untranslated message(s).
+&quot;lv&quot;: 4 untranslated message(s).
+&quot;mk&quot;: 4 untranslated message(s).
+&quot;mr&quot;: 4 untranslated message(s).
+&quot;ms&quot;: 4 untranslated message(s).
+&quot;nl&quot;: 4 untranslated message(s).
+&quot;no&quot;: 4 untranslated message(s).
+&quot;pl&quot;: 4 untranslated message(s).
+&quot;pt&quot;: 4 untranslated message(s).
+&quot;ro&quot;: 4 untranslated message(s).
+&quot;ru&quot;: 4 untranslated message(s).
+&quot;sk&quot;: 4 untranslated message(s).
+&quot;sl&quot;: 4 untranslated message(s).
+&quot;sr&quot;: 4 untranslated message(s).
+&quot;sv&quot;: 4 untranslated message(s).
+&quot;ta&quot;: 4 untranslated message(s).
+&quot;te&quot;: 4 untranslated message(s).
+&quot;th&quot;: 4 untranslated message(s).
+&quot;tl&quot;: 4 untranslated message(s).
+&quot;tr&quot;: 4 untranslated message(s).
+&quot;uk&quot;: 4 untranslated message(s).
+&quot;ur&quot;: 4 untranslated message(s).
+&quot;vi&quot;: 4 untranslated message(s).
+To see a detailed report, use the untranslated-messages-file
+option in the l10n.yaml file:
+untranslated-messages-file: desiredFileName.txt
+&lt;other option&gt;: &lt;other selection&gt;
+
+
+This will generate a JSON format file containing all messages that
+need to be translated.
+&lt;== PASS check_flutter_generated_if_needed (9s)
+==&gt; check_desktop_flow_lint_if_needed
+&lt;== PASS check_desktop_flow_lint_if_needed (0s)
+==&gt; check_windows_kgworker_native_closure_if_needed
+&lt;== PASS check_windows_kgworker_native_closure_if_needed (0s)
+==&gt; check_desktop_swift_if_needed
+&lt;== PASS check_desktop_swift_if_needed (0s)
+==&gt; check_desktop_launcher_tests_if_needed
+&lt;== PASS check_desktop_launcher_tests_if_needed (0s)
+==&gt; check_desktop_tool_surfaces_if_needed
+&lt;== PASS check_desktop_tool_surfaces_if_needed (0s)
+==&gt; check_gauntlet_evidence_if_needed
+&lt;== PASS check_gauntlet_evidence_if_needed (0s)
+==&gt; check_optional_formatters
+==&gt; dart format --set-exit-if-changed (66 file(s))
+Formatted 66 files (0 changed) in 1.04 seconds.
+==&gt; ARB JSON formatting (49 file(s))
+&lt;== PASS check_optional_formatters (2s)
+CI prediction (bounded local evidence)
+  verified:
+    - shared PR contract, hygiene, and supplied PR body
+    - Flutter build_runner generated output
+    - Flutter localization generated output
+    - Dart formatting
+  deferred to CI:
+    - full Flutter analyzer/tests and platform compiles
+Bounded pre-push gate passed; CI remains the full test authority.
+branch 'codex/omi-upstream-rebase-cloudflare-isolation' set up to track 'origin/codex/omi-upstream-rebase-cloudflare-isolation'.</pre>
+              <pre>Everything up-to-date</pre>
+            </article>
+
+            <article class="timeline-item" data-command-index="1">
+              <strong>gh pr create --base main --head codex/omi-upstream-rebase-cloudflare-isolation --title 'feat: isolate Cloudflare self-hosted transcript slice on latest Omi' --body-file /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/.vibepro/pr/omi-upstream-rebase-cloudflare-isolation/pr-body.md</strong>
+              <span class="status danger">exit=1</span>
+
+              <pre>a pull request for branch &quot;codex/omi-upstream-rebase-cloudflare-isolation&quot; into branch &quot;main&quot; already exists:
+https://github.com/Unson-LLC/omi/pull/1</pre>
+            </article>
+
+            <article class="timeline-item" data-command-index="2">
+              <strong>gh pr list --base main --head codex/omi-upstream-rebase-cloudflare-isolation --state open --json 'number,url,state,isDraft,headRefName,headRefOid,baseRefName,mergeStateStatus' --limit 1</strong>
+              <span class="status good">exit=0</span>
+              <pre>[{&quot;baseRefName&quot;:&quot;main&quot;,&quot;headRefName&quot;:&quot;codex/omi-upstream-rebase-cloudflare-isolation&quot;,&quot;headRefOid&quot;:&quot;9465b75d22cffe230b956bc43f4459931ac9c470&quot;,&quot;isDraft&quot;:false,&quot;mergeStateStatus&quot;:&quot;CLEAN&quot;,&quot;number&quot;:1,&quot;state&quot;:&quot;OPEN&quot;,&quot;url&quot;:&quot;https://github.com/Unson-LLC/omi/pull/1&quot;}]</pre>
+
+            </article>
+
+            <article class="timeline-item" data-command-index="3">
+              <strong>gh pr edit https://github.com/Unson-LLC/omi/pull/1 --title 'feat: isolate Cloudflare self-hosted transcript slice on latest Omi' --body-file /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/.vibepro/pr/omi-upstream-rebase-cloudflare-isolation/pr-body.md</strong>
+              <span class="status good">exit=0</span>
+              <pre>https://github.com/Unson-LLC/omi/pull/1</pre>
+
+            </article>
+
+        </div>
+      </section>
+      <section>
+        <h2>Warnings</h2>
+        <ul><li>Existing open PR detected for the requested base/head; refreshed PR body and pr-create artifact for the current head instead of creating a duplicate PR.</li></ul>
+      </section>
+
+  </main>
+</body>
+</html>

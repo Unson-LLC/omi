@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.1.0",
+  "model": "vibepro-review-surface-violations-v1",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "append_only": true,
+  "updated_at": "2026-08-03T02:42:58.843Z",
+  "entries": [
+    {
+      "schema_version": "0.1.0",
+      "violation_id": "rsv-da7607ad164506a0",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "kind": "review_surface_mutated_during_review",
+      "evidence_class": "violation",
+      "changed_fields": [
+        "surface_digest"
+      ],
+      "started": {
+        "head_sha": "aa5ce5dea66e1c24364187c34eccd781ee7b0f31",
+        "surface_digest": "78c7ba15cd04d295505ecf2d43095f11619c3624915f2017675056b76ed6b5bf"
+      },
+      "closed": {
+        "head_sha": "aa5ce5dea66e1c24364187c34eccd781ee7b0f31",
+        "surface_digest": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574"
+      },
+      "stage": "architecture_spec",
+      "role": "architecture_boundary",
+      "lifecycle_id": "9a3a2db8-bf0c-49ff-a204-8fe05c733322",
+      "agent_system": "codex",
+      "agent_id": "/root/terra_runtime_contract_fix",
+      "started_at": "2026-08-03T02:39:26.476Z",
+      "close_reason": "completed",
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-aa5ce5-final.md",
+      "detected_by": "review close",
+      "recorded_at": "2026-08-03T02:42:58.843Z"
+    }
+  ]
+}

@@ -1,0 +1,1417 @@
+{
+  "schema_version": "0.1.0",
+  "model": "vibepro-decision-records-v1",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "updated_at": "2026-08-03T04:37:49.941Z",
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "decision record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+      "current_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+      "managed_worktree": null
+    }
+  ],
+  "decisions": [
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785731869876-b91a088b",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": null,
+      "summary": "最終HEADの必須Terraレビュー完遂のためreview budgetを120件・50,000,000msへ拡張",
+      "reason": "ユーザーがブロッカー解消からVibePro PR作成・通常マージまでの続行を明示承認。累積71レビュー・24,031,320ms時点から直近3役で既存25,000,000ms上限へ到達したため、最終HEADへ必須Terraレビューを結び直す範囲だけを拡張する。Gate waiver、テスト省略、物理iPhone・deployed Worker証拠の昇格、製品範囲拡張は含めない。",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "6700899f91e441d4edb08c6cc9bf98fe68f8187db41335331ed9d06e51311ff1",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+          "current_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-03T04:37:49.873Z"
+      },
+      "recorded_at": "2026-08-03T04:37:49.876Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785725537953-9019682a",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:review_surface_integrity:rsv-da7607ad164506a0",
+      "source_status": null,
+      "summary": "Architecture reviewer inspected frozen aa5ce5 product and documentation diff; the recorded surface digest change was only cleanup of VibePro-added local .gitignore exclusions, not a product or Story surface mutation.",
+      "reason": "The review started with transient VibePro local-ignore lines and closed after those lines were removed. HEAD stayed aa5ce5, the user-visible tracked product diff stayed unchanged, and a current clean-surface strict-HEAD PASS was recorded after cleanup; accept the violation with this explicit audit trail.",
+      "reviewer": "ksato",
+      "artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-aa5ce5-final.md",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "aa5ce5dea66e1c24364187c34eccd781ee7b0f31",
+          "current_head_sha": "aa5ce5dea66e1c24364187c34eccd781ee7b0f31",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "aa5ce5dea66e1c24364187c34eccd781ee7b0f31",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-03T02:52:17.948Z"
+      },
+      "recorded_at": "2026-08-03T02:52:17.953Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785724375659-b4f81b9f",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "approved",
+      "summary": "upstream再ベース後の最終必須Terraレビューを完遂するためreview budgetを80件へ拡張",
+      "reason": "ksatoがブロッカー解消からVibePro PR作成・通常マージまで明示承認。upstream/main追加更新への再ベースと本budget decision記録後の最終HEADについて、architecture、runtime、gate_evidence、pr_split_scopeの再レビューだけに限定し、waiver・test skip・実機/deploy証拠昇格・製品範囲拡張はしない",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "c26d81243540b8efddcebade1e48640391090fa32990a90a2a334cdb3171e25c",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "4c7103282e0c71259dc48164774a8a21a1d349bd",
+          "current_head_sha": "4c7103282e0c71259dc48164774a8a21a1d349bd",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "4c7103282e0c71259dc48164774a8a21a1d349bd",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-03T02:32:55.654Z"
+      },
+      "recorded_at": "2026-08-03T02:32:55.660Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785715889694-b68562ec",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "approved",
+      "summary": "upstream再ベース後の最終必須Terraレビューを完遂するためreview budgetを60件へ拡張",
+      "reason": "ksatoがブロッカー解消からVibePro PR作成・通常マージまで明示承認。upstream/main追加2コミットへの再ベースと本budget decision記録後の最終HEADについて、architecture、runtime、gate_evidence、pr_split_scopeの再レビューだけに限定し、waiver・test skip・実機/deploy証拠昇格・製品範囲拡張はしない",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "8e338e4d47495ff0bdf54b93208b33deb3d936fd4b337c172b14bcbdb97d83d1",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "b458de4539054d5d45cec0a3e871a0f95216a894",
+          "current_head_sha": "b458de4539054d5d45cec0a3e871a0f95216a894",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "b458de4539054d5d45cec0a3e871a0f95216a894",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-03T00:11:29.692Z"
+      },
+      "recorded_at": "2026-08-03T00:11:29.694Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785711756762-3b9c78a0",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "approved",
+      "summary": "current-HEAD証拠修正後の必須Terraレビューを完遂するためreview budgetを50件へ拡張",
+      "reason": "ksatoがブロッカー解消からVibePro PR作成・通常マージまで明示承認。unit lane誤帰属修正後のarchitecture、runtime、gate_evidence、pr_split_scopeの再レビューだけに限定し、waiver・test skip・実機/deploy証拠昇格はしない",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "4c989c987e9c44f6aa0cf97a2cfe3c653e57821893bb5a1c59665e12c4b49528",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-4c989c98.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+          "current_head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "d98517c361b453b3af079a0c9f542fb99e196ac6",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T23:02:36.760Z"
+      },
+      "recorded_at": "2026-08-02T23:02:36.763Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785705161650-773ee7ae",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "needs_review",
+      "summary": "全locale修正後の必須Terraレビュー予算を承認",
+      "reason": "ksatoがブロッカー解消からPR作成・通常マージまで明示承認。runtime reviewで判明した47 locale未翻訳とupstream既存4 keyをzero-warningまで修正した最終HEADについて、architecture/runtime/human_usability/gate_evidence/pr_split_scope再レビューだけに追加予算を使う。waiver・テスト省略・実機/本番証拠の昇格・製品範囲拡張は行わない。",
+      "reviewer": null,
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "0f26999545f6d963ac66b9046f5cb5f527b28aa6c8b21f6707dcaa86b44d9007",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-0f269995.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "0d6189c3158754d8277908b9b1b3202d6fe1c56f",
+          "current_head_sha": "0d6189c3158754d8277908b9b1b3202d6fe1c56f",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "0d6189c3158754d8277908b9b1b3202d6fe1c56f",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T21:12:41.647Z"
+      },
+      "recorded_at": "2026-08-02T21:12:41.650Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785704187370-ab494245",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:judgment_axis_release_ops",
+      "source_status": "needs_evidence",
+      "summary": "Release note and rollout plan: opt-in read-only Cloudflare transcript list/detail; operator action is limited to local compile-time Dart defines. Rollback instruction: remove or disable the defines and the OSS conversations flow remains authoritative. Observability evidence is hermetic local verification only; production telemetry is unverified.",
+      "reason": "The operator, rollback, and evidence boundary are documented in the runbook. This decision accepts the bounded follow-up without claiming a deployed Worker, production telemetry, physical iPhone, or VoiceOver result.",
+      "reviewer": "ksato",
+      "artifact": "docs/operational/omi-self-hosted-local-overlay.md",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "db26eb89992ff579f2df2df0302a43102ea1d477",
+          "current_head_sha": "db26eb89992ff579f2df2df0302a43102ea1d477",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "db26eb89992ff579f2df2df0302a43102ea1d477",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T20:56:27.367Z"
+      },
+      "recorded_at": "2026-08-02T20:56:27.370Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785704186712-523b928b",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:vibepro_artifact_policy",
+      "source_status": "needs_review",
+      "summary": "Track only .vibepro/verification/Makefile as the executable canonical verification contract; generated diagnostics and review artifacts remain ignored and excluded from the PR.",
+      "reason": "The tracked Makefile is source-like executable test infrastructure required to reproduce parse_failure and schema_failure coverage. It contains no runtime data or secrets. All transient .vibepro outputs remain untracked.",
+      "reviewer": "ksato",
+      "artifact": ".vibepro/verification/Makefile",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "db26eb89992ff579f2df2df0302a43102ea1d477",
+          "current_head_sha": "db26eb89992ff579f2df2df0302a43102ea1d477",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "db26eb89992ff579f2df2df0302a43102ea1d477",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T20:56:26.709Z"
+      },
+      "recorded_at": "2026-08-02T20:56:26.712Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785696838706-de398cd7",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": null,
+      "summary": "最新upstream再ベース後の必須Terraレビュー予算を承認",
+      "reason": "ksatoがブロッカー解消からVibePro PR作成・通常マージまで明示承認。上限拡張は最終HEADへのarchitecture/runtime/human_usability/gate_evidence/pr_split_scope再レビューだけに使い、waiver・テスト省略・実機/デプロイ証拠の昇格には使わない。",
+      "reviewer": null,
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "a2473c4e56ec800f53b27ba16fd4e243a17d66929103ff8417943ebdf3ff4dc7",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-a2473c4e.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "afcc22e03915ebe78e3478fb3e7ca25e38bc6174",
+          "current_head_sha": "afcc22e03915ebe78e3478fb3e7ca25e38bc6174",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "afcc22e03915ebe78e3478fb3e7ca25e38bc6174",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T18:53:58.702Z"
+      },
+      "recorded_at": "2026-08-02T18:53:58.706Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785695339291-59294f19",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:judgment_axis_scope_reviewability",
+      "source_status": "needs_evidence",
+      "summary": "Scope reviewed: current 75-path atomic read-only slice accepted as one PR",
+      "reason": "scope reviewed at current HEAD: 52 l10n generated or ARB paths, 9 runtime paths, 6 tests, and 8 docs form one coherent configured list-to-detail read-only flow with an unconfigured OSS fallback and no-op WAL boundary; physical device and deployment proof are excluded",
+      "reviewer": "Codex",
+      "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "6868a4f27a6bd7b677ad2d3ac0e35feeca458c90",
+          "current_head_sha": "6868a4f27a6bd7b677ad2d3ac0e35feeca458c90",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "6868a4f27a6bd7b677ad2d3ac0e35feeca458c90",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T18:28:59.288Z"
+      },
+      "recorded_at": "2026-08-02T18:28:59.291Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785695338201-779cc086",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:judgment_axis_rollback_sensitive",
+      "source_status": "needs_evidence",
+      "summary": "Rollback plan for compile-time Cloudflare isolation accepted",
+      "reason": "rollback and rollout boundary: remove or invalidate compile-time Cloudflare defines to restore OSS-only UI; this slice writes no stored or migrated state; deployed Worker and physical device evidence remain separate and unverified",
+      "reviewer": "Codex",
+      "artifact": "docs/operational/omi-self-hosted-local-overlay.md",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "6868a4f27a6bd7b677ad2d3ac0e35feeca458c90",
+          "current_head_sha": "6868a4f27a6bd7b677ad2d3ac0e35feeca458c90",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "6868a4f27a6bd7b677ad2d3ac0e35feeca458c90",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T18:28:58.183Z"
+      },
+      "recorded_at": "2026-08-02T18:28:58.201Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785694145386-93e27aa8",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "needs_review",
+      "summary": "現HEAD sequence preflightと必須Terra再レビューの予算を追加承認",
+      "reason": "User approved blocker resolution through normal merge on 2026-08-03. Grant up to 24 subagents and 10800000ms only for current HEAD architecture preflight and mandatory Terra re-reviews; no gate waiver, test skip, device or deploy proof elevation, or product-scope expansion.",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "730394931f46b2f17ce64f8474bb5e6781259169ac538a4055693ae7f4e550bf",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-73039493.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+          "current_head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T18:09:05.374Z"
+      },
+      "recorded_at": "2026-08-02T18:09:05.386Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785690437033-a83bb934",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "needs_review",
+      "summary": "現HEADの必須3役Terraレビュー完了まで予算を追加承認",
+      "reason": "ksatoが2026-08-03にブロッカー解消からPR作成・通常マージまで進めることを再承認。現HEADでstaleとなったhuman_usability、gate_evidence、pr_split_scopeの再レビューだけに適用し、Gate waiver、テスト省略、製品範囲拡張は含めない。",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "b78df5617f426e95f73c347377b3bb5c302cdb6e26a3cfd397cde0e8432fdc63",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-b78df561.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "4986b579e43ed66abb5d70cae11085fe851d69e8",
+          "current_head_sha": "4986b579e43ed66abb5d70cae11085fe851d69e8",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "4986b579e43ed66abb5d70cae11085fe851d69e8",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T17:07:17.021Z"
+      },
+      "recorded_at": "2026-08-02T17:07:17.033Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785684575828-eb9a15ec",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "waiver",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "needs_changes",
+      "summary": "追加修正と必須再レビューを経てPR作成・通常マージまで進める予算拡張を承認",
+      "reason": "ユーザーksatoが2026-08-03に、Terraでブロッカー2件を解消しhuman_usability再レビューとgate2役を閉じてマージまで進めることを明示承認。Gate waiverやテスト省略ではなく、修正1回と必要なレビューに限定する",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "f797fadbdc418fb1bce577cac52769fca9b981363360eaadacc00cbd99120f7a",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-f797fadb.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "e6f1af989ed6c0714f040477b702fcbfb9fb2109",
+          "current_head_sha": "e6f1af989ed6c0714f040477b702fcbfb9fb2109",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "e6f1af989ed6c0714f040477b702fcbfb9fb2109",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T15:29:35.797Z"
+      },
+      "recorded_at": "2026-08-02T15:29:35.828Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785683364949-65d83797",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "waiver",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": "budget_exceeded",
+      "summary": "current-HEAD Agent Review完了のためdelivery-efficiency予算超過を承認",
+      "reason": "ユーザーが2026-08-03にブロッカー解消とマージまでの継続を明示承認。既存5 dispatch・1,802,346msに対し、残るhuman_usability、gate_evidence、pr_split_scopeの各1回だけを追加するStory固有上限（8 dispatch・3,600,000ms）を承認する。Gate waiver、テスト省略、追加review roundは対象外。",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "f558bdd95fabcc7769cf199e175258b08d59cd49211947bb350f369be7bc776b",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-f558bdd9.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+          "current_head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T15:09:24.936Z"
+      },
+      "recorded_at": "2026-08-02T15:09:24.950Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785682553128-3a7695ad",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:journey_context",
+      "source_status": "needs_evidence",
+      "summary": "既存会話画面からCloudflare一覧・詳細へ進むread-only利用経路として扱う",
+      "reason": "このsliceはsignup/onboardingを変更せず、設定済み利用者がConversations入口から一覧と詳細本文を読む経路のみを追加する。walking-skeletonのactivation分類は製品経路と一致しないため、実機録音・同期・Worker deployのJourney証拠は別Storyで確定する。",
+      "reviewer": "codex",
+      "artifact": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+          "current_head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T14:55:53.118Z"
+      },
+      "recorded_at": "2026-08-02T14:55:53.128Z"
+    },
+    {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785682549304-845264f5",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "gate:split_resolution",
+      "source_status": "needs_split",
+      "summary": "Cloudflare read-only縦スライスを単一PRとして原子的にレビューする",
+      "reason": "52件はARBからの生成l10nであり、残るAPI/model/provider/UI/adapter/契約文書は同一のread-only list-to-detail境界を成立させる一体差分である。.gitignoreはVibePro成果物を製品差分から隔離するrepo-controlであり、別PRへ分けると同一Story証拠の誤追跡を招く。Worker deploy、WAL upload/ack/delete、実機iPhoneは別Storyのまま含めない。",
+      "reviewer": "codex",
+      "artifact": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": null,
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+          "current_head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "f0637321e6b17f24bd4b4a65d6f3b7e5d275bb69",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-02T14:55:49.287Z"
+      },
+      "recorded_at": "2026-08-02T14:55:49.304Z"
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "open": 0,
+    "by_type": {
+      "needs_review": 15,
+      "waiver": 2
+    },
+    "by_status": {
+      "accepted": 17
+    },
+    "warnings": [
+      {
+        "id": "managed_worktree_locality",
+        "status": "needs_review",
+        "mode": "preferred",
+        "required": false,
+        "command_name": "decision record",
+        "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+        "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+        "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+        "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+        "expected_root": null,
+        "expected_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+        "current_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+        "managed_worktree": null
+      }
+    ],
+    "latest": {
+      "schema_version": "0.1.0",
+      "decision_id": "decision-1785731869876-b91a088b",
+      "story_id": "omi-upstream-rebase-cloudflare-isolation",
+      "type": "needs_review",
+      "status": "accepted",
+      "source": "budget:delivery_efficiency:omi-upstream-rebase-cloudflare-isolation",
+      "source_status": null,
+      "summary": "最終HEADの必須Terraレビュー完遂のためreview budgetを120件・50,000,000msへ拡張",
+      "reason": "ユーザーがブロッカー解消からVibePro PR作成・通常マージまでの続行を明示承認。累積71レビュー・24,031,320ms時点から直近3役で既存25,000,000ms上限へ到達したため、最終HEADへ必須Terraレビューを結び直す範囲だけを拡張する。Gate waiver、テスト省略、物理iPhone・deployed Worker証拠の昇格、製品範囲拡張は含めない。",
+      "reviewer": "ksato",
+      "artifact": null,
+      "verification_evidence_summary": {
+        "count": 4,
+        "entries": [
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+            "type": "e2e",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+            "type": "unit",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+            "type": "integration",
+            "result": "pass"
+          },
+          {
+            "path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+            "type": "typecheck",
+            "result": "pass"
+          }
+        ]
+      },
+      "budget_approval": {
+        "story_id": "omi-upstream-rebase-cloudflare-isolation",
+        "override_digest": "6700899f91e441d4edb08c6cc9bf98fe68f8187db41335331ed9d06e51311ff1",
+        "grantor_kind": "human",
+        "grantor": "ksato",
+        "recorded_by": {
+          "agent_system": "codex",
+          "agent_id": "/root"
+        },
+        "config_ref": ".vibepro/config.json",
+        "decision_doc": "docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md"
+      },
+      "secret_exposure": null,
+      "redaction": {
+        "applied": false,
+        "hit_count": 0
+      },
+      "warnings": [
+        {
+          "id": "managed_worktree_locality",
+          "status": "needs_review",
+          "mode": "preferred",
+          "required": false,
+          "command_name": "decision record",
+          "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+          "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+          "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+          "expected_root": null,
+          "expected_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+          "current_head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+          "managed_worktree": null
+        }
+      ],
+      "git_context": {
+        "head_sha": "dd5b168060d516ccfb18da100e2b4a89d5169433",
+        "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+        "dirty": false,
+        "status_fingerprint": "",
+        "recorded_at": "2026-08-03T04:37:49.873Z"
+      },
+      "recorded_at": "2026-08-03T04:37:49.876Z"
+    }
+  },
+  "artifact": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/decision-records.json"
+}

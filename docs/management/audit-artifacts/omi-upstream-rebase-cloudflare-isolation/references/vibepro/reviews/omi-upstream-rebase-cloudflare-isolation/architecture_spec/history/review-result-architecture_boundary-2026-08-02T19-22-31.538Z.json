@@ -1,0 +1,574 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "architecture_spec",
+  "role": "architecture_boundary",
+  "status": "pass",
+  "summary": "現HEADのA-D architecture boundaryと修正済みPR path/test分類を確認しpass",
+  "findings": [],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "reviewed database_state; risk_surfaces=database_state; all 76 changed paths; A-D; read-only; no-op WAL; ARB; release/rollback; physical/deployed unverified",
+    "evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json",
+    "inputs": [
+      "app/lib/l10n/app_en.arb",
+      "app/lib/l10n/app_ja.arb",
+      "app/lib/l10n/app_localizations.dart",
+      "app/lib/l10n/app_localizations_ar.dart",
+      "app/lib/l10n/app_localizations_be.dart",
+      "app/lib/l10n/app_localizations_bg.dart",
+      "app/lib/l10n/app_localizations_bn.dart",
+      "app/lib/l10n/app_localizations_bs.dart",
+      "app/lib/l10n/app_localizations_ca.dart",
+      "app/lib/l10n/app_localizations_cs.dart",
+      "app/lib/l10n/app_localizations_da.dart",
+      "app/lib/l10n/app_localizations_de.dart",
+      "app/lib/l10n/app_localizations_el.dart",
+      "app/lib/l10n/app_localizations_en.dart",
+      "app/lib/l10n/app_localizations_es.dart",
+      "app/lib/l10n/app_localizations_et.dart",
+      "app/lib/l10n/app_localizations_fa.dart",
+      "app/lib/l10n/app_localizations_fi.dart",
+      "app/lib/l10n/app_localizations_fr.dart",
+      "app/lib/l10n/app_localizations_he.dart",
+      "app/lib/l10n/app_localizations_hi.dart",
+      "app/lib/l10n/app_localizations_hr.dart",
+      "app/lib/l10n/app_localizations_hu.dart",
+      "app/lib/l10n/app_localizations_id.dart",
+      "app/lib/l10n/app_localizations_it.dart",
+      "app/lib/l10n/app_localizations_ja.dart",
+      "app/lib/l10n/app_localizations_kn.dart",
+      "app/lib/l10n/app_localizations_ko.dart",
+      "app/lib/l10n/app_localizations_lt.dart",
+      "app/lib/l10n/app_localizations_lv.dart",
+      "app/lib/l10n/app_localizations_mk.dart",
+      "app/lib/l10n/app_localizations_mr.dart",
+      "app/lib/l10n/app_localizations_ms.dart",
+      "app/lib/l10n/app_localizations_nl.dart",
+      "app/lib/l10n/app_localizations_no.dart",
+      "app/lib/l10n/app_localizations_pl.dart",
+      "app/lib/l10n/app_localizations_pt.dart",
+      "app/lib/l10n/app_localizations_ro.dart",
+      "app/lib/l10n/app_localizations_ru.dart",
+      "app/lib/l10n/app_localizations_sk.dart",
+      "app/lib/l10n/app_localizations_sl.dart",
+      "app/lib/l10n/app_localizations_sr.dart",
+      "app/lib/l10n/app_localizations_sv.dart",
+      "app/lib/l10n/app_localizations_ta.dart",
+      "app/lib/l10n/app_localizations_te.dart",
+      "app/lib/l10n/app_localizations_th.dart",
+      "app/lib/l10n/app_localizations_tl.dart",
+      "app/lib/l10n/app_localizations_tr.dart",
+      "app/lib/l10n/app_localizations_uk.dart",
+      "app/lib/l10n/app_localizations_ur.dart",
+      "app/lib/l10n/app_localizations_vi.dart",
+      "app/lib/l10n/app_localizations_zh.dart",
+      "app/lib/main.dart",
+      "app/lib/pages/conversations/conversations_page.dart",
+      "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+      "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+      "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+      "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+      "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+      "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-73039493.md",
+      "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-a2473c4e.md",
+      "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-b78df561.md",
+      "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-f558bdd9.md",
+      "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-f797fadb.md",
+      "docs/operational/omi-self-hosted-local-overlay.md",
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md"
+    ]
+  },
+  "judgment_delta": [
+    "needs_changes -> pass because corrected PR body now classifies all six test paths and current-bound verification remains green"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "d22eef376b0281f782de2dbadbb0528f431c5238",
+    "current_head_sha": "d22eef376b0281f782de2dbadbb0528f431c5238",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "d22eef376b0281f782de2dbadbb0528f431c5238",
+      "current_head_sha": "d22eef376b0281f782de2dbadbb0528f431c5238",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T19:22:31.538Z",
+  "git_context": {
+    "head_sha": "d22eef376b0281f782de2dbadbb0528f431c5238",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T19:22:31.381Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "current d22eef376 aggregate preflight boundary review after local classifier repair"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "d22eef376b0281f782de2dbadbb0528f431c5238",
+    "surface_files": [
+      {
+        "path": "app/lib/l10n/app_en.arb",
+        "sha256": "57992c8564fc8feee44ce56ad657ab6728b1cd71409801b7042c156dcf6470ab",
+        "size": 440473
+      },
+      {
+        "path": "app/lib/l10n/app_ja.arb",
+        "sha256": "e2e218d3bad5a0932329505dcd2ce1c5eba3bc143ca1533cfbb6f56a36c49cb2",
+        "size": 214675
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ar.dart",
+        "sha256": "26c43f198d36f5dd763bad7a3a91fbef69ead26f668d0fee9d4c7633b7fa4d01",
+        "size": 298653
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_be.dart",
+        "sha256": "1debda7a81ba3712c3bbad452e9649d1961df696f7b2d80f2a9a48ad084e2dc3",
+        "size": 335349
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_bg.dart",
+        "sha256": "b1814f1c83e94baabb0b6b2509f710271a08752a919b7a2a113efa86b8d3bfde",
+        "size": 343889
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_bn.dart",
+        "sha256": "d16b92577e3f345cc920519e6c528017efd22f815979d5037be9566b0788566a",
+        "size": 407480
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_bs.dart",
+        "sha256": "4ba2382691d39754bae6ef06687d82ae44ba8fd1a28e5b9da9f743c1d7905fcf",
+        "size": 261241
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ca.dart",
+        "sha256": "0ef237b9d746b72fd1f2ceaa69c0245bea0a9ef3adfc7ada68fd037cc8e5afd4",
+        "size": 267882
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_cs.dart",
+        "sha256": "789692ca571e7cfdc46a52bcbf9060a9a04bab02bb340276c129dfe71c4ed93d",
+        "size": 264091
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_da.dart",
+        "sha256": "400a0f9bccef00c5b72be2292b0b2519583bbac52dadca53596901e3ef906b43",
+        "size": 251447
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_de.dart",
+        "sha256": "b6351a08a38a4ca43556a89c383c53958be3ae6d346843dc84a1d9a801242bdf",
+        "size": 270470
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_el.dart",
+        "sha256": "fb03aaedd38e9ff39fdb02363405dcf87f1bc691538fa9379b5289d367402069",
+        "size": 354649
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_en.dart",
+        "sha256": "79e74bb2d35e804f8366323c9c499cf4ea34f76f9824c03ada3e4d4b440dfdb5",
+        "size": 249345
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_es.dart",
+        "sha256": "0ced810b91f7cd6c2f172432345510e59184581912180387e884ba41520877d2",
+        "size": 263644
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_et.dart",
+        "sha256": "391318229f6584347f7fcf6500ec47d57a495779808848d684cc92a3f9a1464d",
+        "size": 257199
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_fa.dart",
+        "sha256": "897ffc51cf77bd3a499d814da9efd57c04ff6c7e614c4e14bdff8ac16cf40355",
+        "size": 317856
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_fi.dart",
+        "sha256": "5c23b5f68637179c17f2ffb5da555f1c9610fc0cbf8e118b4314533c1704e202",
+        "size": 260325
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_fr.dart",
+        "sha256": "85ca6ff8eee8e1dc777798e1076723ec15271b561c06d0cdb7f419525a904376",
+        "size": 276506
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_he.dart",
+        "sha256": "233e18b53523c431b2c6510cea74c968b01fb360f86c2c08bf56229ab656973a",
+        "size": 284455
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_hi.dart",
+        "sha256": "f6f270dd9bd769bacda8c43a9ffa65e66b4327bf13a859585544ab18640e73f2",
+        "size": 386212
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_hr.dart",
+        "sha256": "1a4efec37bdda03c25e3ac5d4805d7cefa7c7f6331b7a7826438924570dd283b",
+        "size": 261812
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_hu.dart",
+        "sha256": "1ad434791413925312e6b052ed6e230ff79abc86e7727649bfc3542bffdda2cd",
+        "size": 272791
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_id.dart",
+        "sha256": "d47b26d3abf56b92922d683e0b1574ae85145f10b175002c2751cde9cac6d88b",
+        "size": 255992
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_it.dart",
+        "sha256": "a3e899f4351483ba5930d524b3a2ae9c87e410f9581fe25b2e042c6750495f88",
+        "size": 265143
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ja.dart",
+        "sha256": "0271019136a88c45106f6770c3544b8f0070d4a8965b92ba8c3ac0447d014d95",
+        "size": 284507
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_kn.dart",
+        "sha256": "2f8eec262da83e9bd64ca15cfc19ee62205b6791e119b7c9691f484852b3fda3",
+        "size": 418898
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ko.dart",
+        "sha256": "45e30fbfe0f5fc04f1eee66441b75b1ad41e750acb3905c87ac1b34f448251be",
+        "size": 267484
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_lt.dart",
+        "sha256": "29ab307ddc5dcbc3379a9a1fa58e8859e8c0c5308e8902eb1263007b9d0e55f2",
+        "size": 264230
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_lv.dart",
+        "sha256": "aa5939709edf950a5a67d6616150eb4c793c15494139e8b234c910d826184de2",
+        "size": 265332
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_mk.dart",
+        "sha256": "d6c0bc357f913772410d2fe9cc36e2d80a98f11d22158f385b85bd3f424a7194",
+        "size": 340730
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_mr.dart",
+        "sha256": "aa247ad73bddf596f0773312057f1585013b9e7d9a7292572218b25d765fb049",
+        "size": 395683
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ms.dart",
+        "sha256": "c2e7ae8e0db621a1430399e66c3e09780f1132c3b4d03e4284f47383bc0385d2",
+        "size": 258359
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_nl.dart",
+        "sha256": "33642d9da39be82851147eaf2054ebb85ced3c05bec00b8235ce2e4cd9f322c5",
+        "size": 259547
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_no.dart",
+        "sha256": "21381a4cf83d4dbfbc3903ad8002365fe139a16e59e503cee51ea3498b136d21",
+        "size": 254006
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_pl.dart",
+        "sha256": "061a6447bbc5ff6971feffeb3ae9ce9b7bc4e222b148cd01428425301ae57c00",
+        "size": 265111
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_pt.dart",
+        "sha256": "3472ef59682f22dd135c34758f3a6f2ff3723c88dcd658ffbb528060bd648fa7",
+        "size": 261032
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ro.dart",
+        "sha256": "a804c8599d8a1e3867b7caf30a23f4350d1399cefadf260200007cf46fbdf789",
+        "size": 269597
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ru.dart",
+        "sha256": "9971a616c5211ca85071a4ede78188612e8ab76b1c1922dfc4dadf7274914e91",
+        "size": 338682
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sk.dart",
+        "sha256": "603a20fcee44bac6885cbf72a288413e743c577d230a6199d568b11b58572e18",
+        "size": 263141
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sl.dart",
+        "sha256": "d6f960755749fc4d5707e153996d55159c308d0e012883d3c86ebc6d17384fad",
+        "size": 260712
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sr.dart",
+        "sha256": "90143a031ab042664086857c7eed91c505b03332b1f0f0def9cb45c99246ccc5",
+        "size": 328802
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_sv.dart",
+        "sha256": "a314e6da17f859eb9ee6d74495f4c12fe1238ec70a639fc4a4a0a8f8f83b8f89",
+        "size": 257200
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ta.dart",
+        "sha256": "82c4728923da2f6080e4224b470311bdbf1f9d270a8b886e660f8a990fbe205a",
+        "size": 455055
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_te.dart",
+        "sha256": "31cd65eb544d2b5e045ded82bb1f21a8c2116c3dd279d039d474f46445043f23",
+        "size": 434960
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_th.dart",
+        "sha256": "caf1700b0d318cd698b7b2155265387310ab2796fb158157f974bd8906d79a7b",
+        "size": 388219
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_tl.dart",
+        "sha256": "004ed7d05f3b15971eea5219650633b2f761b0dc16af8799f4a7c4d9481b6066",
+        "size": 270804
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_tr.dart",
+        "sha256": "fd95a1cf8d07755f5a9e062d3e5276983121252d10b71db2310795343c65ef9d",
+        "size": 263619
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_uk.dart",
+        "sha256": "2f4b7d29ed474cf5e462d5e6eac7aa22ba9c21099da8bfd4b9e3b1ee62479c57",
+        "size": 335439
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_ur.dart",
+        "sha256": "3da2f464b924ef51d08055461e3d05725b47e2242431557f25452cd992c1f0b7",
+        "size": 322038
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_vi.dart",
+        "sha256": "4ca46c9bd29bfed3b42bcc23aaee9e33eaa732849d080984179dcbc95bf956eb",
+        "size": 283148
+      },
+      {
+        "path": "app/lib/l10n/app_localizations_zh.dart",
+        "sha256": "86ea0c43938bd9cadcdc1da223cba60342129de1c47183a9f40c2271fb62917b",
+        "size": 237599
+      },
+      {
+        "path": "app/lib/l10n/app_localizations.dart",
+        "sha256": "0f3e96125faccb8201f16a0ef13aff0896e9dac656a651c836690cea7417c6f5",
+        "size": 523931
+      },
+      {
+        "path": "app/lib/main.dart",
+        "sha256": "7b42a01a0fc8cc2239620f3e0f5fa47df1866b4c48c1a7b00f04ae1e781fa8d4",
+        "size": 20431
+      },
+      {
+        "path": "app/lib/pages/conversations/conversations_page.dart",
+        "sha256": "840a3f210d52d3b4a382c5df42c2a4dc750d139f14604f07e4e090ee36fd66c0",
+        "size": 20326
+      },
+      {
+        "path": "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+        "sha256": "14cf471217d62b6785b08298f52d14442381f13657e9206ec647be21fcd970c1",
+        "size": 2223
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+        "sha256": "b5b8fc680377012ea6ed91044203ab9b10a78d74f65f5c4ac6e74201c8b152b1",
+        "size": 5508
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+        "sha256": "814507de4e0e702cf55ab1b4d027c5a1f7e00f30c14e7ad560ed5aa379266046",
+        "size": 1653
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+        "sha256": "57603667dff27661dc84de61a02aec5d3110072ce60154cf28697802d9733db2",
+        "size": 2380
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+        "sha256": "adbf88e557c021572188be1aa13372744c58ac4562336cc835b32432ffea64de",
+        "size": 915
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "sha256": "6c953caf045135c34cfb1df2911c619f65b5dfcdad40e4802edbb9951c6a0091",
+        "size": 4699
+      },
+      {
+        "path": "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+        "sha256": "b9e772e3b980c0a43cf53288d059518ab79c57732860f55ad0ef6cc553338329",
+        "size": 1155
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+        "sha256": "d92db269cccfc6f2f3b6b0f1600fde4d721615101c234671b9a3856023e88605",
+        "size": 7750
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+        "sha256": "9947d4b5cedfd2833dfd36b35d6f090c5fbce87f1c1288afa00da40e10f9522a",
+        "size": 1765
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+        "sha256": "87144198b316f6ffae6ff3ed62db2023caf7b17ced99b2d5505f25b2a7ef8fa8",
+        "size": 1524
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "dcdb34c2badc9917748f90f5b533208fb54c91ac4a0571511e93d59abc202663",
+        "size": 8632
+      },
+      {
+        "path": "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+        "sha256": "9a0bf8e5ca88c5a4e64d0f13004ae0f4df3aef550316cef09b4f38c59e01381a",
+        "size": 681
+      },
+      {
+        "path": "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart",
+        "sha256": "019f87d656d2e3ee261b9ae33bf32a47bfbcbd5da23e2f78dd3b82a1af1caf05",
+        "size": 658
+      },
+      {
+        "path": "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "d3a4d338951eb70ba98ca15e14cc149d585f9451f390933447fd68867cfb7537",
+        "size": 4944
+      },
+      {
+        "path": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-73039493.md",
+        "sha256": "1dd996b4f5aea0594fd7a76d8f4bee3900a6b321440cdc830247607b38c1d564",
+        "size": 1303
+      },
+      {
+        "path": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-a2473c4e.md",
+        "sha256": "d2b160c2133947d4979a38a4ae37dca216046219d610cde534b236ad039c0f11",
+        "size": 1321
+      },
+      {
+        "path": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-b78df561.md",
+        "sha256": "54738fb2f893e85c52447ffbc702e5b1f4e52d273bd623335007be182993054f",
+        "size": 1312
+      },
+      {
+        "path": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-f558bdd9.md",
+        "sha256": "de8a89e08c210a5f240e169d3e2070d2565e91b2a780dd5867a445d51e011081",
+        "size": 1381
+      },
+      {
+        "path": "docs/management/decisions/2026-08-02-budget-override-omi-upstream-rebase-cloudflare-isolation-f797fadb.md",
+        "sha256": "7f23f8a84e2568f44869e749c75ca0dd8443a44a559b493f85fdffb36d13d717",
+        "size": 1326
+      },
+      {
+        "path": "docs/operational/omi-self-hosted-local-overlay.md",
+        "sha256": "e7b389141ccb788a524f78c249d1df2dc73f83bdd9ce0e52e9cf96d4a3559904",
+        "size": 2394
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "212d94a22f766b3579ef8d433b547f43ecd93598cebb8eb222d454d3b433b834",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "f05871d056f0b2ca638a6e6bece2aeb3ab0b2e0294da4c1439694bbaec68ba0e"
+  },
+  "source_fingerprint": "4b8291b1714d92a57e913d4ca0f90a46db48bd710e33ee74a26bc0d190357fc4",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_gate_evidence_review",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_gate_evidence_review",
+    "session_id": "final-head-architecture-boundary-recheck",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-d22eef376-recheck.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/review-request-architecture_boundary.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/architecture_spec/agent-transcript-architecture_boundary-d22eef376-recheck.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "final-head-architecture-boundary-recheck",
+      "implementation_session_id": "/root/terra_omi_rebase_impl",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

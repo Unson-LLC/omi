@@ -1,0 +1,147 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "gate",
+  "role": "gate_evidence",
+  "status": "needs_changes",
+  "summary": "current-HEAD検証はfreshで成功したが、integration経路網羅主張の矛盾と実配線の記録済み検証漏れがある",
+  "findings": [
+    {
+      "severity": "medium",
+      "id": "gate-evidence-path-surface-contradiction",
+      "detail": "integration証跡のchanged-path網羅主張が実コマンドとobservation result=rejectedに矛盾する"
+    },
+    {
+      "severity": "medium",
+      "id": "gate-evidence-real-wiring-path-unrecorded",
+      "detail": "main.dartとConversationsPageの実配線が記録済みtypecheck対象外である"
+    },
+    {
+      "severity": "low",
+      "id": "gate-evidence-counts-unparsed",
+      "detail": "完全ログでは48実行を確認できるが機械可読件数が未parseである"
+    }
+  ],
+  "finding_dispositions": [],
+  "artifacts": [],
+  "inspection": {
+    "summary": "4 runのHEAD、hash、非truncate、非mutating、実件数、Makefile alias、source/test/docs境界を照合した",
+    "evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json and verification-runs logs",
+    "inputs": [
+      "app/lib/main.dart",
+      "app/lib/pages/conversations/conversations_page.dart",
+      ".vibepro/verification/Makefile"
+    ]
+  },
+  "judgment_delta": [
+    "freshnessはpass候補だったが、path_surface_coverageで証拠主張の矛盾と実配線漏れを確認したためneeds_changes"
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "1a62dc61dafb6758e896db66196f0f91b4df48f6",
+    "current_head_sha": "1a62dc61dafb6758e896db66196f0f91b4df48f6",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "1a62dc61dafb6758e896db66196f0f91b4df48f6",
+      "current_head_sha": "1a62dc61dafb6758e896db66196f0f91b4df48f6",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T22:43:45.271Z",
+  "git_context": {
+    "head_sha": "1a62dc61dafb6758e896db66196f0f91b4df48f6",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T22:43:45.262Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "current HEAD after scope-fix commit; stale prior review is not reused"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "1a62dc61dafb6758e896db66196f0f91b4df48f6",
+    "surface_files": [
+      {
+        "path": "app/lib/main.dart",
+        "sha256": "7b42a01a0fc8cc2239620f3e0f5fa47df1866b4c48c1a7b00f04ae1e781fa8d4",
+        "size": 20431
+      },
+      {
+        "path": "app/lib/pages/conversations/conversations_page.dart",
+        "sha256": "840a3f210d52d3b4a382c5df42c2a4dc750d139f14604f07e4e090ee36fd66c0",
+        "size": 20326
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "9974f9c749b3380b29d4be7448df86544549e9412ac080075e8893b1643d9bb7"
+  },
+  "source_fingerprint": "327d84dc87f4ad0d8040d3a34ced5b45a00144bc90dbeed72b0036d63348a8c6",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_human_usability_final",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_human_usability_final",
+    "session_id": "final-gate-evidence-1a62",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-1a62-final.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-request-gate_evidence.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/agent-transcript-gate_evidence-1a62-final.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "final-gate-evidence-1a62",
+      "implementation_session_id": "019f9f04-beb8-7f31-b21b-d4f30939a188",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

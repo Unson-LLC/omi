@@ -1,0 +1,43 @@
+{
+  "status": "pass",
+  "summary": "architecture_spec:architecture_boundary passed at current HEAD 1a62dc61dafb6758e896db66196f0f91b4df48f6 with no blocking findings. The Cloudflare read slice remains isolated, OSS connectors stay thin, WAL is an unconnected no-op adapter, and product-external budget documents are absent.",
+  "findings": [],
+  "inspection_summary": "Verified regression_guard and path_surface_coverage across Story, ADR, Spec, runbook, runtime, tests, config, ARB and generated l10n. Focused 42 tests, six dart-define scenarios, analyzer, and failure-mode probes passed on current HEAD. Physical iPhone, VoiceOver, and deployed Worker remain separately unverified.",
+  "inspection_evidence": [
+    "git rev-parse HEAD = 1a62dc61dafb6758e896db66196f0f91b4df48f6; clean worktree",
+    "git diff 7b2614c1e..HEAD = deletion of only six product-external budget override documents",
+    "no iOS, Android, Firebase tracked config differences from upstream/main",
+    "make test -f .vibepro/verification/Makefile passed",
+    "make typecheck -f .vibepro/verification/Makefile passed",
+    "make failure_mode_coverage -f .vibepro/verification/Makefile passed"
+  ],
+  "inspection_inputs": [
+    "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+    "docs/operational/omi-self-hosted-local-overlay.md",
+    "app/lib/main.dart",
+    "app/lib/pages/conversations/conversations_page.dart",
+    "app/lib/pages/conversations/widgets/conversations_section_header.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+    "app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart",
+    "app/lib/services/wals/local_wal_sync.dart",
+    "app/lib/services/wals/wal_syncs.dart",
+    "app/lib/services/capture/capture_controller.dart",
+    "app/lib/l10n/app_en.arb",
+    "app/lib/l10n/app_ja.arb",
+    "app/lib/l10n/app_localizations.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart",
+    "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+    "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart",
+    "app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart"
+  ],
+  "judgment_delta": "The previous 7b2614c1 review is not reused. Current-HEAD source, tests, analyzer and scope were rechecked; removing only the six product-external budget documents improved scope purity without changing the architecture verdict."
+}

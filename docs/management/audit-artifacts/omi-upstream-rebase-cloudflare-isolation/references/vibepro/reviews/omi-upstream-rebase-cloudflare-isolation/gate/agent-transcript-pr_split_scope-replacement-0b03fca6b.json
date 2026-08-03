@@ -1,0 +1,62 @@
+{
+  "status": "needs_changes",
+  "summary": "folded reason と型付き依存関係は修復済みで、atomic_scope の形式上の拒否理由は現HEADのreviewer owner map未成立のみです。ただし stacked_gate_plan は依然として npm コマンドを出力し、現行Flutter検証コマンドを保持していないため承認できません。",
+  "inspection_summary": {
+    "head": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+    "worktree_clean": true,
+    "diff_check_passed": true,
+    "path_surface": {"runtime": 9, "tests": 6, "docs": 7, "generated_l10n": 52, "total": 74},
+    "excluded": ["Worker repository", "personal device overlay"],
+    "separate_unconfirmed_lanes": ["physical iPhone", "deployed Worker"],
+    "header_regression": "resolved",
+    "exact_head_verification": "4/4 passed",
+    "atomic_scope_formal_rejection_only": "current-head reviewer owner map missing"
+  },
+  "evidence_paths": [
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/pr-prepare.json",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/integration.json",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json",
+    ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/typecheck.json",
+    ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/gate/review-result-gate_evidence.json",
+    ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/review-result-human_usability.json"
+  ],
+  "inspection_inputs": [
+    "Story frontmatter",
+    "upstream/main...HEAD full path inventory",
+    "regenerated split-plan",
+    "current-head verification JSON and logs",
+    "current review artifacts",
+    "header source and focused regression test"
+  ],
+  "judgment_delta": [
+    "pr_scope_reason の literal `>-` 問題は解消し、完全な日本語理由を確認",
+    "requirements-ssot -> runtime-behavior -> misc-follow-up の型付き依存関係を確認",
+    "旧レビューのrepo-control、既存header、現HEAD検証、silent suppression指摘は解消",
+    "split-planのFlutter validation command保持問題は未解消"
+  ],
+  "findings": [{
+    "id": "path-surface-split-plan-contract-gap",
+    "severity": "medium",
+    "location": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/split-plan.json:1490",
+    "detail": "stacked_gate_plan は isolated_pr、空のdepends_on、npm test / npm run typecheckを出力しています。現HEADで成功した4本のMakefileベースFlutter検証コマンドがconsumer-facing planへ保持されていません。",
+    "recommendation": "verification-runsのrun.commandまたは同等の正本からコマンドを抽出してsplit-planを再生成してください。owner map成立後にrequires_atomic_head_validation=true、cumulative_atomic_head、依存順序、および make test/integration/e2e/typecheck -f .vibepro/verification/Makefile の4本が保持され、npm fallbackが消えることを確認してください。"
+  }],
+  "resolved_finding_ids": [
+    "pr-scope-mixed-repo-control",
+    "regression-guard-existing-header-branches-unverified",
+    "regression-guard-current-head-verification-unconfirmed",
+    "path-surface-worker-item-silent-suppression",
+    "path-surface-split-plan-frontmatter-parse"
+  ],
+  "reviewer_provenance": {
+    "agent_system": "codex",
+    "agent_id": "/root/omi_pr_split_scope_review",
+    "execution_mode": "replacement_re_review",
+    "reviewer_identity": "separate_session",
+    "current_head": "0b03fca6b0e345f386367d4ad9b79d65bc3138b7",
+    "replacement_for_lifecycle_id": "5a890192-89e5-4ae9-b210-82c80f40e198",
+    "source_or_artifact_edits": false
+  }
+}

@@ -1,0 +1,832 @@
+{
+  "schema_version": "0.1.0",
+  "journey_id": "omi-upstream-rebase-cloudflare-isolation",
+  "artifact_kind": "curated_journey",
+  "machine_derived": false,
+  "authoritative": true,
+  "curation_status": "curated",
+  "generated_at": "2026-08-02T14:27:29.239Z",
+  "source_story_ids": [
+    "omi-upstream-rebase-cloudflare-isolation",
+    "story-docs-story-ssot-recovery",
+    "story-product-auth-account-access",
+    "story-quality-test-ci-readiness",
+    "story-security-api-trust-boundary",
+    "story-vibepro-diagnosis-commercialization-roadmap"
+  ],
+  "source_digest": {
+    "algorithm": "sha256",
+    "value": "ca4fe4ad1c5def47073b90dc647db3eb4920bb6653ac6633697c3bea3b87c331"
+  },
+  "source": {
+    "story_count": 6,
+    "story_catalog_available": true,
+    "input_paths": [
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json",
+      ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json",
+      "docs/doc/developer/gmail-calendar-oauth-migration.md",
+      "docs/product/invariants/auth-session.md",
+      "docs/product/invariants/memory-promotion-authority.md",
+      "docs/runbooks/mcp-oauth-review-validator.md",
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/superpowers/specs/2026-07-22-desktop-chat-backend-authoritative-design.md"
+    ]
+  },
+  "backbone": [
+    {
+      "activity_id": "activation",
+      "label": "利用開始する",
+      "order": 1,
+      "steps": [
+        {
+          "step_id": "signup",
+          "label": "登録・認証する",
+          "order": 0,
+          "story_ids": [
+            "omi-upstream-rebase-cloudflare-isolation",
+            "story-product-auth-account-access"
+          ],
+          "story_labels": {
+            "omi-upstream-rebase-cloudflare-isolation": "Omi OSS最新版への再ベースとCloudflareセルフホスト差分の隔離",
+            "story-product-auth-account-access": "認証とアカウント利用開始を成立させる"
+          },
+          "enabler_story_ids": [],
+          "enabler_story_labels": {},
+          "evidence": [
+            {
+              "type": "source_path",
+              "ref": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md"
+            },
+            {
+              "type": "source_path",
+              "ref": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json"
+            },
+            {
+              "type": "source_path",
+              "ref": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "surface",
+              "ref": "document:docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+              "source": "source_path"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "typecheck:pass",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "unit:pass",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-evidence.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate_dag:needs_verification",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:story:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:story_source_integrity:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:design_input_judgment:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:engineering_judgment_route:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:common_judgment_spine:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_axis_public_contract:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_axis_rollback_sensitive:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_axis_scope_reviewability:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_axis_release_ops:block",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:pr_scope_judgment:needs_split",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:scope_boundary:not_declared",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:bug_physics_triage:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:bug_physics_deployment_version_stamp:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:bug_physics_deployment_code_gates_na:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:bug_physics_contradiction_feedback:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_release_engineering_release_traceability:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_release_engineering_artifact_verification:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_release_engineering_rollout_rollback:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:pr_route_classification:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:pr_body_contract:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:split_resolution:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:managed_worktree:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:change_classification:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:pr_freshness:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:architecture:satisfied",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:spec:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:design_diagrams:satisfied",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:code:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:network_contract:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:path_surface_matrix:partial_surface",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:journey_context:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:design_ssot_reconciliation:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:responsibility_authority:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:requirement:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:failure_mode_coverage:missing_coverage",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:decision_record:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:unit:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:integration:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:e2e:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:visual_qa:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:validation_sequencing:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:dispatch_batch:preview:failed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:preflight:preview:human_usability:failed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:prepare:preview:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:preview:human_usability:stale",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:record:preview:human_usability:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:join:preview:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:dispatch_batch:gate:failed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:preflight:gate:gate_evidence:failed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:preflight:gate:pr_split_scope:failed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:prepare:gate:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:gate:gate_evidence:stale",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:record:gate:gate_evidence:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:gate:pr_split_scope:stale",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:record:gate:pr_split_scope:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:review:join:gate:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:agent_review:needs_review",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:review_surface_integrity:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:review_inspection_required:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:definition_of_done:needs_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:artifact_consistency:stale_evidence",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:dag_connectivity:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:pr:pending",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:1:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:2:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:3:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:4:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:5:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:6:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:7:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:8:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:9:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:10:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:11:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:12:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:13:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:14:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:15:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:16:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:17:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:18:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:19:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:20:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:21:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:22:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:23:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:24:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:ac:25:present",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:traceability_clause_coverage:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:evidence_adjudication:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:judgment_dag_adjudication:not_applicable",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:evidence_reuse_freshness:passed",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "gate_evidence",
+              "ref": "gate:gate:senior_gap_judgment:block",
+              "source": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/gate-dag.json"
+            },
+            {
+              "type": "workflow_position",
+              "ref": "unknown"
+            },
+            {
+              "type": "source_path",
+              "ref": "docs/doc/developer/gmail-calendar-oauth-migration.md"
+            },
+            {
+              "type": "source_path",
+              "ref": "docs/product/invariants/auth-session.md"
+            },
+            {
+              "type": "source_path",
+              "ref": "docs/product/invariants/memory-promotion-authority.md"
+            },
+            {
+              "type": "source_path",
+              "ref": "docs/runbooks/mcp-oauth-review-validator.md"
+            },
+            {
+              "type": "source_path",
+              "ref": "docs/superpowers/specs/2026-07-22-desktop-chat-backend-authoritative-design.md"
+            },
+            {
+              "type": "surface",
+              "ref": "document:docs/doc/developer/gmail-calendar-oauth-migration.md",
+              "source": "story_catalog"
+            },
+            {
+              "type": "surface",
+              "ref": "document:docs/product/invariants/auth-session.md",
+              "source": "story_catalog"
+            },
+            {
+              "type": "surface",
+              "ref": "document:docs/product/invariants/memory-promotion-authority.md",
+              "source": "story_catalog"
+            },
+            {
+              "type": "surface",
+              "ref": "document:docs/runbooks/mcp-oauth-review-validator.md",
+              "source": "story_catalog"
+            },
+            {
+              "type": "surface",
+              "ref": "document:docs/superpowers/specs/2026-07-22-desktop-chat-backend-authoritative-design.md",
+              "source": "story_catalog"
+            },
+            {
+              "type": "workflow_position",
+              "ref": "activation"
+            }
+          ],
+          "confidence": "low"
+        }
+      ]
+    },
+    {
+      "activity_id": "risk_control",
+      "label": "信頼境界を守る",
+      "order": 6,
+      "steps": [
+        {
+          "step_id": "trust-boundary",
+          "label": "信頼境界を守る",
+          "order": 0,
+          "story_ids": [],
+          "story_labels": {},
+          "enabler_story_ids": [
+            "story-security-api-trust-boundary"
+          ],
+          "enabler_story_labels": {
+            "story-security-api-trust-boundary": "APIと外部連携の信頼境界を固める"
+          },
+          "evidence": [
+            {
+              "type": "workflow_position",
+              "ref": "risk_control"
+            }
+          ],
+          "confidence": "low"
+        }
+      ]
+    },
+    {
+      "activity_id": "quality_gate",
+      "label": "品質を保つ",
+      "order": 7,
+      "steps": [
+        {
+          "step_id": "quality-evidence",
+          "label": "品質証跡を揃える",
+          "order": 0,
+          "story_ids": [],
+          "story_labels": {},
+          "enabler_story_ids": [
+            "story-quality-test-ci-readiness",
+            "story-vibepro-diagnosis-commercialization-roadmap"
+          ],
+          "enabler_story_labels": {
+            "story-quality-test-ci-readiness": "テストとCIを開発ゲートとして整える",
+            "story-vibepro-diagnosis-commercialization-roadmap": "M1: VibePro 診断→商用化ロードマップ"
+          },
+          "evidence": [
+            {
+              "type": "workflow_position",
+              "ref": "quality_gate"
+            },
+            {
+              "type": "workflow_position",
+              "ref": "unknown"
+            }
+          ],
+          "confidence": "low"
+        }
+      ]
+    },
+    {
+      "activity_id": "knowledge_recovery",
+      "label": "正本を復元する",
+      "order": 9,
+      "steps": [
+        {
+          "step_id": "recover-source",
+          "label": "正本を復元する",
+          "order": 0,
+          "story_ids": [],
+          "story_labels": {},
+          "enabler_story_ids": [
+            "story-docs-story-ssot-recovery"
+          ],
+          "enabler_story_labels": {
+            "story-docs-story-ssot-recovery": "要求とStoryの正本を復元する"
+          },
+          "evidence": [
+            {
+              "type": "workflow_position",
+              "ref": "knowledge_recovery"
+            }
+          ],
+          "confidence": "low"
+        }
+      ]
+    }
+  ],
+  "release_slices": [
+    {
+      "slice_id": "walking_skeleton",
+      "label": "最小体験",
+      "kind": "walking_skeleton",
+      "story_ids": [
+        "omi-upstream-rebase-cloudflare-isolation",
+        "story-product-auth-account-access"
+      ],
+      "required_step_ids": [
+        "discover",
+        "signup",
+        "first-value"
+      ],
+      "status": "present"
+    },
+    {
+      "slice_id": "next_slice",
+      "label": "次の成長領域",
+      "kind": "next_slice",
+      "story_ids": [],
+      "required_step_ids": [],
+      "status": "empty"
+    },
+    {
+      "slice_id": "hardening",
+      "label": "信頼性・品質強化",
+      "kind": "hardening",
+      "story_ids": [
+        "story-docs-story-ssot-recovery",
+        "story-quality-test-ci-readiness",
+        "story-security-api-trust-boundary",
+        "story-vibepro-diagnosis-commercialization-roadmap"
+      ],
+      "required_step_ids": [],
+      "status": "present"
+    }
+  ],
+  "walking_skeleton": {
+    "status": "needs_evidence",
+    "required_step_ids": [
+      "discover",
+      "signup",
+      "first-value"
+    ],
+    "covered_step_ids": [
+      "signup"
+    ],
+    "gaps": [
+      {
+        "step_id": "discover",
+        "label": "価値を理解する"
+      },
+      {
+        "step_id": "first-value",
+        "label": "最初の価値を得る"
+      }
+    ],
+    "story_ids": [
+      "omi-upstream-rebase-cloudflare-isolation",
+      "story-product-auth-account-access"
+    ]
+  },
+  "unplaced_stories": [],
+  "conflicts": [],
+  "open_questions": [
+    {
+      "id": "gap:discover",
+      "kind": "walking_skeleton_gap",
+      "question": "Walking skeleton に必要な 価値を理解する step をどの Story が満たすか確認する。",
+      "blocker": false,
+      "step_id": "discover",
+      "curation": {
+        "id": "gap:discover",
+        "status": "deferred",
+        "reason": "This is an existing-user self-hosted read slice. Worker provisioning and local overlay discovery are documented in the operational runbook and are not asserted as an in-app onboarding flow in this PR.",
+        "owner": null
+      }
+    },
+    {
+      "id": "gap:first-value",
+      "kind": "walking_skeleton_gap",
+      "question": "Walking skeleton に必要な 最初の価値を得る step をどの Story が満たすか確認する。",
+      "blocker": false,
+      "step_id": "first-value",
+      "curation": {
+        "id": "gap:first-value",
+        "status": "resolved",
+        "reason": "For a configured existing user, the thin Conversations entry opens the Cloudflare list and then session detail. Widget tests cover this source-level first-value path; iPhone and deployed Worker runtime evidence remain explicitly unverified.",
+        "owner": null
+      }
+    }
+  ],
+  "handoff": {
+    "status": "ready_for_ai",
+    "purpose": "Use this machine-derived context to create or revise a curated product Journey. Do not treat the candidate placements as authoritative.",
+    "artifact_kind": "ai_handoff",
+    "target_curated_artifact": ".vibepro/journeys/omi-upstream-rebase-cloudflare-isolation.json",
+    "candidate_artifact_kind": "curated_journey",
+    "candidate_journey_id": "omi-upstream-rebase-cloudflare-isolation",
+    "source_story_count": 6,
+    "candidate_activity_count": 4,
+    "conflict_count": 0,
+    "open_question_count": 2,
+    "blocking_question_count": 0,
+    "instructions": [
+      "Decide which product loop or user/business journey is being curated.",
+      "Classify candidate Story placements as core steps, supporting concerns, or out-of-journey evidence.",
+      "Resolve conflicts and blocking open questions explicitly.",
+      "Write a curated Journey JSON artifact before treating Journey status as available."
+    ]
+  },
+  "curated_at": "2026-08-02T14:27:29.403Z",
+  "curation": {
+    "input_path": ".vibepro/journey/omi-judgments.json",
+    "next_slice": "Validate recording to sync to Cloudflare list to detail on a newly based iPhone build, then implement the WAL upload/ack/delete adapter only after that runtime evidence is captured.",
+    "notes": null,
+    "conflicts": {},
+    "open_questions": {
+      "gap:discover": {
+        "id": "gap:discover",
+        "status": "deferred",
+        "reason": "This is an existing-user self-hosted read slice. Worker provisioning and local overlay discovery are documented in the operational runbook and are not asserted as an in-app onboarding flow in this PR.",
+        "owner": null
+      },
+      "gap:first-value": {
+        "id": "gap:first-value",
+        "status": "resolved",
+        "reason": "For a configured existing user, the thin Conversations entry opens the Cloudflare list and then session detail. Widget tests cover this source-level first-value path; iPhone and deployed Worker runtime evidence remain explicitly unverified.",
+        "owner": null
+      }
+    }
+  }
+}

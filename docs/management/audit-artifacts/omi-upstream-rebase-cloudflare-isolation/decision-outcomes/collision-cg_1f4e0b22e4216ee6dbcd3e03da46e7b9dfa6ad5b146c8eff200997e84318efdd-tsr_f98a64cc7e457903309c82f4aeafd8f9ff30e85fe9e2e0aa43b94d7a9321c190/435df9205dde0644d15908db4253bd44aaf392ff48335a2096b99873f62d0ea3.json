@@ -1,0 +1,103 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "ledger_path": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/decision-outcome-ledger.json",
+  "selector": {
+    "collision_group": "cg_1f4e0b22e4216ee6dbcd3e03da46e7b9dfa6ad5b146c8eff200997e84318efdd",
+    "trace_source_ref": "tsr_f98a64cc7e457903309c82f4aeafd8f9ff30e85fe9e2e0aa43b94d7a9321c190"
+  },
+  "parent_revision_fingerprint": "e5a5233e7ced3e3e65623e9fe8b009377a884a460095bbead8b6a6dcfb743b5d",
+  "revision_fingerprint": "435df9205dde0644d15908db4253bd44aaf392ff48335a2096b99873f62d0ea3",
+  "trace": {
+    "decision_trace_id": null,
+    "collision_group": "cg_1f4e0b22e4216ee6dbcd3e03da46e7b9dfa6ad5b146c8eff200997e84318efdd",
+    "trace_source_ref": "tsr_f98a64cc7e457903309c82f4aeafd8f9ff30e85fe9e2e0aa43b94d7a9321c190",
+    "normalized_subject_key": null,
+    "source_identity": {
+      "source_kind": "decision_record",
+      "source_ref": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/decision-records.json",
+      "native_id": "decision-1785715889694-b68562ec",
+      "digest": "90ec8cb57a0d886d96f6f97924c923685c5a99c2db51cc8265664b352cbfba56",
+      "multiplicity": 1
+    },
+    "evidence_head_sha": "9465b75d22cffe230b956bc43f4459931ac9c470",
+    "parent_revision_fingerprint": "e5a5233e7ced3e3e65623e9fe8b009377a884a460095bbead8b6a6dcfb743b5d",
+    "revision_fingerprint": "435df9205dde0644d15908db4253bd44aaf392ff48335a2096b99873f62d0ea3",
+    "observation_identity": null,
+    "observation_read_aliases": [
+      {
+        "trace_selector": {
+          "collision_group": "cg_1f4e0b22e4216ee6dbcd3e03da46e7b9dfa6ad5b146c8eff200997e84318efdd",
+          "trace_source_ref": "tsr_69cb7f557759b51b1ed0d44ec45f636bfcca8bc4688c264e20cfab8cf268ab11"
+        },
+        "parent_revision_fingerprint": "31d1ef9677b52438bec61d94ba88fda07b9f3fba896b392fb46e2b2487dd3f7d"
+      }
+    ],
+    "trace_status": "incomplete",
+    "missing_reason": "stable_source_key_missing",
+    "finding": {
+      "status": "not_observed",
+      "value": null,
+      "provenance": []
+    },
+    "gate": {
+      "status": "not_observed",
+      "value": null,
+      "provenance": []
+    },
+    "detector": {
+      "status": "not_observed",
+      "value": null,
+      "provenance": []
+    },
+    "disposition": {
+      "status": "not_observed",
+      "value": null,
+      "provenance": []
+    },
+    "decision": {
+      "status": "not_observed",
+      "value": null,
+      "provenance": []
+    },
+    "behavior_delta": {
+      "status": "not_observed",
+      "before": null,
+      "after": null,
+      "change_refs": [],
+      "verification_refs": [],
+      "verification_sources": [],
+      "missing_reason": "explicit_behavior_delta_missing",
+      "excluded_sources": []
+    },
+    "delivery": {
+      "status": "merged",
+      "pr": {
+        "number": 1,
+        "url": "https://github.com/Unson-LLC/omi/pull/1",
+        "state": "MERGED"
+      },
+      "merge": {
+        "sha": "0cfb270901e626c89b56aea4f13c9a158179e478",
+        "status": "merged_externally",
+        "merged_at": "2026-08-03T11:27:18Z"
+      },
+      "source_ref": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/pr-merge.json"
+    },
+    "downstream_outcome": {
+      "status": "not_observed",
+      "value": null,
+      "reason": null,
+      "source_ref": null,
+      "missing_reason": "observation_missing"
+    },
+    "eligible_outcome_sources": {
+      "total_count": 0,
+      "returned_count": 0,
+      "omitted_count": 0,
+      "truncated": false,
+      "entries": []
+    },
+    "source_errors": []
+  }
+}

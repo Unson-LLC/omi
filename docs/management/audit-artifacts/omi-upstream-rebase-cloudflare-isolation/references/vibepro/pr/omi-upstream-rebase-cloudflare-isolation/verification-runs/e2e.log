@@ -1,0 +1,234 @@
+
+> test:e2e
+> make -C ../.. e2e -f .vibepro/verification/Makefile
+
+Integration diff inventory (upstream/main...HEAD):
+A	.vibepro/verification/Makefile
+M	app/lib/l10n/app_ar.arb
+M	app/lib/l10n/app_be.arb
+M	app/lib/l10n/app_bg.arb
+M	app/lib/l10n/app_bn.arb
+M	app/lib/l10n/app_bs.arb
+M	app/lib/l10n/app_ca.arb
+M	app/lib/l10n/app_cs.arb
+M	app/lib/l10n/app_da.arb
+M	app/lib/l10n/app_de.arb
+M	app/lib/l10n/app_el.arb
+M	app/lib/l10n/app_en.arb
+M	app/lib/l10n/app_es.arb
+M	app/lib/l10n/app_et.arb
+M	app/lib/l10n/app_fa.arb
+M	app/lib/l10n/app_fi.arb
+M	app/lib/l10n/app_fr.arb
+M	app/lib/l10n/app_he.arb
+M	app/lib/l10n/app_hi.arb
+M	app/lib/l10n/app_hr.arb
+M	app/lib/l10n/app_hu.arb
+M	app/lib/l10n/app_id.arb
+M	app/lib/l10n/app_it.arb
+M	app/lib/l10n/app_ja.arb
+M	app/lib/l10n/app_kn.arb
+M	app/lib/l10n/app_ko.arb
+M	app/lib/l10n/app_localizations.dart
+M	app/lib/l10n/app_localizations_ar.dart
+M	app/lib/l10n/app_localizations_be.dart
+M	app/lib/l10n/app_localizations_bg.dart
+M	app/lib/l10n/app_localizations_bn.dart
+M	app/lib/l10n/app_localizations_bs.dart
+M	app/lib/l10n/app_localizations_ca.dart
+M	app/lib/l10n/app_localizations_cs.dart
+M	app/lib/l10n/app_localizations_da.dart
+M	app/lib/l10n/app_localizations_de.dart
+M	app/lib/l10n/app_localizations_el.dart
+M	app/lib/l10n/app_localizations_en.dart
+M	app/lib/l10n/app_localizations_es.dart
+M	app/lib/l10n/app_localizations_et.dart
+M	app/lib/l10n/app_localizations_fa.dart
+M	app/lib/l10n/app_localizations_fi.dart
+M	app/lib/l10n/app_localizations_fr.dart
+M	app/lib/l10n/app_localizations_he.dart
+M	app/lib/l10n/app_localizations_hi.dart
+M	app/lib/l10n/app_localizations_hr.dart
+M	app/lib/l10n/app_localizations_hu.dart
+M	app/lib/l10n/app_localizations_id.dart
+M	app/lib/l10n/app_localizations_it.dart
+M	app/lib/l10n/app_localizations_ja.dart
+M	app/lib/l10n/app_localizations_kn.dart
+M	app/lib/l10n/app_localizations_ko.dart
+M	app/lib/l10n/app_localizations_lt.dart
+M	app/lib/l10n/app_localizations_lv.dart
+M	app/lib/l10n/app_localizations_mk.dart
+M	app/lib/l10n/app_localizations_mr.dart
+M	app/lib/l10n/app_localizations_ms.dart
+M	app/lib/l10n/app_localizations_nl.dart
+M	app/lib/l10n/app_localizations_no.dart
+M	app/lib/l10n/app_localizations_pl.dart
+M	app/lib/l10n/app_localizations_pt.dart
+M	app/lib/l10n/app_localizations_ro.dart
+M	app/lib/l10n/app_localizations_ru.dart
+M	app/lib/l10n/app_localizations_sk.dart
+M	app/lib/l10n/app_localizations_sl.dart
+M	app/lib/l10n/app_localizations_sr.dart
+M	app/lib/l10n/app_localizations_sv.dart
+M	app/lib/l10n/app_localizations_ta.dart
+M	app/lib/l10n/app_localizations_te.dart
+M	app/lib/l10n/app_localizations_th.dart
+M	app/lib/l10n/app_localizations_tl.dart
+M	app/lib/l10n/app_localizations_tr.dart
+M	app/lib/l10n/app_localizations_uk.dart
+M	app/lib/l10n/app_localizations_ur.dart
+M	app/lib/l10n/app_localizations_vi.dart
+M	app/lib/l10n/app_localizations_zh.dart
+M	app/lib/l10n/app_lt.arb
+M	app/lib/l10n/app_lv.arb
+M	app/lib/l10n/app_mk.arb
+M	app/lib/l10n/app_mr.arb
+M	app/lib/l10n/app_ms.arb
+M	app/lib/l10n/app_nl.arb
+M	app/lib/l10n/app_no.arb
+M	app/lib/l10n/app_pl.arb
+M	app/lib/l10n/app_pt.arb
+M	app/lib/l10n/app_ro.arb
+M	app/lib/l10n/app_ru.arb
+M	app/lib/l10n/app_sk.arb
+M	app/lib/l10n/app_sl.arb
+M	app/lib/l10n/app_sr.arb
+M	app/lib/l10n/app_sv.arb
+M	app/lib/l10n/app_ta.arb
+M	app/lib/l10n/app_te.arb
+M	app/lib/l10n/app_th.arb
+M	app/lib/l10n/app_tl.arb
+M	app/lib/l10n/app_tr.arb
+M	app/lib/l10n/app_uk.arb
+M	app/lib/l10n/app_ur.arb
+M	app/lib/l10n/app_vi.arb
+M	app/lib/l10n/app_zh.arb
+M	app/lib/main.dart
+M	app/lib/pages/conversations/conversations_page.dart
+A	app/lib/pages/conversations/widgets/conversations_section_header.dart
+A	app/lib/self_hosted/cloudflare/cloudflare_transcript_api.dart
+A	app/lib/self_hosted/cloudflare/cloudflare_transcript_configuration.dart
+A	app/lib/self_hosted/cloudflare/cloudflare_transcript_exception.dart
+A	app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart
+A	app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart
+A	app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart
+A	app/lib/self_hosted/sync/self_hosted_wal_sync_adapter.dart
+A	app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart
+A	app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart
+A	app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart
+A	app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart
+A	app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+A	app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart
+A	docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md
+A	docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-6700899f.md
+A	docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-8e338e4d.md
+A	docs/management/decisions/2026-08-03-budget-override-omi-upstream-rebase-cloudflare-isolation-c26d8124.md
+A	docs/operational/omi-self-hosted-local-overlay.md
+A	docs/specs/omi-upstream-rebase-cloudflare-isolation.md
+A	docs/stories/omi-upstream-rebase-cloudflare-isolation.md
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -C "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation" -f "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/.vibepro/verification/Makefile" test
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test \
+		test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart \
+		test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart \
+		test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart \
+		test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart \
+		test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart
+00:00 +0: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: invalid Worker configuration stays disabled and does not invoke HTTP
+00:00 +1: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: lists every cursor page with bearer authorization
+00:00 +2: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: does not follow Worker redirects and reports the 3xx response safely
+00:00 +3: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: maps the Worker list fixture transcript_char_count and keeps the legacy fallback explicit
+00:00 +4: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: rejects a non-object session in the Worker list response
+00:00 +5: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: rejects a Worker list session without an id
+00:00 +6: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: rejects malformed JSON from the Worker list fixture without exposing the token
+00:00 +7: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: rejects a Worker list fixture without top-level sessions
+00:00 +8: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: rejects a Worker list fixture with a repeated cursor
+00:00 +9: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: sorts transcript chunks by sequence
+00:00 +10: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: accepts only JSON integers for transcript chunk sequence values
+00:00 +11: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: chunk model rejects non-integer JSON sequence values
+00:00 +12: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +13: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +14: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +15: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +16: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +17: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +18: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +19: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +20: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts a non-empty token and HTTPS Worker URL
+00:00 +21: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_api_test.dart: wraps ClientException values in a fixed safe Cloudflare error
+00:00 +22: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: requires a non-empty token even for a valid HTTPS Worker URL
+00:00 +23: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: accepts loopback HTTP Worker URLs for development tests
+00:00 +24: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_configuration_test.dart: rejects public HTTP and structurally unsafe Worker URLs
+00:00 +25: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart: does not fetch when Cloudflare configuration is disabled
+00:00 +26: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcript_provider_test.dart: keeps the existing Omi UI boundary by retaining failures in the provider
+00:00 +27: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_test.dart: disabled configuration is a no-op
+00:00 +28: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: Omi-zero fixture keeps the configured Cloudflare entry and opens the normal list and detail
+00:00 +29: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: Omi-zero fixture keeps the configured Cloudflare entry and opens the normal list and detail
+00:01 +30: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: empty list and disabled Omi-zero header preserve their respective empty boundaries
+00:01 +31: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: disabled Cloudflare keeps existing Omi and daily-summary headers
+00:01 +32: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: invalid Cloudflare configuration hides the Conversations entry
+00:02 +33: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: detail empty keeps the detail-specific no-transcript message
+00:02 +34: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: English list failure uses localized copy instead of the API error
+00:02 +35: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: English detail failure uses localized copy instead of the API error
+00:02 +36: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: English list session metadata is self-describing in text and semantics
+00:02 +37: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: English detail session metadata is self-describing in text and semantics
+00:02 +38: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: Japanese list failure uses localized copy instead of the API error
+00:02 +39: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: Japanese detail failure uses localized copy instead of the API error
+00:02 +40: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: Japanese list session metadata is self-describing in text and semantics
+00:02 +41: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: Japanese detail session metadata is self-describing in text and semantics
+00:02 +42: /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart: detail retry replaces an error with the retried transcript
+00:02 +43: All tests passed!
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart \
+		--dart-define=BRAINBASE_SELF_HOSTED_SYNC=true \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_URL=https://worker.example.com \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_TOKEN='   ' \
+		--dart-define=WAL_ADAPTER_EXPECTED_ENABLED=false \
+		--dart-define=WAL_ADAPTER_TEST_SCENARIO=whitespace-token
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+00:00 +0: environment whitespace-token uses the expected no-op state
+00:00 +1: All tests passed!
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart \
+		--dart-define=BRAINBASE_SELF_HOSTED_SYNC=true \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_URL=not-a-url \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_TOKEN=token \
+		--dart-define=WAL_ADAPTER_EXPECTED_ENABLED=false \
+		--dart-define=WAL_ADAPTER_TEST_SCENARIO=malformed-url
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+00:00 +0: environment malformed-url uses the expected no-op state
+00:00 +1: All tests passed!
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart \
+		--dart-define=BRAINBASE_SELF_HOSTED_SYNC=true \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_URL=http://worker.example.com \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_TOKEN=token \
+		--dart-define=WAL_ADAPTER_EXPECTED_ENABLED=false \
+		--dart-define=WAL_ADAPTER_TEST_SCENARIO=public-http
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+00:00 +0: environment public-http uses the expected no-op state
+00:00 +1: All tests passed!
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart \
+		--dart-define=BRAINBASE_SELF_HOSTED_SYNC=true \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_URL=https://worker.example.com \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_TOKEN=token \
+		--dart-define=WAL_ADAPTER_EXPECTED_ENABLED=true \
+		--dart-define=WAL_ADAPTER_TEST_SCENARIO=valid-https
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+00:00 +0: environment valid-https uses the expected no-op state
+00:00 +1: All tests passed!
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart \
+		--dart-define=BRAINBASE_SELF_HOSTED_SYNC=true \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_URL=http://127.0.0.1:8787 \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_TOKEN=token \
+		--dart-define=WAL_ADAPTER_EXPECTED_ENABLED=true \
+		--dart-define=WAL_ADAPTER_TEST_SCENARIO=loopback-http
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+00:00 +0: environment loopback-http uses the expected no-op state
+00:00 +1: All tests passed!
+cd /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart \
+		--dart-define=BRAINBASE_SELF_HOSTED_SYNC=false \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_URL=https://worker.example.com \
+		--dart-define=BRAINBASE_SELF_HOSTED_WORKER_TOKEN=token \
+		--dart-define=WAL_ADAPTER_EXPECTED_ENABLED=false \
+		--dart-define=WAL_ADAPTER_TEST_SCENARIO=sync-flag-disabled
+00:00 +0: loading /Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation/app/test/self_hosted/sync/self_hosted_wal_sync_adapter_environment_test.dart
+00:00 +0: environment sync-flag-disabled uses the expected no-op state
+00:00 +1: All tests passed!

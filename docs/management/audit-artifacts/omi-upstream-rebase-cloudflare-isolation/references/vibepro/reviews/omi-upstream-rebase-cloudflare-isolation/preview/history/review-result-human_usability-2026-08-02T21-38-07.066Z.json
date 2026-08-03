@@ -1,0 +1,197 @@
+{
+  "schema_version": "0.1.0",
+  "story_id": "omi-upstream-rebase-cloudflare-isolation",
+  "stage": "preview",
+  "role": "human_usability",
+  "status": "needs_changes",
+  "summary": "Current frozen HEAD resolves localized error copy and self-describing metadata, but Flutter 3.41.9 isolated gen-l10n still rewrites all 50 generated localization Dart files; physical iPhone, VoiceOver, and deployed Worker remain unverified.",
+  "findings": [
+    {
+      "severity": "low",
+      "id": "human-usability-l10n-generation-not-reproducible-with-verification-sdk",
+      "detail": "Isolated Flutter 3.41.9 gen-l10n changes app_localizations.dart plus all 49 locale Dart files while ARBs remain unchanged; regenerate and commit complete fixed-SDK output and prove a zero-diff rerun."
+    }
+  ],
+  "finding_dispositions": [
+    {
+      "finding_id": "human-usability-cloudflare-error-copy-bypasses-arb",
+      "disposition": "accepted",
+      "resolved_by": [
+        "497c378e1"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    },
+    {
+      "finding_id": "human-usability-session-metadata-not-self-describing",
+      "disposition": "accepted",
+      "resolved_by": [
+        "497c378e1"
+      ],
+      "reason": null,
+      "inferred_from_resolution": true
+    }
+  ],
+  "artifacts": [],
+  "inspection": {
+    "summary": "Inspected frozen clean HEAD, both repair commits, Cloudflare list/detail source and English/Japanese widget coverage, all 49 ARBs and generated outputs, Story/Spec/ADR/runbook, strict-HEAD evidence and visual provenance; focused widgets and analyzer passed, isolated regeneration reproduced 50-file generated drift.",
+    "evidence": ".vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/unit.json; .vibepro/pr/omi-upstream-rebase-cloudflare-isolation/verification-runs/e2e.json; .vibepro/qa/omi-cloudflare-current/visual-residual.json",
+    "inputs": [
+      "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+      "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+      "app/lib/l10n/app_en.arb",
+      "app/lib/l10n/app_ja.arb",
+      "app/lib/l10n/app_localizations.dart",
+      "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+      "docs/operational/omi-self-hosted-local-overlay.md"
+    ]
+  },
+  "judgment_delta": [
+    "Three prior findings on 8bfc20a -> localized error and metadata semantics are resolved by 497c378e1, but fixed-SDK generated snapshot reproducibility remains unresolved because a clean Flutter 3.41.9 run changes 50 generated Dart files."
+  ],
+  "managed_worktree_context": {
+    "status": "needs_review",
+    "mode": "preferred",
+    "required": false,
+    "command_name": "review record",
+    "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+    "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+    "expected_root": null,
+    "expected_head_sha": "7b2614c1e5d5bff443c35299889437abc18efa64",
+    "current_head_sha": "7b2614c1e5d5bff443c35299889437abc18efa64",
+    "managed_worktree": null
+  },
+  "warnings": [
+    {
+      "id": "managed_worktree_locality",
+      "status": "needs_review",
+      "mode": "preferred",
+      "required": false,
+      "command_name": "review record",
+      "reason": "no managed worktree execution state is recorded for this checkout; run vibepro execute start before managed worktree protected commands",
+      "action": "Run the command from the recorded VibePro managed worktree, update the managed worktree to the current HEAD, or explicitly disable managed_worktree for this repository.",
+      "repo_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "actual_root": "/Users/ksato/workspace/code/.worktrees/omi-worktrees/omi-upstream-rebase-cloudflare-isolation",
+      "expected_root": null,
+      "expected_head_sha": "7b2614c1e5d5bff443c35299889437abc18efa64",
+      "current_head_sha": "7b2614c1e5d5bff443c35299889437abc18efa64",
+      "managed_worktree": null
+    }
+  ],
+  "recorded_at": "2026-08-02T21:38:07.066Z",
+  "git_context": {
+    "head_sha": "7b2614c1e5d5bff443c35299889437abc18efa64",
+    "current_branch": "codex/omi-upstream-rebase-cloudflare-isolation",
+    "dirty": false,
+    "raw_dirty": false,
+    "status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "user_status_fingerprint_hash": "3d8bca82f1c86d670864ef67509f8f3f641a2c525a5190fe39abd56126532574",
+    "fingerprint_scope": {
+      "user_excludes": [
+        ".vibepro/",
+        ".worktrees/vibepro/"
+      ],
+      "user_includes": [
+        ".vibepro/config.json"
+      ]
+    },
+    "recorded_at": "2026-08-02T21:38:07.050Z"
+  },
+  "freshness_policy": {
+    "schema_version": "0.1.0",
+    "configured_mode": "content_surface",
+    "effective_mode": "strict_head",
+    "source": "cli_override",
+    "reason": "replace the stale strict-HEAD preview review with current frozen HEAD evidence"
+  },
+  "content_binding": {
+    "schema_version": "0.1.0",
+    "model": "vibepro-content-scoped-evidence-freshness-v1",
+    "mode": "strict_head",
+    "status": "strict_head",
+    "reason": "strict HEAD binding was requested for this evidence",
+    "recorded_head_sha": "7b2614c1e5d5bff443c35299889437abc18efa64",
+    "surface_files": [
+      {
+        "path": "app/lib/l10n/app_en.arb",
+        "sha256": "41bb0ef11f272084aa90b50284517ee03d17fd7d2b70b48e654c93a1de90d15d",
+        "size": 441158
+      },
+      {
+        "path": "app/lib/l10n/app_ja.arb",
+        "sha256": "8d9bc0b1f585f7d2f4883cf96bd85356315a89b9c150cf5a06088028ede227c7",
+        "size": 215157
+      },
+      {
+        "path": "app/lib/l10n/app_localizations.dart",
+        "sha256": "b36c297f6accf946c8e3f780d02bc0959a42bb0e025924989266031901c4033c",
+        "size": 524452
+      },
+      {
+        "path": "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart",
+        "sha256": "ae313b2245b975c3db5a49af161178abb2f22662181ee412189d7ff9b0aa086c",
+        "size": 5828
+      },
+      {
+        "path": "app/test/self_hosted/cloudflare/cloudflare_transcripts_page_test.dart",
+        "sha256": "0e5ea2b45a3bf7542db08ac6a35a83b339bf78dc40dbc14989c6905f1378215b",
+        "size": 12187
+      },
+      {
+        "path": "docs/architecture/ADR-omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "d3a4d338951eb70ba98ca15e14cc149d585f9451f390933447fd68867cfb7537",
+        "size": 4944
+      },
+      {
+        "path": "docs/operational/omi-self-hosted-local-overlay.md",
+        "sha256": "bdabf659e15445948905ecda33f27b10e11df5b1eaa133609f37c6e9af55530e",
+        "size": 3026
+      },
+      {
+        "path": "docs/specs/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "12ca171d6e450bc3fc4e10dba33fe8341c2cfbb702ad3397944d2f64e1a56b10",
+        "size": 5396
+      },
+      {
+        "path": "docs/stories/omi-upstream-rebase-cloudflare-isolation.md",
+        "sha256": "212d94a22f766b3579ef8d433b547f43ecd93598cebb8eb222d454d3b433b834",
+        "size": 8298
+      }
+    ],
+    "missing_files": [],
+    "surface_hash": "9fb25288116a84071501ef8c14e0f25ea8bf787b3832f67140dafca1cd46fed6"
+  },
+  "source_fingerprint": "9eaf05b74ffbf4f0ffe90193d2b72ab93cc301d098addd61ed7292127f2116a4",
+  "agent_provenance": {
+    "schema_version": "0.1.0",
+    "system": "codex",
+    "execution_mode": "parallel_subagent",
+    "agent_id": "/root/omi_human_usability_final",
+    "agent_role": null,
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "cost_tier": "high",
+    "thread_id": "/root/omi_human_usability_final",
+    "session_id": "human-7b2614c-20260802t2131",
+    "tool_call_id": null,
+    "transcript_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-7b261-final.md",
+    "request_artifact": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/review-request-human_usability.md",
+    "recorded_by": null,
+    "lifecycle": {
+      "agent_closed": true,
+      "close_evidence": ".vibepro/reviews/omi-upstream-rebase-cloudflare-isolation/preview/agent-transcript-human_usability-7b261-final.md",
+      "close_note": null
+    },
+    "evidence_strength": "strong",
+    "reviewer_identity": {
+      "relation": "separate_session",
+      "reviewer_session_id": "human-7b2614c-20260802t2131",
+      "implementation_session_id": "root-implementation-7b2614c",
+      "source": "lifecycle_agent_binding"
+    }
+  },
+  "agent_usage": null
+}

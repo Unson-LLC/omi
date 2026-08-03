@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "artifact_kind": "current_widget_visual_producer",
+  "created_at": "2026-08-03T05:59:54.000Z",
+  "git": {
+    "head_sha": "58aefa6098f3fe3214c6bc2fc40558048d3ce914",
+    "worktree": "temporary test removed; QA artifacts are VibePro-excluded"
+  },
+  "toolchain": {
+    "flutter": "3.41.9",
+    "dart": "3.11.5",
+    "renderer": "flutter_test golden, 390x844, devicePixelRatio=1",
+    "font": "assets/fonts/SFPRODISPLAYREGULAR.OTF"
+  },
+  "producer": {
+    "kind": "deterministic current-product widget golden test",
+    "canonical_harness": ".vibepro/qa/omi-cloudflare-current/harness/omi_cloudflare_current_visual_golden_test.dart",
+    "canonical_harness_sha256": "076e3523f0e9d3bc7c989e8f83e4db4246ef14895f459021f9153ef10c796e47",
+    "temporary_test_path": "app/test/omi_cloudflare_current_visual_golden_test.dart",
+    "temporary_test_lifecycle": "copied verbatim from canonical harness; removed after successful production",
+    "command": "cp .vibepro/qa/omi-cloudflare-current/harness/omi_cloudflare_current_visual_golden_test.dart app/test/omi_cloudflare_current_visual_golden_test.dart && (cd app && /Users/ksato/.local/share/flutter-3.41.9/bin/flutter test test/omi_cloudflare_current_visual_golden_test.dart --update-goldens)",
+    "fixtures": "CloudflareTranscriptApi only; no Worker, network, physical device, or deployed runtime is called",
+    "asserted_current_strings": {
+      "cloudflare-list": "Status: transcribed · 12 characters",
+      "cloudflare-detail": "Status: transcribed · 12 characters; Hello Cloudflare",
+      "cloudflare-empty": "No Cloudflare transcripts are available yet.",
+      "cloudflare-error": "Cloudflare transcripts couldn't be loaded. Try again.; Retry"
+    }
+  },
+  "current_source_sha256": {
+    "app/lib/self_hosted/cloudflare/cloudflare_transcripts_page.dart": "ae313b2245b975c3db5a49af161178abb2f22662181ee412189d7ff9b0aa086c",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_provider.dart": "adbf88e557c021572188be1aa13372744c58ac4562336cc835b32432ffea64de",
+    "app/lib/self_hosted/cloudflare/cloudflare_transcript_models.dart": "b70c9dafc39a84dd1166557cfd381518c2182ba8c2a16990e0d13ea395e1f7ad"
+  },
+  "outputs_sha256": {
+    "cloudflare-list.png": "85d37fc47001ebaa50e6f19b605b07ad312f0098532afac35c687c71ba9961d1",
+    "cloudflare-detail.png": "b3489be7a23345565736a2b98c96b2b9b88caebc957f9616c2a242563fd69a14",
+    "cloudflare-empty.png": "0ec3ceafe7c31b1e2d683eebac489a6a894e17f43b9478c7aed1932ad3086c4f",
+    "cloudflare-error.png": "97f704ff58ddb7b84514bd776fbbf2c67f6fc9c08c46648017464aa2ee72a225"
+  },
+  "vibepro": {
+    "baseline_update_command": "/Users/ksato/.local/bin/vibepro verify visual . --id omi-upstream-rebase-cloudflare-isolation --current-dir .vibepro/qa/omi-cloudflare-current --update-baseline",
+    "verification_command": "/Users/ksato/.local/bin/vibepro verify visual . --id omi-upstream-rebase-cloudflare-isolation --current-dir .vibepro/qa/omi-cloudflare-current",
+    "visual_residual": ".vibepro/qa/omi-upstream-rebase-cloudflare-isolation/visual-residual.json",
+    "flow_run_id": null,
+    "flow_verification_json": null,
+    "null_reason": "VibePro verify flow correctly reports needs_setup because tracked root package.json has no Playwright dependency or script. No tracked manifest/config was modified to manufacture a flow run; --current-dir therefore leaves both fields null by design."
+  },
+  "unverified": [
+    "physical iPhone",
+    "VoiceOver",
+    "deployed Cloudflare Worker",
+    "production telemetry"
+  ]
+}
