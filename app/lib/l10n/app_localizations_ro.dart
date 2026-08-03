@@ -3213,6 +3213,17 @@ class AppLocalizationsRo extends AppLocalizations {
   String get noTranscriptMessage => 'Această conversație nu are transcriere.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Încă nu sunt disponibile transcrieri Cloudflare.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Transcrierile Cloudflare nu au putut fi încărcate. Încercați din nou.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Sesiune de transcriere $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL-ul conversației nu a putut fi generat.';
 
   @override

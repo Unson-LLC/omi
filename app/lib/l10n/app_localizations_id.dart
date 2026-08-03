@@ -3205,6 +3205,17 @@ class AppLocalizationsId extends AppLocalizations {
   String get noTranscriptMessage => 'Percakapan ini tidak memiliki transkrip.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Belum ada transkrip Cloudflare yang tersedia.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Transkrip Cloudflare tidak dapat dimuat. Coba lagi.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Sesi transkrip $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL percakapan tidak dapat dibuat.';
 
   @override

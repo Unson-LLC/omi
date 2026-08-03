@@ -3197,5 +3197,8 @@
     "whisperModelSizeLarge": "Veľký",
     "whisperModelSizeMedium": "Stredný",
     "whisperModelSizeSmall": "Malý",
-    "whisperModelSizeTiny": "Veľmi malý"
+    "whisperModelSizeTiny": "Veľmi malý",
+    "cloudflareTranscriptListEmptyMessage": "Zatiaľ nie sú k dispozícii žiadne prepisy z Cloudflare.",
+    "cloudflareTranscriptLoadError": "Prepisy z Cloudflare sa nepodarilo načítať. Skúste to znova.",
+    "cloudflareTranscriptSessionSemantics": "Relácia prepisu {sessionId}. {metadata}"
 }

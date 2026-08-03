@@ -3215,6 +3215,18 @@ class AppLocalizationsTe extends AppLocalizations {
   String get noTranscriptMessage => 'ఈ సంభాషణకు ట్రాన్‌స్క్రిప్ట్ లేదు.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'ఇంకా Cloudflare ట్రాన్స్‌క్రిప్ట్‌లు అందుబాటులో లేవు.';
+
+  @override
+  String get cloudflareTranscriptLoadError =>
+      'Cloudflare ట్రాన్స్‌క్రిప్ట్‌లను లోడ్ చేయలేకపోయాము. మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'ట్రాన్స్‌క్రిప్ట్ సెషన్ $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'సంభాషణ URL ఉత్పత్తి చేయబడలేదు.';
 
   @override

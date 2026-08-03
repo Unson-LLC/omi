@@ -3215,6 +3215,17 @@ class AppLocalizationsHu extends AppLocalizations {
   String get noTranscriptMessage => 'Ehhez a beszélgetéshez nincs átirat.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Még nincsenek elérhető Cloudflare-átiratok.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'A Cloudflare-átiratokat nem sikerült betölteni. Próbálja újra.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Átirat-munkamenet $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'A beszélgetés URL-je nem generálható.';
 
   @override

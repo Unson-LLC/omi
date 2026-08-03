@@ -3213,6 +3213,18 @@ class AppLocalizationsMk extends AppLocalizations {
   String get noTranscriptMessage => 'Овој разговор нема препис.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Сè уште нема достапни транскрипти од Cloudflare.';
+
+  @override
+  String get cloudflareTranscriptLoadError =>
+      'Не можеа да се вчитаат транскриптите од Cloudflare. Обидете се повторно.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Сесија за транскрипт $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL на разговор не можеше да се генерира.';
 
   @override

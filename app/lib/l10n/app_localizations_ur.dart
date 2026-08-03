@@ -3204,6 +3204,17 @@ class AppLocalizationsUr extends AppLocalizations {
   String get noTranscriptMessage => 'اس بات چیت میں کوئی ٹرانسکرپٹ نہیں ہے۔';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'ابھی کوئی Cloudflare نقل دستیاب نہیں ہے۔';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare نقلیں لوڈ نہیں ہو سکیں۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'نقل کا سیشن $sessionId۔ $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'بات چیت کا URL نہیں بنایا جا سکا۔';
 
   @override

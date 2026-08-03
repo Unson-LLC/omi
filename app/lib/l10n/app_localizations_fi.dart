@@ -3194,6 +3194,17 @@ class AppLocalizationsFi extends AppLocalizations {
   String get noTranscriptMessage => 'Tällä keskustelulla ei ole litterointia.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Cloudflare-litterointeja ei ole vielä saatavilla.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare-litterointeja ei voitu ladata. Yritä uudelleen.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Litterointisessio $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Keskustelun URL-osoitetta ei voitu luoda.';
 
   @override

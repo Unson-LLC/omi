@@ -3201,6 +3201,17 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noTranscriptMessage => 'Cuộc trò chuyện này không có bản ghi.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Chưa có bản chép lời Cloudflare nào.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Không thể tải bản chép lời Cloudflare. Hãy thử lại.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Phiên bản chép lời $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Không thể tạo URL cuộc trò chuyện.';
 
   @override

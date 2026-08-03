@@ -3202,6 +3202,17 @@ class AppLocalizationsLv extends AppLocalizations {
   String get noTranscriptMessage => 'Šai sarunai nav transkripcijas.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Cloudflare transkripcijas vēl nav pieejamas.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Neizdevās ielādēt Cloudflare transkripcijas. Mēģiniet vēlreiz.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Transkripcijas sesija $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Sarunas URL nevarēja izveidot.';
 
   @override

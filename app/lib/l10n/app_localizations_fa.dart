@@ -3202,6 +3202,17 @@ class AppLocalizationsFa extends AppLocalizations {
   String get noTranscriptMessage => 'این گفتگو رونوشت ندارد.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'هنوز هیچ رونوشت Cloudflare در دسترس نیست.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'رونوشت‌های Cloudflare بارگیری نشدند. دوباره تلاش کنید.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'نشست رونوشت $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL گفتگو را نتوانستیم ایجاد کنیم.';
 
   @override

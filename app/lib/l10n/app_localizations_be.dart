@@ -3205,6 +3205,17 @@ class AppLocalizationsBe extends AppLocalizations {
   String get noTranscriptMessage => 'Гэтая разнамова не мае стэнаграмы.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Транскрыпцыі Cloudflare пакуль недаступныя.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Не ўдалося загрузіць транскрыпцыі Cloudflare. Паспрабуйце яшчэ раз.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Сеанс транскрыпцыі $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL разнамовы не мог быць сгенерыраны.';
 
   @override

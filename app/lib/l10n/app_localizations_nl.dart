@@ -3205,6 +3205,18 @@ class AppLocalizationsNl extends AppLocalizations {
   String get noTranscriptMessage => 'Dit gesprek heeft geen transcript.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Er zijn nog geen Cloudflare-transcripties beschikbaar.';
+
+  @override
+  String get cloudflareTranscriptLoadError =>
+      'Cloudflare-transcripties konden niet worden geladen. Probeer het opnieuw.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Transcriptiesessie $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Gesprek-URL kon niet worden gegenereerd.';
 
   @override

@@ -3202,6 +3202,17 @@ class AppLocalizationsUk extends AppLocalizations {
   String get noTranscriptMessage => 'Ця розмова не має розшифровки.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Транскрипції Cloudflare ще недоступні.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Не вдалося завантажити транскрипції Cloudflare. Спробуйте ще раз.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Сеанс транскрипції $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL-адресу розмови не вдалося створити.';
 
   @override

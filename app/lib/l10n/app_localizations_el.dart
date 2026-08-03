@@ -3220,6 +3220,18 @@ class AppLocalizationsEl extends AppLocalizations {
   String get noTranscriptMessage => 'Αυτή η συνομιλία δεν έχει μεταγραφή.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Δεν υπάρχουν ακόμη διαθέσιμες απομαγνητοφωνήσεις Cloudflare.';
+
+  @override
+  String get cloudflareTranscriptLoadError =>
+      'Δεν ήταν δυνατή η φόρτωση των απομαγνητοφωνήσεων Cloudflare. Δοκιμάστε ξανά.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Συνεδρία απομαγνητοφώνησης $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Η διεύθυνση URL της συνομιλίας δεν μπόρεσε να δημιουργηθεί.';
 
   @override

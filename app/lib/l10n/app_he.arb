@@ -10767,5 +10767,8 @@
     "whisperModelSizeLarge": "גדול",
     "whisperModelSizeMedium": "בינוני",
     "whisperModelSizeSmall": "קטן",
-    "whisperModelSizeTiny": "זעיר"
+    "whisperModelSizeTiny": "זעיר",
+    "cloudflareTranscriptListEmptyMessage": "עדיין אין תמלילים זמינים מ-Cloudflare.",
+    "cloudflareTranscriptLoadError": "לא ניתן היה לטעון את התמלילים מ-Cloudflare. נסו שוב.",
+    "cloudflareTranscriptSessionSemantics": "הפעלת תמלול {sessionId}. {metadata}"
 }

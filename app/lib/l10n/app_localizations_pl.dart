@@ -3202,6 +3202,17 @@ class AppLocalizationsPl extends AppLocalizations {
   String get noTranscriptMessage => 'Ta rozmowa nie ma transkrypcji.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Nie ma jeszcze dostępnych transkrypcji Cloudflare.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Nie udało się wczytać transkrypcji Cloudflare. Spróbuj ponownie.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Sesja transkrypcji $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Adres URL rozmowy nie może być wygenerowany.';
 
   @override

@@ -3207,6 +3207,17 @@ class AppLocalizationsHr extends AppLocalizations {
   String get noTranscriptMessage => 'Ovaj razgovor nema transkript.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Cloudflare prijepisi još nisu dostupni.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare prijepisi nisu se mogli učitati. Pokušajte ponovno.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Sesija prijepisa $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL razgovora nije moguće generirati.';
 
   @override

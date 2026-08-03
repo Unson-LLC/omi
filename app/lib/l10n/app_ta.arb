@@ -10767,5 +10767,8 @@
     "whisperModelSizeLarge": "பெரியது",
     "whisperModelSizeMedium": "நடுத்தரம்",
     "whisperModelSizeSmall": "சிறியது",
-    "whisperModelSizeTiny": "மிகச் சிறியது"
+    "whisperModelSizeTiny": "மிகச் சிறியது",
+    "cloudflareTranscriptListEmptyMessage": "இன்னும் Cloudflare உரைநகல்கள் எதுவும் கிடைக்கவில்லை.",
+    "cloudflareTranscriptLoadError": "Cloudflare உரைநகல்களை ஏற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+    "cloudflareTranscriptSessionSemantics": "உரைநகல் அமர்வு {sessionId}. {metadata}"
 }

@@ -3138,6 +3138,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noTranscriptMessage => '此对话没有文字记录。';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => '暂时没有可用的 Cloudflare 转录内容。';
+
+  @override
+  String get cloudflareTranscriptLoadError => '无法加载 Cloudflare 转录内容。请重试。';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return '转录会话 $sessionId。$metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => '无法生成对话URL。';
 
   @override

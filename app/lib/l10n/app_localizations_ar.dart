@@ -3171,6 +3171,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noTranscriptMessage => 'هذه المحادثة ليس لديها نسخ.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'لا تتوفر أي نسخ نصية من Cloudflare بعد.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'تعذر تحميل النسخ النصية من Cloudflare. حاول مرة أخرى.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'جلسة النسخ النصي $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'تعذر إنشاء رابط المحادثة.';
 
   @override

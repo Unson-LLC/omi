@@ -3192,5 +3192,8 @@
     "whisperModelSizeLarge": "Mare",
     "whisperModelSizeMedium": "Mediu",
     "whisperModelSizeSmall": "Mic",
-    "whisperModelSizeTiny": "Foarte mic"
+    "whisperModelSizeTiny": "Foarte mic",
+    "cloudflareTranscriptListEmptyMessage": "Încă nu sunt disponibile transcrieri Cloudflare.",
+    "cloudflareTranscriptLoadError": "Transcrierile Cloudflare nu au putut fi încărcate. Încercați din nou.",
+    "cloudflareTranscriptSessionSemantics": "Sesiune de transcriere {sessionId}. {metadata}"
 }

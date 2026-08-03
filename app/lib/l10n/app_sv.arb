@@ -3192,5 +3192,8 @@
     "whisperModelSizeLarge": "Stor",
     "whisperModelSizeMedium": "Mellan",
     "whisperModelSizeSmall": "Liten",
-    "whisperModelSizeTiny": "Mycket liten"
+    "whisperModelSizeTiny": "Mycket liten",
+    "cloudflareTranscriptListEmptyMessage": "Det finns inga Cloudflare-transkriptioner tillgängliga ännu.",
+    "cloudflareTranscriptLoadError": "Cloudflare-transkriptioner kunde inte läsas in. Försök igen.",
+    "cloudflareTranscriptSessionSemantics": "Transkriptionssession {sessionId}. {metadata}"
 }

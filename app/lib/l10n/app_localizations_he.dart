@@ -3177,6 +3177,17 @@ class AppLocalizationsHe extends AppLocalizations {
   String get noTranscriptMessage => 'לשיחה זו אין תמלול.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'עדיין אין תמלילים זמינים מ-Cloudflare.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'לא ניתן היה לטעון את התמלילים מ-Cloudflare. נסו שוב.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'הפעלת תמלול $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'לא ניתן היה ליצור כתובת URL של שיחה.';
 
   @override

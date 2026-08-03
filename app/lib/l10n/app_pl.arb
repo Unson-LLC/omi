@@ -3227,5 +3227,8 @@
     "whisperModelSizeLarge": "Duży",
     "whisperModelSizeMedium": "Średni",
     "whisperModelSizeSmall": "Mały",
-    "whisperModelSizeTiny": "Bardzo mały"
+    "whisperModelSizeTiny": "Bardzo mały",
+    "cloudflareTranscriptListEmptyMessage": "Nie ma jeszcze dostępnych transkrypcji Cloudflare.",
+    "cloudflareTranscriptLoadError": "Nie udało się wczytać transkrypcji Cloudflare. Spróbuj ponownie.",
+    "cloudflareTranscriptSessionSemantics": "Sesja transkrypcji {sessionId}. {metadata}"
 }

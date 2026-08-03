@@ -3143,6 +3143,17 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noTranscriptMessage => 'この会話には文字起こしがありません。';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Cloudflare の文字起こしはまだありません。';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare の文字起こしを読み込めませんでした。もう一度お試しください。';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return '文字起こしセッション $sessionId。$metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => '会話のURLを生成できませんでした。';
 
   @override

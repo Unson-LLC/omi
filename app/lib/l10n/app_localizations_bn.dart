@@ -3201,6 +3201,17 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noTranscriptMessage => 'এই কথোপকথনে কোনো ট্রান্সক্রিপ্ট নেই।';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'এখনও কোনো Cloudflare ট্রান্সক্রিপ্ট নেই।';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare ট্রান্সক্রিপ্ট লোড করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'ট্রান্সক্রিপ্ট সেশন $sessionId। $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'কথোপকথন URL তৈরি করা যায়নি।';
 
   @override

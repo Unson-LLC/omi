@@ -3197,6 +3197,17 @@ class AppLocalizationsLt extends AppLocalizations {
   String get noTranscriptMessage => 'Šis pokalbis neturi transkripcijos.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Dar nėra pasiekiamų „Cloudflare“ transkripcijų.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Nepavyko įkelti „Cloudflare“ transkripcijų. Bandykite dar kartą.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Transkripcijos seansas $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Pokalbio URL negalima sugeneruoti.';
 
   @override

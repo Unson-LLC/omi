@@ -3192,5 +3192,8 @@
     "whisperModelSizeLarge": "Liels",
     "whisperModelSizeMedium": "Vidējs",
     "whisperModelSizeSmall": "Mazs",
-    "whisperModelSizeTiny": "Sīks"
+    "whisperModelSizeTiny": "Sīks",
+    "cloudflareTranscriptListEmptyMessage": "Cloudflare transkripcijas vēl nav pieejamas.",
+    "cloudflareTranscriptLoadError": "Neizdevās ielādēt Cloudflare transkripcijas. Mēģiniet vēlreiz.",
+    "cloudflareTranscriptSessionSemantics": "Transkripcijas sesija {sessionId}. {metadata}"
 }

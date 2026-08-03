@@ -3219,6 +3219,17 @@ class AppLocalizationsTa extends AppLocalizations {
   String get noTranscriptMessage => 'இந்த உரையாடலுக்கு மொழிபெயர்ப்பு இல்லை.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'இன்னும் Cloudflare உரைநகல்கள் எதுவும் கிடைக்கவில்லை.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare உரைநகல்களை ஏற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'உரைநகல் அமர்வு $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'உரையாடல் URL உருவாக்க முடியவில்லை.';
 
   @override

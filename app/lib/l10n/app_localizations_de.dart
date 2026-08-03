@@ -3222,6 +3222,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noTranscriptMessage => 'Dieses Gespräch hat kein Transkript.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Noch keine Cloudflare-Transkripte verfügbar.';
+
+  @override
+  String get cloudflareTranscriptLoadError =>
+      'Cloudflare-Transkripte konnten nicht geladen werden. Versuche es erneut.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Transkriptsitzung $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Gesprächs-URL konnte nicht generiert werden.';
 
   @override

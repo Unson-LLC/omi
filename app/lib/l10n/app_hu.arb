@@ -3288,5 +3288,8 @@
     "whisperModelSizeLarge": "Nagy",
     "whisperModelSizeMedium": "Közepes",
     "whisperModelSizeSmall": "Kicsi",
-    "whisperModelSizeTiny": "Apró"
+    "whisperModelSizeTiny": "Apró",
+    "cloudflareTranscriptListEmptyMessage": "Még nincsenek elérhető Cloudflare-átiratok.",
+    "cloudflareTranscriptLoadError": "A Cloudflare-átiratokat nem sikerült betölteni. Próbálja újra.",
+    "cloudflareTranscriptSessionSemantics": "Átirat-munkamenet {sessionId}. {metadata}"
 }

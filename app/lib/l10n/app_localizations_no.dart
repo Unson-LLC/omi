@@ -3195,6 +3195,17 @@ class AppLocalizationsNo extends AppLocalizations {
   String get noTranscriptMessage => 'Denne samtalen har ikke en transkripsjon.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Ingen Cloudflare-transkripsjoner er tilgjengelige ennå.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Cloudflare-transkripsjoner kunne ikke lastes inn. Prøv igjen.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Transkripsjonsøkt $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'Samtale-URL kunne ikke genereres.';
 
   @override

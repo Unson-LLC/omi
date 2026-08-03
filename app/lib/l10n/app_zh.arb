@@ -3218,5 +3218,8 @@
     "whisperModelSizeLarge": "大型",
     "whisperModelSizeMedium": "中型",
     "whisperModelSizeSmall": "小型",
-    "whisperModelSizeTiny": "微型"
+    "whisperModelSizeTiny": "微型",
+    "cloudflareTranscriptListEmptyMessage": "暂时没有可用的 Cloudflare 转录内容。",
+    "cloudflareTranscriptLoadError": "无法加载 Cloudflare 转录内容。请重试。",
+    "cloudflareTranscriptSessionSemantics": "转录会话 {sessionId}。{metadata}"
 }

@@ -3199,6 +3199,17 @@ class AppLocalizationsSk extends AppLocalizations {
   String get noTranscriptMessage => 'Táto konverzácia nemá prepis.';
 
   @override
+  String get cloudflareTranscriptListEmptyMessage => 'Zatiaľ nie sú k dispozícii žiadne prepisy z Cloudflare.';
+
+  @override
+  String get cloudflareTranscriptLoadError => 'Prepisy z Cloudflare sa nepodarilo načítať. Skúste to znova.';
+
+  @override
+  String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
+    return 'Relácia prepisu $sessionId. $metadata';
+  }
+
+  @override
   String get conversationUrlCouldNotBeGenerated => 'URL konverzácie sa nedá vygenerovať.';
 
   @override
