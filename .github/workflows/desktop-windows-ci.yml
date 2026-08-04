@@ -63,6 +63,7 @@ jobs:
     steps:
       - name: Enable Git long paths
         shell: pwsh
+        working-directory: ${{ github.workspace }}
         run: git config --system core.longpaths true
 
       - uses: actions/checkout@v7
