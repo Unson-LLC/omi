@@ -61,6 +61,10 @@ jobs:
     name: Windows build smoke
     runs-on: windows-latest
     steps:
+      - name: Enable Git long paths
+        shell: pwsh
+        run: git config --system core.longpaths true
+
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
         with:
