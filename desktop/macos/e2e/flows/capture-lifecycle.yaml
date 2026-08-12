@@ -4,7 +4,9 @@ tier: 2
 description: Hermetic capture lifecycle via capture_test_transcript seam (no mic/STT)
 app: non-prod
 covers:
+  - desktop/macos/Desktop/Sources/AppState/AppState+FinishedRecordingLifecycle.swift
   - desktop/macos/Desktop/Sources/AppState/AppState+Transcription.swift
+  - desktop/macos/Desktop/Sources/Audio/PreferredMicrophoneReconnect.swift
   - desktop/macos/Desktop/Sources/AppState/SharedCaptureSilentMicRecoveryPolicy.swift
   - desktop/macos/Desktop/Sources/AppState/AppState+ListenEvents.swift
   - desktop/macos/Desktop/Sources/AppState/LocalTranscriptionDuplicatePolicy.swift
@@ -67,7 +69,7 @@ covers:
   - desktop/macos/Desktop/Sources/Rewind/Core/ProactiveModels.swift
   - desktop/macos/Desktop/Sources/ScreenActivitySyncService.swift
   - desktop/macos/Desktop/Sources/SingleInstanceGuard.swift
-  - desktop/macos/Desktop/Sources/MainWindow/CaptureListeningControls.swift
+  - desktop/macos/Desktop/Sources/MainWindow/QueryShell/ShellStatusIcons.swift
   - desktop/macos/Desktop/Sources/MainWindow/CaptureListeningLogic.swift
 preconditions:
   - automation_bridge_ready

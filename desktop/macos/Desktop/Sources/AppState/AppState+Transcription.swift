@@ -284,6 +284,7 @@ extension AppState {
             await sys?.finish()
             await self.flushTranscriptPersistence()
           }
+          self.captureFinishedRecordingForLifecycleIfCloud(wasLocalSTT: wasLocalSTT)
           if let sessionId {
             try? await TranscriptionStorage.shared.finishSession(id: sessionId, reason: .maxDurationRotation)
           }
@@ -853,17 +854,17 @@ extension AppState {
   /// The Python backend handles conversation lifecycle automatically when the WebSocket closes.
   /// When `/v4/listen` has announced the backend conversation id, finalize that exact conversation
   /// instead of relying on the user's current in-progress pointer.
-  func stopTranscription() {
-    // On-device path: there is no backend WebSocket/conversation, so skip the cloud
-    // force-process/reconciliation entirely. Stop capture, then AWAIT both Parakeet instances'
-    // final tail flushes (delivered to the still-current session) BEFORE clearing state, so the
-    // last words persist to the right conversation instead of racing the async drain.
+  @discardableResult
+  func stopTranscription() -> Task<Void, Never>? {
+    preferredMicrophoneReconnectMonitor.stop()
+    recordingGeneration &+= 1
+    // On-device path: await both Parakeet tail flushes before clearing state so the last words persist to the current conversation.
     if sttSession.useLocalSTT {
       let mic = localMicService
       let sys = localSystemService
       localMicService = nil
       localSystemService = nil
-      Task { @MainActor in
+      return Task { @MainActor in
         self.stopAudioCapture()
         await mic?.finish()
         await sys?.finish()
@@ -871,13 +872,11 @@ extension AppState {
         self.clearTranscriptionState(finalizationReason: .userStop, allowCloudForceProcess: false)
         self.silentMicFallbackInProgress = false
       }
-      return
     }
-
     // Capture session metadata BEFORE clearing state (clearTranscriptionState sets sessionId to nil).
     let capturedSessionId = currentSessionId
     let capturedBackendId = currentBackendConversationId ?? pendingBackendConversationId
-
+    captureCurrentFinishedRecordingForLifecycle()
     stopAudioCapture()
     clearTranscriptionState(
       finalizationReason: .userStop,
@@ -920,6 +919,7 @@ extension AppState {
 
       await loadConversations()
     }
+    return nil
   }
 
   /// On-device Parakeet failed to load — fall back to cloud STT instead of silently recording a
@@ -1014,17 +1014,12 @@ extension AppState {
       log("Transcription: No segments to finish")
       return .discarded
     }
-
     log("Transcription: Finishing conversation — reason=\(finalizationReason.rawValue)")
 
-    // Capture state before rotation — memory_created event for this conversation
-    // may arrive on the new WebSocket after currentSessionId and recordingStartTime have changed.
-    finishedSessionId = currentSessionId
-    finishedClientConversationId = currentClientConversationId
-    finishedRecordingStartTime = recordingStartTime
+    // Capture state before rotation; memory_created may arrive on the new WebSocket.
     let finishedUsesLocalSTT = sttSession.useLocalSTT
     let sessionToFinalize = currentSessionId
-
+    captureFinishedRecordingForLifecycleIfCloud(wasLocalSTT: finishedUsesLocalSTT)
     // Local mode: flush both Parakeet instances' final tails to the CURRENT session BEFORE we
     // rotate currentSessionId, so the last sub-window words attach to THIS conversation rather
     // than racing into the next one. `finish()` delivers its segments on the main actor and
@@ -1071,6 +1066,11 @@ extension AppState {
     // fresh local SQLite session to that rotated id.
     recordingStartTime = Date()
     if let currentBackendConversationId {
+      if ignoredRotatedBackendConversationIds.count >= Self.maxIgnoredRotatedBackendConversationIds,
+        let evicted = ignoredRotatedBackendConversationIds.first
+      {
+        ignoredRotatedBackendConversationIds.remove(evicted)
+      }
       ignoredRotatedBackendConversationIds.insert(currentBackendConversationId)
     }
     currentBackendConversationId = nil
@@ -1108,6 +1108,7 @@ extension AppState {
           await sys?.finish()
           await self.flushTranscriptPersistence()
         }
+        self.captureFinishedRecordingForLifecycleIfCloud(wasLocalSTT: wasLocalSTT)
         if let sessionId {
           try? await TranscriptionStorage.shared.finishSession(id: sessionId, reason: .maxDurationRotation)
         }
@@ -1603,6 +1604,5 @@ extension AppState {
       "latest_conversation_id": latestConversationId,
     ]
   }
-
   // MARK: - Conversations
 }

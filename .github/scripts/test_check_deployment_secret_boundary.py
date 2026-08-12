@@ -87,6 +87,23 @@ jobs:
 
         self.assertEqual(self.errors(), [])
 
+    def test_self_hosted_deepgram_enablement_is_normal_env_config(self) -> None:
+        policy = CHECKER.load_policy(REPO_ROOT / "config" / "deployment-setting-classification.json")
+
+        errors = CHECKER.validate_bindings(
+            policy,
+            {
+                CHECKER.Binding(
+                    "backend/charts/backend-listen/dev_omi_backend_listen_values.yaml",
+                    "normal_env",
+                    "DEEPGRAM_SELF_HOSTED_ENABLED",
+                )
+            },
+            set(),
+        )
+
+        self.assertEqual(errors, [])
+
     def test_rejects_public_build_setting_from_github_secret(self) -> None:
         self.write(".github/workflows/deploy.yml", "BUILD: ${{ secrets.FAKE_PUBLIC_BUILD }}\n")
 

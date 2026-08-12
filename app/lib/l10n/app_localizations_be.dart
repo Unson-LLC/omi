@@ -747,11 +747,6 @@ class AppLocalizationsBe extends AppLocalizations {
   }
 
   @override
-  String renewsOn(String date) {
-    return 'Ваш план аднаўляецца на $date.';
-  }
-
-  @override
   String get basicPlan => 'Бясплатны план';
 
   @override
@@ -2129,16 +2124,16 @@ class AppLocalizationsBe extends AppLocalizations {
   String get editMemory => '✏️ Редагаваць спамін';
 
   @override
-  String get pinAsBaseline => 'Pin as Baseline';
+  String get pinAsBaseline => 'Замацаваць як базавае';
 
   @override
-  String get unpinAsBaseline => 'Unpin from Baseline';
+  String get unpinAsBaseline => 'Адмацаваць ад базавага';
 
   @override
-  String get baselineMemory => 'Baseline Memory';
+  String get baselineMemory => 'Базавая памяць';
 
   @override
-  String get alwaysInContext => 'Always in context';
+  String get alwaysInContext => 'Заўсёды ў кантэксце';
 
   @override
   String get memoryContentHint => 'Мне нравіцца есці мароженае...';
@@ -3205,14 +3200,14 @@ class AppLocalizationsBe extends AppLocalizations {
   String get noTranscriptMessage => 'Гэтая разнамова не мае стэнаграмы.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Транскрыпцыі Cloudflare пакуль недаступныя.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Не ўдалося загрузіць транскрыпцыі Cloudflare. Паспрабуйце яшчэ раз.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Сеанс транскрыпцыі $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override
@@ -9815,4 +9810,77 @@ class AppLocalizationsBe extends AppLocalizations {
 
   @override
   String get syncStatusTooOld => 'Занадта старое для сінхранізацыі — Omi не можа яго прыняць';
+
+  @override
+  String get planSheetChooseYourPlan => 'Выберыце свой план, каб адкрыць безмежны Omi.';
+
+  @override
+  String get availableOnMacMobileWeb => 'Даступна на Mac, мабільным і ў вэбе';
+
+  @override
+  String get popularBadge => 'ПАПУЛЯРНЫ';
+
+  @override
+  String get worksOnDesktop => 'Працуе на камп\'ютары';
+
+  @override
+  String get noDesktopAccess => 'Не працуе на камп\'ютары';
+
+  @override
+  String annualBillingSummary(int months, String price) {
+    return '$months мес. / $price';
+  }
+
+  @override
+  String monthsFreeBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count месяца бясплатна',
+      many: '$count месяцаў бясплатна',
+      few: '$count месяцы бясплатна',
+      one: '$count месяц бясплатна',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get freemiumLimitsIntro =>
+      'Omi бясплатны, але бясплатная версія мае абмежаванні, якія ўплываюць на ваш вопыт:';
+
+  @override
+  String get downgradeLimitDelayNotRealTime => 'Затрымка 5-7 секунд (не ў рэальным часе)';
+
+  @override
+  String get downgradeToFreemiumAction => 'Перайсці на бясплатны план';
+
+  @override
+  String get getFreeUnlimitedAccess => 'Атрымайце бязмежны доступ бясплатна';
+
+  @override
+  String get shareDataForTraining => 'Дзяліцца дадзенымі для навучання';
+
+  @override
+  String get yourRequestUnderReview => 'Ваш запыт разглядаецца';
+
+  @override
+  String get accountCutoverUpdateRequiredTitle => 'Требуется обновление';
+
+  @override
+  String get accountCutoverUpdateRequiredMessage =>
+      'Установите последнее приложение Omi, чтобы продолжить после миграции аккаунта.';
+
+  @override
+  String get accountCutoverMigrationInProgressTitle => 'Идёт миграция';
+
+  @override
+  String get accountCutoverMigrationInProgressMessage =>
+      'Ваш аккаунт мигрирует. Функции продукта приостановлены до завершения миграции.';
+
+  @override
+  String get accountCutoverMigrationRollbackMessage =>
+      'Ваш аккаунт на обслуживании после отката миграции. Часть более новых данных может быть изолирована.';
+
+  @override
+  String get accountCutoverOpenStore => 'Открыть магазин';
 }

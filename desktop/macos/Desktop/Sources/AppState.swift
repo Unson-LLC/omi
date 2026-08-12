@@ -112,6 +112,27 @@ enum DesktopConversationMatchPolicy {
     return true
   }
 
+  /// Remember a newly observed rollover without allowing duplicate stale
+  /// callbacks to evict a different guard entry.
+  static func rememberingRotatedBackendId(
+    _ backendId: String,
+    activeBackendId: String?,
+    ignoredRotatedBackendIds: Set<String>,
+    maxCount: Int
+  ) -> Set<String> {
+    guard let activeBackendId,
+      activeBackendId != backendId,
+      !ignoredRotatedBackendIds.contains(backendId)
+    else { return ignoredRotatedBackendIds }
+
+    var updated = ignoredRotatedBackendIds
+    if updated.count >= maxCount, let evicted = updated.first {
+      updated.remove(evicted)
+    }
+    updated.insert(backendId)
+    return updated
+  }
+
   /// Identified listen sessions may only consume lifecycle events produced by
   /// their own recording. Older backend versions omit `recording_session_id`,
   /// so the matching conversation id remains the compatibility proof.
@@ -123,6 +144,53 @@ enum DesktopConversationMatchPolicy {
     guard let expectedBackendId, !expectedBackendId.isEmpty else { return true }
     guard memoryId == expectedBackendId else { return false }
     return recordingSessionId == nil || recordingSessionId == expectedBackendId
+  }
+
+  /// A completed backend event is telemetry-eligible only when it can be
+  /// attributed to the local recording that just ended. Durable SQLite
+  /// binding is intentionally not required: an exact client conversation id
+  /// or the legacy source/timestamp proof is sufficient.
+  static func acceptsCompletedLocalRecording(
+    memoryId: String,
+    memory: [String: Any]?,
+    recordingSessionId: String?,
+    expectedBackendId: String?,
+    finishedRecordingStartTime: Date?
+  ) -> Bool {
+    guard !memoryId.isEmpty, memoryId != "?" else { return false }
+    guard
+      lifecycleEventBelongsToRecording(
+        memoryId: memoryId,
+        recordingSessionId: recordingSessionId,
+        expectedBackendId: expectedBackendId
+      )
+    else {
+      return false
+    }
+
+    if let expectedBackendId, !expectedBackendId.isEmpty {
+      return memoryId == expectedBackendId
+    }
+
+    guard let finishedRecordingStartTime else { return false }
+    return memoryEventMatchesFinishedSession(memory, sessionStartedAt: finishedRecordingStartTime)
+  }
+
+  static func matchingFinishedRecordingIndex(
+    memoryId: String,
+    memory: [String: Any]?,
+    recordingSessionId: String?,
+    pending: [FinishedRecordingEnvelope]
+  ) -> Int? {
+    pending.firstIndex { envelope in
+      acceptsCompletedLocalRecording(
+        memoryId: memoryId,
+        memory: memory,
+        recordingSessionId: recordingSessionId,
+        expectedBackendId: envelope.clientConversationId,
+        finishedRecordingStartTime: envelope.startedAt
+      )
+    }
   }
 
   /// Versioned lifecycle envelopes are an ordered protocol. A client only
@@ -200,6 +268,13 @@ enum DesktopConversationMatchPolicy {
   }
 }
 
+struct FinishedRecordingEnvelope: Equatable, Sendable {
+  let sessionId: Int64?
+  let clientConversationId: String?
+  let startedAt: Date
+  let source: ConversationSource
+}
+
 @MainActor
 class AppState: ObservableObject {
   /// Weak reference to the current AppState instance, set on init.
@@ -209,13 +284,22 @@ class AppState: ObservableObject {
   @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding = false
 
   // Transcription state
-  @Published var isTranscribing = false
+  @Published var isTranscribing = false {
+    didSet {
+      // Preferred-mic reconnect must track live Listening even when Settings is closed (#10921).
+      if isTranscribing {
+        preferredMicrophoneReconnectMonitor.start(observing: self)
+      } else {
+        preferredMicrophoneReconnectMonitor.stop()
+      }
+    }
+  }
   /// A terminal live-STT failure reported by `/v4/listen`. Audio capture can
   /// continue into the WAL while the transport reconnects, so this stays
   /// visible until the backend is ready or the active session is reset.
   @Published var transcriptionServiceError: String?
-  /// Monotonically increasing counter — incremented each time a new recording starts.
-  /// Used to detect if a new recording began during the post-stop force-process delay.
+  /// Monotonically increasing counter — incremented for each recording start or stop request.
+  /// Used to prevent asynchronous work from mutating a newer recording decision.
   var recordingGeneration: UInt64 = 0
   @Published var isSavingConversation = false
   // currentTranscript is internal-only (not observed by views), so no @Published needed
@@ -354,6 +438,8 @@ class AppState: ObservableObject {
   var captureGateInFlight = false
   var captureReconcilePending = false
   var pendingCoreAudioCaptureRecoveryReason: String?
+  /// While ambient transcription is live, reapply a preferred mic when it reconnects (#10921).
+  let preferredMicrophoneReconnectMonitor = PreferredMicrophoneReconnectMonitor()
   /// Counts CoreAudio rebuilds caused by a zero-sample microphone during one
   /// transcription session. This lives above `AudioCaptureService` because each
   /// rebuild creates a fresh service (and therefore a fresh service-local watchdog).
@@ -423,10 +509,11 @@ class AppState: ObservableObject {
   /// Last accepted server event sequence per durable recording session. This
   /// is display state only; Firestore remains the authoritative sequence owner.
   var lifecycleSequenceByRecordingSession: [String: Int] = [:]
+  static let maxLifecycleRecordingSessions = 32
   var ignoredRotatedBackendConversationIds: Set<String> = []
-  var finishedSessionId: Int64?
-  var finishedClientConversationId: String?
-  var finishedRecordingStartTime: Date?
+  static let maxIgnoredRotatedBackendConversationIds = 16
+  var pendingFinishedRecordings: [FinishedRecordingEnvelope] = []
+  static let maxPendingFinishedRecordings = 16
 
   var willTerminateObserver: NSObjectProtocol? {
     get { servicesCoordinator.willTerminateObserver }
@@ -852,10 +939,6 @@ extension Notification.Name {
   static let conversationsPageDidLoad = Notification.Name("conversationsPageDidLoad")
   /// Posted when Tasks page finishes loading initial data
   static let tasksPageDidLoad = Notification.Name("tasksPageDidLoad")
-  /// Posted when Focus page finishes loading initial data
-  static let focusPageDidLoad = Notification.Name("focusPageDidLoad")
-  /// Posted when Advice page finishes loading initial data
-  static let insightPageDidLoad = Notification.Name("insightPageDidLoad")
   /// Posted when Apps page finishes loading initial data
   static let appsPageDidLoad = Notification.Name("appsPageDidLoad")
   /// Posted when a goal is auto-created by GoalGenerationService
@@ -884,8 +967,6 @@ extension Notification.Name {
     "desktopAutomationShowConversationTranscriptRequested")
   /// Posted when file indexing completes (userInfo: ["totalFiles": Int])
   static let fileIndexingComplete = Notification.Name("fileIndexingComplete")
-  /// Posted from Settings to trigger the file indexing sheet
-  static let triggerFileIndexing = Notification.Name("triggerFileIndexing")
   /// Posted from menu bar to toggle transcription (userInfo: ["enabled": Bool])
   static let toggleTranscriptionRequested = Notification.Name("toggleTranscriptionRequested")
 }

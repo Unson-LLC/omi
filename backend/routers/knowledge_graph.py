@@ -2,7 +2,7 @@ import importlib
 import sys
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Callable, Optional, cast
 
 from database import knowledge_graph as kg_db
@@ -12,7 +12,9 @@ from database.auth import get_user_name
 from utils.memory import canonical_graph as canonical_graph_service
 from utils.memory.memory_system import MemorySystem
 from utils.memory.surface_routing import pin_memory_system
+from utils.executors import db_executor, llm_executor, run_blocking
 from utils.other import endpoints as auth
+from utils.subscription import is_trial_paywalled
 
 router = APIRouter()
 Payload = Dict[str, Any]
@@ -88,6 +90,7 @@ class CanonicalKnowledgeGraphResponse(BaseModel):
     edges: List[Dict[str, Any]]
     has_more: bool
     next_cursor: Optional[str] = None
+    catalog_nodes: List[Dict[str, Any]] = []
 
 
 class RebuildResponse(BaseModel):
@@ -98,6 +101,17 @@ class RebuildResponse(BaseModel):
 
 class DeleteKnowledgeGraphResponse(BaseModel):
     status: str
+
+
+class ExtractKnowledgeGraphRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=100_000)
+    user_name: Optional[str] = None
+    include_existing: bool = False
+
+
+class ExtractKnowledgeGraphResponse(BaseModel):
+    nodes: List[Dict[str, Any]]
+    edges: List[Dict[str, Any]]
 
 
 @router.get('/v1/knowledge-graph', tags=['knowledge_graph'], response_model=KnowledgeGraphResponse)
@@ -145,6 +159,7 @@ def get_canonical_knowledge_graph(
         edges=page.edges,
         has_more=page.has_more,
         next_cursor=page.next_cursor,
+        catalog_nodes=getattr(page, 'catalog_nodes', []),
     )
 
 
@@ -171,6 +186,46 @@ def rebuild_graph(
     background_tasks.add_task(_rebuild_graph_task, uid, user_name)
 
     return RebuildResponse(status="rebuilding", nodes_count=0, edges_count=0)
+
+
+@router.post(
+    '/v1/knowledge-graph/extract',
+    tags=['knowledge_graph'],
+    response_model=ExtractKnowledgeGraphResponse,
+)
+async def extract_knowledge_graph(
+    body: ExtractKnowledgeGraphRequest,
+    uid: str = Depends(with_rate_limit(auth.get_current_user_uid, "knowledge_graph:extract")),
+):
+    """Return-only KG extraction through the managed knowledge_graph feature (OpenRouter Luna).
+
+    Does not write Firestore. Desktop onboarding/file-index should call this instead of
+    inventing nodes/edges via chat_agent, then persist locally via save_knowledge_graph.
+
+    ``strict_parse`` is on at this HTTP boundary so a malformed model response fails
+    closed (502) instead of returning 200 with an empty graph, which a client cannot
+    tell apart from a genuine "no entities" answer.
+    """
+    if await run_blocking(db_executor, is_trial_paywalled, uid, 'desktop'):
+        raise HTTPException(status_code=402, detail='trial_expired')
+    kg_mod = _knowledge_graph_llm_module()
+    resolved_name = body.user_name or await run_blocking(db_executor, get_user_name, uid)
+    user_name = (resolved_name or "User").strip() or "User"
+    extraction = await run_blocking(
+        llm_executor,
+        lambda: getattr(kg_mod, "extract_kg_from_text")(
+            uid,
+            body.text,
+            user_name=user_name,
+            load_existing_from_db=body.include_existing,
+            strict_parse=True,
+            usage_memory_id="http-extract",
+        ),
+    )
+    if extraction is None:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="knowledge_graph_extract_failed")
+    graph = getattr(kg_mod, "extraction_to_client_graph")(extraction, uid=uid)
+    return ExtractKnowledgeGraphResponse(nodes=graph['nodes'], edges=graph['edges'])
 
 
 @router.delete('/v1/knowledge-graph', tags=['knowledge_graph'], response_model=DeleteKnowledgeGraphResponse)

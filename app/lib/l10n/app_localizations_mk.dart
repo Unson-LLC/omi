@@ -748,11 +748,6 @@ class AppLocalizationsMk extends AppLocalizations {
   }
 
   @override
-  String renewsOn(String date) {
-    return 'Вашиот план се обновува на $date.';
-  }
-
-  @override
   String get basicPlan => 'Бесплатен план';
 
   @override
@@ -2135,16 +2130,16 @@ class AppLocalizationsMk extends AppLocalizations {
   String get editMemory => '✏️ Уредување успомена';
 
   @override
-  String get pinAsBaseline => 'Pin as Baseline';
+  String get pinAsBaseline => 'Закачи како основа';
 
   @override
-  String get unpinAsBaseline => 'Unpin from Baseline';
+  String get unpinAsBaseline => 'Откачи од основа';
 
   @override
-  String get baselineMemory => 'Baseline Memory';
+  String get baselineMemory => 'Основна меморија';
 
   @override
-  String get alwaysInContext => 'Always in context';
+  String get alwaysInContext => 'Секогаш во контекст';
 
   @override
   String get memoryContentHint => 'Волам да јадам сладолед...';
@@ -3213,15 +3208,14 @@ class AppLocalizationsMk extends AppLocalizations {
   String get noTranscriptMessage => 'Овој разговор нема препис.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Сè уште нема достапни транскрипти од Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError =>
-      'Не можеа да се вчитаат транскриптите од Cloudflare. Обидете се повторно.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Сесија за транскрипт $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override
@@ -9838,4 +9832,75 @@ class AppLocalizationsMk extends AppLocalizations {
 
   @override
   String get syncStatusTooOld => 'Премногу стар за синхронизација — Omi не може да го прифати';
+
+  @override
+  String get planSheetChooseYourPlan => 'Изберете го вашиот план за да го отклучите неограничениот Omi.';
+
+  @override
+  String get availableOnMacMobileWeb => 'Достапно на Mac, мобилен и веб';
+
+  @override
+  String get popularBadge => 'ПОПУЛАРНО';
+
+  @override
+  String get worksOnDesktop => 'Работи на компјутер';
+
+  @override
+  String get noDesktopAccess => 'Не работи на компјутер';
+
+  @override
+  String annualBillingSummary(int months, String price) {
+    return '$months месеци / $price';
+  }
+
+  @override
+  String monthsFreeBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count месеци бесплатно',
+      one: '1 месец бесплатно',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get freemiumLimitsIntro =>
+      'Omi е бесплатен, но бесплатната верзија има ограничувања што влијаат на вашето искуство:';
+
+  @override
+  String get downgradeLimitDelayNotRealTime => 'Доцнење од 5-7 секунди (не во реално време)';
+
+  @override
+  String get downgradeToFreemiumAction => 'Префрлете се на бесплатна верзија';
+
+  @override
+  String get getFreeUnlimitedAccess => 'Добијте бесплатен неограничен пристап';
+
+  @override
+  String get shareDataForTraining => 'Споделете податоци за обука';
+
+  @override
+  String get yourRequestUnderReview => 'Вашето барање се разгледува';
+
+  @override
+  String get accountCutoverUpdateRequiredTitle => 'Je vyžadována aktualizace';
+
+  @override
+  String get accountCutoverUpdateRequiredMessage =>
+      'Nainstalujte nejnovější aplikaci Omi, abyste mohli pokračovat po migraci účtu.';
+
+  @override
+  String get accountCutoverMigrationInProgressTitle => 'Probíhá migrace';
+
+  @override
+  String get accountCutoverMigrationInProgressMessage =>
+      'Váš účet se migrací. Produktové funkce jsou pozastaveny až do dokončení migrace.';
+
+  @override
+  String get accountCutoverMigrationRollbackMessage =>
+      'Váš účet je po vrácení migrace v režimu údržby. Novější data mohou být izolována.';
+
+  @override
+  String get accountCutoverOpenStore => 'Otevřít obchod';
 }

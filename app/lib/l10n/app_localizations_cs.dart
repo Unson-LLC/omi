@@ -746,11 +746,6 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String renewsOn(String date) {
-    return 'Váš plán se obnoví dne $date.';
-  }
-
-  @override
   String get basicPlan => 'Bezplatný plán';
 
   @override
@@ -2129,16 +2124,16 @@ class AppLocalizationsCs extends AppLocalizations {
   String get editMemory => '✏️ Upravit vzpomínku';
 
   @override
-  String get pinAsBaseline => 'Pin as Baseline';
+  String get pinAsBaseline => 'Připnout jako základ';
 
   @override
-  String get unpinAsBaseline => 'Unpin from Baseline';
+  String get unpinAsBaseline => 'Odepnout ze základu';
 
   @override
-  String get baselineMemory => 'Baseline Memory';
+  String get baselineMemory => 'Základní paměť';
 
   @override
-  String get alwaysInContext => 'Always in context';
+  String get alwaysInContext => 'Vždy v kontextu';
 
   @override
   String get memoryContentHint => 'Rád/a jím zmrzlinu...';
@@ -3197,14 +3192,14 @@ class AppLocalizationsCs extends AppLocalizations {
   String get noTranscriptMessage => 'Tato konverzace nemá přepis.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Zatím nejsou k dispozici žádné přepisy z Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Přepisy z Cloudflare se nepodařilo načíst. Zkuste to znovu.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Relace přepisu $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override
@@ -9785,4 +9780,76 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get syncStatusTooOld => 'Příliš staré na synchronizaci — Omi ho nemůže přijmout';
+
+  @override
+  String get planSheetChooseYourPlan => 'Vyberte si plán a odemkněte neomezené Omi.';
+
+  @override
+  String get availableOnMacMobileWeb => 'Dostupné na Macu, mobilu a webu';
+
+  @override
+  String get popularBadge => 'OBLÍBENÉ';
+
+  @override
+  String get worksOnDesktop => 'Funguje na počítači';
+
+  @override
+  String get noDesktopAccess => 'Nefunguje na počítači';
+
+  @override
+  String annualBillingSummary(int months, String price) {
+    return '$months měsíců / $price';
+  }
+
+  @override
+  String monthsFreeBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count měsíců zdarma',
+      many: '$count měsíce zdarma',
+      few: '$count měsíce zdarma',
+      one: '$count měsíc zdarma',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get freemiumLimitsIntro => 'Omi je zdarma, ale bezplatná verze má omezení, která ovlivňují váš zážitek:';
+
+  @override
+  String get downgradeLimitDelayNotRealTime => 'Zpoždění 5–7 sekund (ne v reálném čase)';
+
+  @override
+  String get downgradeToFreemiumAction => 'Přejít na bezplatnou verzi';
+
+  @override
+  String get getFreeUnlimitedAccess => 'Získejte neomezený přístup zdarma';
+
+  @override
+  String get shareDataForTraining => 'Sdílet data pro trénování';
+
+  @override
+  String get yourRequestUnderReview => 'Vaše žádost se posuzuje';
+
+  @override
+  String get accountCutoverUpdateRequiredTitle => 'Je vyžadována aktualizace';
+
+  @override
+  String get accountCutoverUpdateRequiredMessage =>
+      'Nainstalujte nejnovější aplikaci Omi, abyste mohli pokračovat po migraci účtu.';
+
+  @override
+  String get accountCutoverMigrationInProgressTitle => 'Probíhá migrace';
+
+  @override
+  String get accountCutoverMigrationInProgressMessage =>
+      'Váš účet se migrací. Produktové funkce jsou pozastaveny až do dokončení migrace.';
+
+  @override
+  String get accountCutoverMigrationRollbackMessage =>
+      'Váš účet je po vrácení migrace v režimu údržby. Novější data mohou být izolována.';
+
+  @override
+  String get accountCutoverOpenStore => 'Otevřít obchod';
 }

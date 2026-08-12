@@ -749,11 +749,6 @@ class AppLocalizationsBg extends AppLocalizations {
   }
 
   @override
-  String renewsOn(String date) {
-    return 'Вашият план се подновява на $date.';
-  }
-
-  @override
   String get basicPlan => 'Безплатен план';
 
   @override
@@ -2131,16 +2126,16 @@ class AppLocalizationsBg extends AppLocalizations {
   String get editMemory => '✏️ Редактирай спомен';
 
   @override
-  String get pinAsBaseline => 'Pin as Baseline';
+  String get pinAsBaseline => 'Закачване като базово';
 
   @override
-  String get unpinAsBaseline => 'Unpin from Baseline';
+  String get unpinAsBaseline => 'Откачване от базово';
 
   @override
-  String get baselineMemory => 'Baseline Memory';
+  String get baselineMemory => 'Базова памет';
 
   @override
-  String get alwaysInContext => 'Always in context';
+  String get alwaysInContext => 'Винаги в контекста';
 
   @override
   String get memoryContentHint => 'Обичам да ям сладолед...';
@@ -3202,15 +3197,14 @@ class AppLocalizationsBg extends AppLocalizations {
   String get noTranscriptMessage => 'Този разговор няма транскрипт.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Все още няма налични транскрипции от Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError =>
-      'Транскрипциите от Cloudflare не можаха да бъдат заредени. Опитайте отново.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Сесия за транскрипция $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override
@@ -9823,4 +9817,75 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get syncStatusTooOld => 'Твърде стар за синхронизиране — Omi не може да го приеме';
+
+  @override
+  String get planSheetChooseYourPlan => 'Изберете своя план, за да отключите неограничен Omi.';
+
+  @override
+  String get availableOnMacMobileWeb => 'Достъпно на Mac, мобилни устройства и в мрежата';
+
+  @override
+  String get popularBadge => 'ПОПУЛЯРЕН';
+
+  @override
+  String get worksOnDesktop => 'Работи на настолен компютър';
+
+  @override
+  String get noDesktopAccess => 'Не работи на настолен компютър';
+
+  @override
+  String annualBillingSummary(int months, String price) {
+    return '$months месеца / $price';
+  }
+
+  @override
+  String monthsFreeBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count месеца безплатно',
+      one: '1 месец безплатно',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get freemiumLimitsIntro =>
+      'Omi е безплатен, но безплатната версия има ограничения, които влияят на изживяването ви:';
+
+  @override
+  String get downgradeLimitDelayNotRealTime => 'Забавяне от 5-7 секунди (не в реално време)';
+
+  @override
+  String get downgradeToFreemiumAction => 'Преминаване към безплатен план';
+
+  @override
+  String get getFreeUnlimitedAccess => 'Получете безплатен неограничен достъп';
+
+  @override
+  String get shareDataForTraining => 'Споделяне на данни за обучение';
+
+  @override
+  String get yourRequestUnderReview => 'Заявката ви се разглежда';
+
+  @override
+  String get accountCutoverUpdateRequiredTitle => 'Требуется обновление';
+
+  @override
+  String get accountCutoverUpdateRequiredMessage =>
+      'Установите последнее приложение Omi, чтобы продолжить после миграции аккаунта.';
+
+  @override
+  String get accountCutoverMigrationInProgressTitle => 'Идёт миграция';
+
+  @override
+  String get accountCutoverMigrationInProgressMessage =>
+      'Ваш аккаунт мигрирует. Функции продукта приостановлены до завершения миграции.';
+
+  @override
+  String get accountCutoverMigrationRollbackMessage =>
+      'Ваш аккаунт на обслуживании после отката миграции. Часть более новых данных может быть изолирована.';
+
+  @override
+  String get accountCutoverOpenStore => 'Открыть магазин';
 }

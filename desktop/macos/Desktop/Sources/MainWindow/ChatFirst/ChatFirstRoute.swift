@@ -72,21 +72,19 @@ enum ChatFirstRoute: Hashable, Codable, Sendable {
   }
 
   /// Maps every legacy-compatible automation name to its mounted cohort route.
-  /// This is visibility-only: dispatch remains owned by `DesktopHomeView` so
-  /// callers retain the legacy adapter while the old shell is active.
+  /// Dashboard/Home are aliases for the canonical Chat surface: dispatch remains
+  /// owned by `DesktopHomeView`, but the cohort never mounts a second Dashboard
+  /// Home for either legacy name.
   static func automationVisibilityDestination(named target: String) -> ChatFirstRoute? {
     if let primary = primaryAutomationDestination(named: target) {
       return primary
     }
     let normalized = target.lowercased().replacingOccurrences(of: "-", with: "_")
     switch normalized {
-    case "dashboard", "home": return .more(.dashboard)
-    case "focus": return .more(.focus)
-    case "insight": return .more(.insight)
+    case "dashboard", "home": return .chat
     case "rewind": return .more(.rewind)
     case "apps", "integrations": return .more(.apps)
     case "permissions": return .more(.permissions)
-    case "help": return .more(.help)
     case "settings": return .more(.settings)
     default: return nil
     }
@@ -95,12 +93,9 @@ enum ChatFirstRoute: Hashable, Codable, Sendable {
 
 enum ChatFirstMorePage: String, CaseIterable, Codable, Hashable, Sendable {
   case dashboard
-  case focus
-  case insight
   case rewind
   case apps
   case permissions
-  case help
   case settings
 
   var stableName: String { rawValue }
@@ -108,12 +103,9 @@ enum ChatFirstMorePage: String, CaseIterable, Codable, Hashable, Sendable {
   var title: String {
     switch self {
     case .dashboard: return "Dashboard"
-    case .focus: return "Focus"
-    case .insight: return "Insights"
     case .rewind: return "Rewind"
     case .apps: return "Apps"
     case .permissions: return "Permissions"
-    case .help: return "Help from Founder"
     case .settings: return "Settings"
     }
   }
@@ -121,12 +113,9 @@ enum ChatFirstMorePage: String, CaseIterable, Codable, Hashable, Sendable {
   var systemImage: String {
     switch self {
     case .dashboard: return "house.fill"
-    case .focus: return "eye.fill"
-    case .insight: return "lightbulb.fill"
     case .rewind: return "clock.arrow.circlepath"
     case .apps: return "puzzlepiece.fill"
     case .permissions: return "exclamationmark.triangle.fill"
-    case .help: return "bubble.left.fill"
     case .settings: return "gearshape.fill"
     }
   }
@@ -258,6 +247,14 @@ final class ChatFirstShellNavigation: ObservableObject {
     origin: ChatFirstAnalyticsEvent.RouteOrigin = .sidebar
   ) {
     guard destination.isPrimaryDestination else { return }
+    // Selecting the already-mounted tab is a no-op. Clearing visibleRoute here
+    // used to leave the automation state permanently "not visible" because
+    // SwiftUI correctly did not remount the unchanged destination.
+    if route == destination {
+      invalidateGoalLinkResolutions()
+      clearFocus()
+      return
+    }
     invalidateGoalLinkResolutions()
     route = destination
     visibleRoute = nil
@@ -266,7 +263,19 @@ final class ChatFirstShellNavigation: ObservableObject {
     analytics(.routeEntered(route: destination.analyticsRoute, origin: origin))
   }
 
+  @discardableResult
+  func handleEscapeNavigation() -> Bool {
+    guard route != .chat else { return false }
+    selectPrimary(.chat)
+    return true
+  }
+
   func selectMore(_ page: ChatFirstMorePage) {
+    if route == .more(page) {
+      invalidateGoalLinkResolutions()
+      clearFocus()
+      return
+    }
     invalidateGoalLinkResolutions()
     route = .more(page)
     visibleRoute = nil
@@ -360,18 +369,14 @@ final class ChatFirstShellNavigation: ObservableObject {
   /// No Chat-first route is represented by a legacy raw index internally.
   func selectLegacyDestination(_ item: SidebarNavItem) {
     switch item {
-    case .dashboard: selectMore(.dashboard)
+    case .dashboard: selectPrimary(.chat)
     case .conversations: selectPrimary(.conversations)
-    case .chat: selectPrimary(.chat)
     case .memories: selectPrimary(.memories)
     case .tasks: selectPrimary(.tasks)
-    case .focus: selectMore(.focus)
-    case .insight: selectMore(.insight)
     case .rewind: selectMore(.rewind)
     case .apps: selectMore(.apps)
     case .settings: selectMore(.settings)
     case .permissions: selectMore(.permissions)
-    case .help: selectMore(.help)
     }
   }
 
