@@ -3138,14 +3138,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get noTranscriptMessage => '이 대화에는 텍스트가 없습니다.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => '아직 사용할 수 있는 Cloudflare 녹취록이 없습니다.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Cloudflare 녹취록을 불러올 수 없습니다. 다시 시도해 주세요.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return '녹취 세션 $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

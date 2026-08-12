@@ -3210,14 +3210,14 @@ class AppLocalizationsHu extends AppLocalizations {
   String get noTranscriptMessage => 'Ehhez a beszélgetéshez nincs átirat.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Még nincsenek elérhető Cloudflare-átiratok.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'A Cloudflare-átiratokat nem sikerült betölteni. Próbálja újra.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Átirat-munkamenet $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

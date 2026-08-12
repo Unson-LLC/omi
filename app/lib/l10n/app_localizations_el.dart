@@ -3215,15 +3215,14 @@ class AppLocalizationsEl extends AppLocalizations {
   String get noTranscriptMessage => 'Αυτή η συνομιλία δεν έχει μεταγραφή.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Δεν υπάρχουν ακόμη διαθέσιμες απομαγνητοφωνήσεις Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError =>
-      'Δεν ήταν δυνατή η φόρτωση των απομαγνητοφωνήσεων Cloudflare. Δοκιμάστε ξανά.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Συνεδρία απομαγνητοφώνησης $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

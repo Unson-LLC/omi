@@ -3197,14 +3197,14 @@ class AppLocalizationsLv extends AppLocalizations {
   String get noTranscriptMessage => 'Šai sarunai nav transkripcijas.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Cloudflare transkripcijas vēl nav pieejamas.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Neizdevās ielādēt Cloudflare transkripcijas. Mēģiniet vēlreiz.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Transkripcijas sesija $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

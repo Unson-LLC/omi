@@ -3200,14 +3200,14 @@ class AppLocalizationsBe extends AppLocalizations {
   String get noTranscriptMessage => 'Гэтая разнамова не мае стэнаграмы.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Транскрыпцыі Cloudflare пакуль недаступныя.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Не ўдалося загрузіць транскрыпцыі Cloudflare. Паспрабуйце яшчэ раз.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Сеанс транскрыпцыі $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

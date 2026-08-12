@@ -3172,14 +3172,14 @@ class AppLocalizationsHe extends AppLocalizations {
   String get noTranscriptMessage => 'לשיחה זו אין תמלול.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'עדיין אין תמלילים זמינים מ-Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'לא ניתן היה לטעון את התמלילים מ-Cloudflare. נסו שוב.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'הפעלת תמלול $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

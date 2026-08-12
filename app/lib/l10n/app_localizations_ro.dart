@@ -3208,14 +3208,14 @@ class AppLocalizationsRo extends AppLocalizations {
   String get noTranscriptMessage => 'Această conversație nu are transcriere.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Încă nu sunt disponibile transcrieri Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Transcrierile Cloudflare nu au putut fi încărcate. Încercați din nou.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Sesiune de transcriere $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

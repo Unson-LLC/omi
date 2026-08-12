@@ -3203,14 +3203,14 @@ class AppLocalizationsKn extends AppLocalizations {
   String get noTranscriptMessage => 'ಈ ಸಂವಾದವು ಪ್ರತಿಲೇಖನ ಹೊಂದಿಲ್ಲ.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'ಇನ್ನೂ ಯಾವುದೇ Cloudflare ಲಿಪ್ಯಂತರಗಳು ಲಭ್ಯವಿಲ್ಲ.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Cloudflare ಲಿಪ್ಯಂತರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'ಲಿಪ್ಯಂತರ ಸೆಷನ್ $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

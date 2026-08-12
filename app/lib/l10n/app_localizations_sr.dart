@@ -3198,14 +3198,14 @@ class AppLocalizationsSr extends AppLocalizations {
   String get noTranscriptMessage => 'Овај разговор нема транскрипт.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Cloudflare транскрипти још нису доступни.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Није могуће учитати Cloudflare транскрипте. Покушајте поново.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Сесија транскрипта $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

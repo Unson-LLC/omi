@@ -3167,14 +3167,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get noTranscriptMessage => 'इस बातचीत में ट्रांसक्रिप्ट नहीं है।';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'अभी तक कोई Cloudflare ट्रांसक्रिप्ट उपलब्ध नहीं है।';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Cloudflare ट्रांसक्रिप्ट लोड नहीं हो सके। फिर से कोशिश करें।';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'ट्रांसक्रिप्ट सत्र $sessionId। $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

@@ -3200,14 +3200,14 @@ class AppLocalizationsMr extends AppLocalizations {
   String get noTranscriptMessage => 'या संभाषणाला ट्रान्सक्रिप्ट नाही।';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'अजून कोणतेही Cloudflare लिप्यंतरण उपलब्ध नाही.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Cloudflare लिप्यंतरण लोड करता आले नाही. पुन्हा प्रयत्न करा.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'लिप्यंतरण सत्र $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

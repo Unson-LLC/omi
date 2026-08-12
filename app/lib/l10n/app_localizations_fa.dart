@@ -3197,14 +3197,14 @@ class AppLocalizationsFa extends AppLocalizations {
   String get noTranscriptMessage => 'این گفتگو رونوشت ندارد.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'هنوز هیچ رونوشت Cloudflare در دسترس نیست.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'رونوشت‌های Cloudflare بارگیری نشدند. دوباره تلاش کنید.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'نشست رونوشت $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

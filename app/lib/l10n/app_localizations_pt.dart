@@ -3172,15 +3172,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noTranscriptMessage => 'Esta conversa não tem transcrição.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Ainda não há transcrições do Cloudflare disponíveis.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError =>
-      'Não foi possível carregar as transcrições do Cloudflare. Tente novamente.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Sessão de transcrição $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

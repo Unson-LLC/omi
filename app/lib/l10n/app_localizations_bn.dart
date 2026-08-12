@@ -3196,14 +3196,14 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noTranscriptMessage => 'এই কথোপকথনে কোনো ট্রান্সক্রিপ্ট নেই।';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'এখনও কোনো Cloudflare ট্রান্সক্রিপ্ট নেই।';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Cloudflare ট্রান্সক্রিপ্ট লোড করা যায়নি। আবার চেষ্টা করুন।';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'ট্রান্সক্রিপ্ট সেশন $sessionId। $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

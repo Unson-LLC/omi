@@ -3217,14 +3217,14 @@ class AppLocalizationsTl extends AppLocalizations {
   String get noTranscriptMessage => 'Ang conversation na ito ay walang transcript.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Wala pang available na mga transcript ng Cloudflare.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Hindi ma-load ang mga transcript ng Cloudflare. Subukan muli.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Sesyon ng transcript $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

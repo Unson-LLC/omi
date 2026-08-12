@@ -3133,14 +3133,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noTranscriptMessage => '此对话没有文字记录。';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => '暂时没有可用的 Cloudflare 转录内容。';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => '无法加载 Cloudflare 转录内容。请重试。';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return '转录会话 $sessionId。$metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

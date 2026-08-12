@@ -3174,14 +3174,14 @@ class AppLocalizationsTh extends AppLocalizations {
   String get noTranscriptMessage => 'การสนทนานี้ไม่มีบันทึกคำพูด';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'ยังไม่มีบทถอดเสียงจาก Cloudflare';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'ไม่สามารถโหลดบทถอดเสียงจาก Cloudflare ได้ โปรดลองอีกครั้ง';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'เซสชันบทถอดเสียง $sessionId $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

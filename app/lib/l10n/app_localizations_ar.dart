@@ -3166,14 +3166,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noTranscriptMessage => 'هذه المحادثة ليس لديها نسخ.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'لا تتوفر أي نسخ نصية من Cloudflare بعد.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'تعذر تحميل النسخ النصية من Cloudflare. حاول مرة أخرى.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'جلسة النسخ النصي $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

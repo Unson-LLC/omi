@@ -3199,14 +3199,14 @@ class AppLocalizationsUr extends AppLocalizations {
   String get noTranscriptMessage => 'اس بات چیت میں کوئی ٹرانسکرپٹ نہیں ہے۔';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'ابھی کوئی Cloudflare نقل دستیاب نہیں ہے۔';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Cloudflare نقلیں لوڈ نہیں ہو سکیں۔ دوبارہ کوشش کریں۔';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'نقل کا سیشن $sessionId۔ $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override

@@ -3196,14 +3196,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noTranscriptMessage => 'Cuộc trò chuyện này không có bản ghi.';
 
   @override
-  String get cloudflareTranscriptListEmptyMessage => 'Chưa có bản chép lời Cloudflare nào.';
+  String get cloudflareTranscriptListEmptyMessage => 'No Cloudflare transcripts are available yet.';
 
   @override
-  String get cloudflareTranscriptLoadError => 'Không thể tải bản chép lời Cloudflare. Hãy thử lại.';
+  String get cloudflareTranscriptLoadError => 'Cloudflare transcripts couldn\'t be loaded. Try again.';
 
   @override
   String cloudflareTranscriptSessionSemantics(String sessionId, String metadata) {
-    return 'Phiên bản chép lời $sessionId. $metadata';
+    return 'Transcript session $sessionId. $metadata';
   }
 
   @override
