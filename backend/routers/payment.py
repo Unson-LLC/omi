@@ -67,12 +67,14 @@ router = APIRouter()
 
 
 class CreateCheckoutRequest(BaseModel):
-    price_id: str = Field(..., min_length=1, max_length=255)
+    # Keep the released app-client request contract backward compatible.
+    price_id: str
     promotion_code: Optional[str] = None
 
 
 class UpgradeSubscriptionRequest(BaseModel):
-    price_id: str = Field(..., min_length=1, max_length=255)
+    # Keep the released app-client request contract backward compatible.
+    price_id: str
     promotion_code: Optional[str] = None
 
 
@@ -519,7 +521,7 @@ def get_overage_info_endpoint(uid: str = Depends(auth.get_current_user_uid_no_by
 
 
 def _validate_price_id(price_id: str) -> None:
-    """Reject a blank/whitespace-only or non-purchasable price_id before any Stripe call.
+    """Reject a blank, oversized, or non-purchasable price_id before any Stripe call.
 
     A valid checkout or upgrade target must be a currently-purchasable plan price. Legacy prices
     (LEGACY_PRICE_MAP) are intentionally rejected here: they exist for existing subscribers'
@@ -529,6 +531,8 @@ def _validate_price_id(price_id: str) -> None:
     """
     if not price_id or not price_id.strip():
         raise HTTPException(status_code=400, detail="price_id is required")
+    if len(price_id) > 255:
+        raise HTTPException(status_code=400, detail="price_id is too long")
     if not is_purchasable_price_id(price_id):
         raise HTTPException(status_code=400, detail="Unknown price_id")
 

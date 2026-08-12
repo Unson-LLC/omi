@@ -1,12 +1,11 @@
 """The checkout/upgrade paths must reject an empty, whitespace-only, oversized, non-purchasable, or
 unknown price_id.
 
-Two layers guard price_id:
-  1. CreateCheckoutRequest / UpgradeSubscriptionRequest bound it (min_length=1, max_length=255), so
-     an empty or oversized value is a clean 422 at the request boundary.
-  2. Both payment endpoints call _validate_price_id(request.price_id) as their first step, before any
-     Stripe call: it rejects a whitespace-only value and any id that is not currently purchasable
+Both payment endpoints call _validate_price_id(request.price_id) as their first step, before any
+Stripe call. It rejects an empty, whitespace-only, oversized value and any id that is not currently purchasable
      (is_purchasable_price_id is False) with a 400, so a non-purchasable price_id never reaches Stripe.
+The length check intentionally stays out of the Pydantic request schema so the released OpenAPI
+contract is not narrowed for existing app clients.
 
 _validate_price_id validates against is_purchasable_price_id (the active plan catalog only), NOT
 get_plan_type_from_price_id. The difference matters: get_plan_type_from_price_id also accepts
@@ -27,13 +26,12 @@ from unittest.mock import patch  # noqa: E402
 
 import pytest  # noqa: E402
 from fastapi import HTTPException  # noqa: E402
-from pydantic import ValidationError  # noqa: E402
 
 import routers.payment as payment  # noqa: E402
 import utils.subscription as subscription  # noqa: E402
 from routers.payment import CreateCheckoutRequest, UpgradeSubscriptionRequest  # noqa: E402
 
-# --- Layer 1: model bounds (422 at the request boundary) ---
+# --- Request model keeps the released OpenAPI shape ---
 
 
 def test_checkout_accepts_valid_price_id():
@@ -44,19 +42,7 @@ def test_upgrade_accepts_valid_price_id():
     assert UpgradeSubscriptionRequest(price_id='price_123').price_id == 'price_123'
 
 
-@pytest.mark.parametrize('model', [CreateCheckoutRequest, UpgradeSubscriptionRequest])
-def test_rejects_empty_price_id(model):
-    with pytest.raises(ValidationError):
-        model(price_id='')
-
-
-@pytest.mark.parametrize('model', [CreateCheckoutRequest, UpgradeSubscriptionRequest])
-def test_rejects_overlong_price_id(model):
-    with pytest.raises(ValidationError):
-        model(price_id='x' * 256)
-
-
-# --- Layer 2: _validate_price_id boundary check (400 before any Stripe call) ---
+# --- _validate_price_id boundary check (400 before any Stripe call) ---
 
 
 def test_validate_price_id_accepts_purchasable_plan():
@@ -66,10 +52,17 @@ def test_validate_price_id_accepts_purchasable_plan():
 
 
 def test_validate_price_id_rejects_whitespace_only():
-    # Whitespace passes the model's min_length=1 but is not a real id: 400 before the plan lookup.
     with patch.object(payment, 'is_purchasable_price_id') as pp:
         with pytest.raises(HTTPException) as ei:
             payment._validate_price_id('   ')
+    assert ei.value.status_code == 400
+    pp.assert_not_called()
+
+
+def test_validate_price_id_rejects_overlong_value():
+    with patch.object(payment, 'is_purchasable_price_id') as pp:
+        with pytest.raises(HTTPException) as ei:
+            payment._validate_price_id('x' * 256)
     assert ei.value.status_code == 400
     pp.assert_not_called()
 
