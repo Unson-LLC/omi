@@ -16,6 +16,9 @@ permissions:
 
 jobs:
   plan-release:
+    # Forks inherit this workflow during upstream sync, but must not run the
+    # canonical release train or require its private credentials.
+    if: github.repository == 'BasedHardware/omi'
     runs-on: ubuntu-latest
     # Allow the full CI gate wait (default 60m) plus planner overhead.
     timeout-minutes: 75
@@ -84,7 +87,7 @@ jobs:
   # a stale receipt or duplicate M1 lifecycle in the gap.
   tag-release:
     needs: [plan-release]
-    if: needs.plan-release.outputs.should_release == 'true'
+    if: github.repository == 'BasedHardware/omi' && needs.plan-release.outputs.should_release == 'true'
     runs-on: [self-hosted, macos, omi-desktop-qualification, omi-qual-m1-studio]
     concurrency:
       group: desktop-auto-release-tag-main

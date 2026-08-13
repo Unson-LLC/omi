@@ -113,8 +113,12 @@ class ProactiveDeliveryHealthTests(unittest.TestCase):
     def test_workflow_has_a_scheduled_durable_alarm(self) -> None:
         # omi-test-quality: source-inspection -- static workflow wiring cannot be exercised by the query evaluator.
         workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+        doctor_job = workflow.split("  doctor:\n", 1)[1].split("  proactive-health:\n", 1)[0]
         scheduled_job = workflow.split("  proactive-health:\n", 1)[1]
+        guard = "github.repository == 'BasedHardware/omi'"
         self.assertIn("schedule:", workflow)
+        self.assertIn(f"    if: {guard} && github.event_name == 'workflow_dispatch'\n", doctor_job)
+        self.assertIn(f"    if: {guard} && github.event_name == 'schedule'\n", scheduled_job)
         self.assertNotIn("environment: prod", scheduled_job)
         self.assertIn("secrets.POSTHOG_PERSONAL_API_KEY", scheduled_job)
         self.assertIn("vars.POSTHOG_PROJECT_ID", scheduled_job)
