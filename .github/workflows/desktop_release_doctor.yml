@@ -20,7 +20,9 @@ concurrency:
 
 jobs:
   doctor:
-    if: github.event_name == 'workflow_dispatch'
+    # Forks inherit this workflow during upstream sync, but do not own the
+    # canonical production telemetry, credentials, or durable alarm issue.
+    if: github.repository == 'BasedHardware/omi' && github.event_name == 'workflow_dispatch'
     environment: prod
     runs-on: ubuntu-latest
     steps:
@@ -67,7 +69,7 @@ jobs:
             /tmp/desktop-release-doctor-snapshot-v1.json
 
   proactive-health:
-    if: github.event_name == 'schedule'
+    if: github.repository == 'BasedHardware/omi' && github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout release controls

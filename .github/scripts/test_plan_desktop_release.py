@@ -75,6 +75,15 @@ def _parse_push_filter(workflow_text: str) -> tuple[list[str], set[str]]:
 
 
 class DesktopCandidateSourceCheckTests(unittest.TestCase):
+    def test_workflow_release_jobs_are_canonical_repository_only(self) -> None:
+        # Static workflow tripwire: fork sync must not inherit active release authority.
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        plan_job = workflow.split("  plan-release:\n", 1)[1].split("  tag-release:\n", 1)[0]
+        tag_job = workflow.split("  tag-release:\n", 1)[1]
+        guard = "github.repository == 'BasedHardware/omi'"
+        self.assertIn(f"    if: {guard}\n", plan_job)
+        self.assertIn(f"    if: {guard} && needs.plan-release.outputs.should_release == 'true'\n", tag_job)
+
     def test_github_check_status_reads_all_exact_sha_runs_and_chooses_the_newest_match(self) -> None:
         response = [
             {
