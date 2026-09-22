@@ -200,6 +200,11 @@ checks:
     triggers: ["scripts/pre-push", "scripts/pre_push_ci_prediction.py", ".github/scripts/test_pre_push_ci_prediction.py", "desktop/macos/scripts/desktop-flow-lint.py", "desktop/macos/scripts/desktop_flow_contract.py", ".github/checks-manifest.yaml"]
     lanes: ["local", "ci"]
     reason: "#9440: local CI prediction must select only bounded Flutter generator, desktop-flow, and Windows KG-worker checks for the final PR diff"
+  - id: resolve-diff-base-tests
+    command: ["python3", ".github/scripts/test_resolve_diff_base.py"]
+    triggers: ["scripts/resolve-diff-base", ".github/scripts/test_resolve_diff_base.py", ".github/workflows/desktop-swift-ci.yml", ".github/checks-manifest.yaml"]
+    lanes: ["local", "ci"]
+    reason: "Desktop Swift push routing must reject stale, missing, zero, and diverged before SHAs so unrelated historical desktop paths cannot trigger false macOS CI"
   - id: workflow-apt-network-bounds
     command: ["bash", "scripts/run-workflow-apt-network-bounds.sh"]
     triggers: [".github/workflows/**", ".github/actions/**", ".github/scripts/check_workflow_apt_network_bounds.py", ".github/scripts/test_check_workflow_apt_network_bounds.py", "scripts/run-workflow-apt-network-bounds.sh", ".github/checks-manifest.yaml"]
@@ -769,7 +774,7 @@ checks:
     reason: "conversation lifecycle has one mutation owner"
   - id: desktop-swift-ci-contract
     command: ["python3", ".github/scripts/test_desktop_swift_ci_contract.py"]
-    triggers: [".github/workflows/desktop-swift-ci.yml", "scripts/pre_push_ci_prediction.py", "scripts/pre-push", ".github/scripts/test_desktop_swift_ci_contract.py", "desktop/macos/ci/xcode-pin.json", "desktop/macos/scripts/run-swift-ci.sh", "desktop/macos/scripts/swift-test-suites.sh", "desktop/macos/tests/test-run-swift-ci.sh", "codemagic.yaml"]
+    triggers: [".github/workflows/desktop-swift-ci.yml", "scripts/resolve-diff-base", "scripts/pre_push_ci_prediction.py", "scripts/pre-push", ".github/scripts/test_desktop_swift_ci_contract.py", "desktop/macos/ci/xcode-pin.json", "desktop/macos/scripts/run-swift-ci.sh", "desktop/macos/scripts/swift-test-suites.sh", "desktop/macos/tests/test-run-swift-ci.sh", "codemagic.yaml"]
     lanes: ["local", "ci"]
     reason: "#9843 Rung-0: desktop Swift CI must pin its toolchain and cache on Package.resolved; the pin (version+build+app path) lives only in desktop/macos/ci/xcode-pin.json and the workflow, runner script, and the two Codemagic desktop Swift workflows must agree with it (#12867/#13548 ship-vs-CI divergence class)"
   - id: desktop-windows-ci-contract

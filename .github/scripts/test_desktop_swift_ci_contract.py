@@ -697,6 +697,12 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
         """Pushes must lint the just-pushed diff, not checkout's origin/main HEAD."""
         changes = self.jobs["changes"]
         job = self.jobs["desktop-swift-verify"]
+        self.assertIn(
+            'scripts/resolve-diff-base "${{ github.event.before }}" HEAD',
+            changes,
+            "pushes must recover when the event before SHA is missing or no longer an ancestor",
+        )
+        self.assertNotIn('DIFF_BASE="${{ github.event.before }}"', changes)
         self.assertIn('echo "diff_base=$DIFF_BASE" >> "$GITHUB_OUTPUT"', changes)
         self.assertIn(
             '--base "${{ needs.changes.outputs.diff_base }}"',

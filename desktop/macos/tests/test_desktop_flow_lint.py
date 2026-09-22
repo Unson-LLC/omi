@@ -76,6 +76,18 @@ class DesktopFlowLintRetiredStateTests(unittest.TestCase):
         ]
         self.assertEqual(offenders, [])
 
+    def test_committed_flow_covers_resolve_to_existing_paths(self):
+        """Manual flows are impact maps too; stale entries must not survive lint."""
+        actions = LINT.registered_actions()
+        offenders = []
+        for path in sorted(FLOWS.glob("*.yaml")):
+            offenders.extend(
+                error
+                for error in LINT.lint_flow(path, actions)
+                if "stale covers path missing" in error
+            )
+        self.assertEqual(offenders, [])
+
 
 if __name__ == "__main__":
     unittest.main()

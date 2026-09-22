@@ -554,7 +554,9 @@ Reference flows in `desktop/macos/e2e/flows/*.yaml` describe the app's key user 
 | `flows/refer-external.yaml` | Refer a Friend | 3 | Top bar + Settings → copy unique link |
 | `flows/recording-finalization.yaml` | Recording lifecycle | 7 | Transcription storage, conversation detail |
 
-When you modify a Swift file, check if any flow's `covers:` includes it. That flow describes the user journey your change affects.
+When you modify a product file, check if any flow's `covers:` includes it. That flow describes the user journey your change affects.
+
+`covers:` is a static impact map only. It does not prove that the flow ran or passed. Runtime E2E evidence requires executing the flow in the harness (or the documented manual path) and confirming the user-visible result. For transcript delivery, observe recording, upload, Cloudflare transcription, and transcript list/detail readback as separate gates.
 
 ### Adding a New Flow
 Create `desktop/macos/e2e/flows/<name>.yaml` in v2 format:

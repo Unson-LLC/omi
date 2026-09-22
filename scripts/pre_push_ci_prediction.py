@@ -106,7 +106,9 @@ ROUTING_INPUTS = {
     ".github/actions/detect-changes/action.yml",
     ".github/workflows/desktop-swift-ci.yml",
     ".github/workflows/mobile-app-checks.yml",
+    "scripts/resolve-diff-base",
     "scripts/pre_push_ci_prediction.py",
+    ".github/scripts/test_resolve_diff_base.py",
     ".github/scripts/test_pre_push_ci_prediction.py",
 }
 
