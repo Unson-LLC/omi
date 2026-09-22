@@ -37,7 +37,7 @@ class BrainbaseR2IngestService {
   bool get enabled => _baseUrl.isNotEmpty && _token.isNotEmpty;
 
   Future<void> start({required BleAudioCodec codec, required String deviceId}) {
-    return _serial = _serial.then((_) async {
+    final operation = _serial.then((_) async {
       if (!enabled || _sessionId != null) return;
       _queue ??= await BrainbaseR2UploadQueue.open(
         baseUrl: _baseUrl,
@@ -71,9 +71,11 @@ class BrainbaseR2IngestService {
       );
       _sequence = 0;
       Logger.debug('[BrainbaseIngest] session started: $_sessionId');
-    }).catchError((Object error, StackTrace stack) {
+    });
+    _serial = operation.catchError((Object error, StackTrace stack) {
       Logger.error('[BrainbaseIngest] start failed: $error\n$stack');
     });
+    return operation;
   }
 
   Future<void> addFrames(List<WalFrame> frames) {

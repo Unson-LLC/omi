@@ -3,20 +3,20 @@ import 'package:omi/services/brainbase_ingest/brainbase_fixture_replay_bootstrap
 
 void main() {
   BrainbaseFixtureReplayBootstrap bootstrap({
-    bool debug = true,
+    bool replayBuild = true,
     bool replayEnabled = true,
     bool replayOnStart = true,
   }) {
     return BrainbaseFixtureReplayBootstrap(
-      isDebugBuild: debug,
+      isReplayBuild: replayBuild,
       isFixtureReplayEnabled: replayEnabled,
       isReplayOnStartEnabled: replayOnStart,
     );
   }
 
-  test('does nothing outside a debug build', () async {
+  test('does nothing outside an explicitly eligible replay build', () async {
     var loaded = false;
-    final result = await bootstrap(debug: false).runOnce(
+    final result = await bootstrap(replayBuild: false).runOnce(
       loadFixture: (_) async {
         loaded = true;
         return '{}';
@@ -73,24 +73,25 @@ void main() {
     expect(replayed?['fixture_id'], 'fixture');
   });
 
-  test('a failed attempt is not retried in the same process', () async {
+  test('a failed attempt can be retried in the same process', () async {
     final subject = bootstrap();
     var loads = 0;
 
     Future<String> loadFixture(String _) async {
       loads += 1;
-      return '[]';
+      return loads == 1 ? '[]' : '{}';
     }
 
     await expectLater(
       subject.runOnce(loadFixture: loadFixture, replay: (_) async {}),
       throwsFormatException,
     );
-    expect(subject.attempted, isTrue);
+    expect(subject.attempted, isFalse);
     expect(
       await subject.runOnce(loadFixture: loadFixture, replay: (_) async {}),
-      isFalse,
+      isTrue,
     );
-    expect(loads, 1);
+    expect(subject.attempted, isTrue);
+    expect(loads, 2);
   });
 }

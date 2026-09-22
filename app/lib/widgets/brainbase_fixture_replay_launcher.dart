@@ -21,6 +21,12 @@ class BrainbaseFixtureReplayLauncher extends StatefulWidget {
 }
 
 class _BrainbaseFixtureReplayLauncherState extends State<BrainbaseFixtureReplayLauncher> {
+  static const _retryDelays = <Duration>[
+    Duration.zero,
+    Duration(seconds: 2),
+    Duration(seconds: 5),
+  ];
+
   final BrainbaseFixtureReplayBootstrap _bootstrap = BrainbaseFixtureReplayBootstrap.fromEnvironment();
 
   @override
@@ -28,23 +34,28 @@ class _BrainbaseFixtureReplayLauncherState extends State<BrainbaseFixtureReplayL
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      unawaited(_replayOnce());
+      unawaited(_replayWithRetry());
     });
   }
 
-  Future<void> _replayOnce() async {
-    try {
-      final replayed = await _bootstrap.runOnce(
-        loadFixture: rootBundle.loadString,
-        replay: context.read<CaptureProvider>().replayBrainbaseFixtureForDebug,
-      );
-      if (replayed) {
-        Logger.debug(
-          'Brainbase fixture replay submitted through the capture pipeline',
+  Future<void> _replayWithRetry() async {
+    for (final delay in _retryDelays) {
+      if (delay > Duration.zero) await Future<void>.delayed(delay);
+      if (!mounted) return;
+      try {
+        final replayed = await _bootstrap.runOnce(
+          loadFixture: rootBundle.loadString,
+          replay: context.read<CaptureProvider>().replayBrainbaseFixtureForDebug,
         );
+        if (replayed) {
+          Logger.debug(
+            'Brainbase fixture replay submitted through the capture pipeline',
+          );
+        }
+        return;
+      } catch (error, stack) {
+        Logger.error('Brainbase fixture replay failed: $error\n$stack');
       }
-    } catch (error, stack) {
-      Logger.debug('Brainbase fixture replay failed once: $error\n$stack');
     }
   }
 

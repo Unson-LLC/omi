@@ -10,12 +10,14 @@ typedef BrainbaseFixtureReplay = Future<void> Function(
 /// Runs the bundled Brainbase audio fixture once per app process.
 ///
 /// The production factory is intentionally guarded by three independent
-/// conditions: a debug build and two explicit compile-time flags. Marking the
-/// attempt before any I/O also prevents a malformed fixture or upload failure
-/// from becoming a startup retry loop.
+/// conditions: an explicitly eligible build and two explicit compile-time
+/// flags. Normal release builds remain ineligible; the personal E2E build can
+/// opt in without requiring an attached Flutter debugger. Concurrent runs and
+/// repeat successful submissions are suppressed, while a transient load or
+/// upload failure remains eligible for a bounded retry by the launcher.
 class BrainbaseFixtureReplayBootstrap {
   BrainbaseFixtureReplayBootstrap({
-    required this.isDebugBuild,
+    required this.isReplayBuild,
     required this.isFixtureReplayEnabled,
     required this.isReplayOnStartEnabled,
     this.fixtureAsset = 'assets/debug/synthetic_pcm16_v1.json',
@@ -23,7 +25,7 @@ class BrainbaseFixtureReplayBootstrap {
 
   factory BrainbaseFixtureReplayBootstrap.fromEnvironment() {
     return BrainbaseFixtureReplayBootstrap(
-      isDebugBuild: kDebugMode,
+      isReplayBuild: kDebugMode || const bool.fromEnvironment('OMI_PERSONAL_E2E_BUILD'),
       isFixtureReplayEnabled: const bool.fromEnvironment(
         'OMI_FIXTURE_REPLAY_ENABLED',
       ),
@@ -33,12 +35,13 @@ class BrainbaseFixtureReplayBootstrap {
     );
   }
 
-  final bool isDebugBuild;
+  final bool isReplayBuild;
   final bool isFixtureReplayEnabled;
   final bool isReplayOnStartEnabled;
   final String fixtureAsset;
 
   bool _attempted = false;
+  bool _running = false;
 
   bool get attempted => _attempted;
 
@@ -46,18 +49,23 @@ class BrainbaseFixtureReplayBootstrap {
     required BrainbaseFixtureLoader loadFixture,
     required BrainbaseFixtureReplay replay,
   }) async {
-    if (!isDebugBuild || !isFixtureReplayEnabled || !isReplayOnStartEnabled || _attempted) {
+    if (!isReplayBuild || !isFixtureReplayEnabled || !isReplayOnStartEnabled || _attempted || _running) {
       return false;
     }
 
-    _attempted = true;
-    final decoded = jsonDecode(await loadFixture(fixtureAsset));
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException(
-        'Brainbase replay fixture must be a JSON object',
-      );
+    _running = true;
+    try {
+      final decoded = jsonDecode(await loadFixture(fixtureAsset));
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException(
+          'Brainbase replay fixture must be a JSON object',
+        );
+      }
+      await replay(Map<String, Object?>.from(decoded));
+      _attempted = true;
+      return true;
+    } finally {
+      _running = false;
     }
-    await replay(Map<String, Object?>.from(decoded));
-    return true;
   }
 }
