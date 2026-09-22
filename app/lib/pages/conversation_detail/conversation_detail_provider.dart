@@ -640,7 +640,8 @@ class ConversationDetailProvider extends ChangeNotifier with MessageNotifierMixi
 
   Future<void> refreshConversation() async {
     try {
-      final updatedConversation = await getConversationById(conversation.id);
+      final updatedConversation = await (conversationProvider?.fetchConversationDetails(conversation.id) ??
+          getConversationById(conversation.id));
       if (_isDisposed) return;
       if (updatedConversation != null) {
         _cachedConversation = updatedConversation;

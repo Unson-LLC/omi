@@ -24,6 +24,7 @@ import 'package:omi/env/env.dart';
 import 'package:omi/models/custom_stt_config.dart';
 import 'package:omi/providers/device_onboarding_provider.dart';
 import 'package:omi/services/capture/capture_external_actions.dart';
+import 'package:omi/services/brainbase_ingest/brainbase_r2_ingest_service.dart';
 import 'package:omi/services/capture/capture_lifetime.dart';
 import 'package:omi/services/capture/capture_metrics_tracker.dart';
 import 'package:omi/services/capture/conversation_source_for_device.dart';
@@ -40,6 +41,7 @@ import 'package:omi/services/voice_playback/omi_voice_playback_service.dart';
 import 'package:omi/services/sockets/transcription_service.dart';
 import 'package:omi/services/audio_sources/audio_source.dart';
 import 'package:omi/services/audio_sources/ble_device_source.dart';
+import 'package:omi/services/audio_sources/fixture_replay_audio_source.dart';
 import 'package:omi/services/devices/connectors/limitless_connection.dart';
 import 'package:omi/services/devices/models.dart';
 import 'package:omi/services/audio_sources/phone_mic_source.dart';
@@ -129,6 +131,50 @@ class CaptureController extends ChangeNotifier
   CaptureScheduling get _scheduling => lifetime;
 
   AudioSource? _activeSource;
+
+  void _captureWalFrames(List<WalFrame> frames, {bool forceWal = false}) {
+    if (frames.isEmpty) return;
+    unawaited(BrainbaseR2IngestService.instance.addFrames(frames));
+    if (_isWalSupported || forceWal) {
+      for (final frame in frames) {
+        _wal.getSyncs().phone.onFrameCaptured(frame);
+      }
+    }
+  }
+
+  Future<void> replayBrainbaseFixtureForDebug(
+    Map<String, Object?> fixtureJson, {
+    double speed = 1,
+  }) async {
+    if (!FixtureReplayAudioSource.isBuildEnabled) {
+      throw StateError(
+        'Fixture replay requires --dart-define=OMI_FIXTURE_REPLAY_ENABLED=true',
+      );
+    }
+    if (_activeSource != null || _recordingDevice != null || recordingState != RecordingState.stop) {
+      throw StateError('Fixture replay cannot run while capture is active');
+    }
+
+    final source = FixtureReplayAudioSource(
+      fixture: ReplayFixture.fromJson(fixtureJson),
+    );
+    await _wal.getSyncs().phone.onAudioCodecChanged(source.codec);
+    _wal.getSyncs().phone.setDeviceInfo(source.deviceId, source.deviceModel);
+    await BrainbaseR2IngestService.instance.start(
+      codec: source.codec,
+      deviceId: source.deviceId,
+    );
+    try {
+      await source.replay(
+        speed: speed,
+        onLifecycle: (_) {},
+        onFrames: (frames) => _captureWalFrames(frames, forceWal: true),
+      );
+    } finally {
+      await BrainbaseR2IngestService.instance.stop();
+      await _wal.getSyncs().phone.finalizeCurrentSession();
+    }
+  }
 
   bool _isWalSupported = false;
 
@@ -1280,11 +1326,7 @@ class CaptureController extends ChangeNotifier
 
         // Process bytes through audio source and feed to WAL
         final frames = _activeSource?.processBytes(snapshot) ?? [];
-        if (_isWalSupported) {
-          for (final frame in frames) {
-            _wal.getSyncs().phone.onFrameCaptured(frame);
-          }
-        }
+        _captureWalFrames(frames);
 
         // Send WS
         if (_socket?.state == SocketServiceState.connected) {
@@ -1432,6 +1474,14 @@ class CaptureController extends ChangeNotifier
     final deviceModel = pd.modelNumber.isNotEmpty ? pd.modelNumber : "Omi";
     if (device.type == DeviceType.omi || device.type == DeviceType.openglass) {
       _activeSource = BleDeviceSource(codec: codec, deviceId: deviceId, deviceModel: deviceModel);
+    }
+    if (_activeSource != null) {
+      unawaited(
+        BrainbaseR2IngestService.instance.start(
+          codec: codec,
+          deviceId: deviceId,
+        ),
+      );
     }
     _wal.getSyncs().phone.setDeviceInfo(deviceId, deviceModel);
 
@@ -2095,6 +2145,7 @@ class CaptureController extends ChangeNotifier
   }
 
   Future stopStreamDeviceRecording({bool cleanDevice = false}) async {
+    await BrainbaseR2IngestService.instance.stop();
     _rollCaptureSession('stopped');
     await _cleanupCurrentState(disableNativeBackground: true);
     await _wal.getSyncs().phone.finalizeCurrentSession();
