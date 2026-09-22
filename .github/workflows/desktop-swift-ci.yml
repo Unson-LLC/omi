@@ -54,10 +54,10 @@ jobs:
             # queued run (FC-stale-event-payload-diff-base, #10785).
             DIFF_BASE="origin/${{ github.base_ref }}"
           else
-            DIFF_BASE="${{ github.event.before }}"
-          fi
-          if [ -z "$DIFF_BASE" ] || [[ "$DIFF_BASE" =~ ^0+$ ]]; then
-            DIFF_BASE="$(git rev-parse HEAD^)"
+            # A force-push or stale webhook payload can point outside the
+            # current history. Compare only the pushed commit with its parent
+            # instead of selecting thousands of unrelated files.
+            DIFF_BASE="$(scripts/resolve-diff-base "${{ github.event.before }}" HEAD)"
           fi
 
           FILES=$(scripts/changed-files "$DIFF_BASE"...HEAD)

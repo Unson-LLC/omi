@@ -168,7 +168,7 @@ def lint_flow(path: Path, actions: set[str]) -> list[str]:
 
     covers = flow.get("covers") or []
     repo_root = DESKTOP_DIR.parent.parent
-    if covers and tier != MANUAL_TIER:
+    if covers:
         for cover in covers:
             raw = str(cover)
             candidates = [

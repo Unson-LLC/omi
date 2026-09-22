@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+candidate="${1:-}"
+head_ref="${2:-HEAD}"
+
+if ! git cat-file -e "${head_ref}^{commit}" 2>/dev/null; then
+  echo "resolve-diff-base: head ref is not a commit: ${head_ref}" >&2
+  exit 1
+fi
+
+fallback_to_parent() {
+  if ! git cat-file -e "${head_ref}^" 2>/dev/null; then
+    echo "resolve-diff-base: ${head_ref} has no parent commit" >&2
+    exit 1
+  fi
+  git rev-parse "${head_ref}^"
+}
+
+if [ -z "$candidate" ] || [[ "$candidate" =~ ^0+$ ]]; then
+  echo "resolve-diff-base: missing push base; using ${head_ref}^" >&2
+  fallback_to_parent
+elif ! git cat-file -e "${candidate}^{commit}" 2>/dev/null; then
+  echo "resolve-diff-base: push base is unavailable; using ${head_ref}^" >&2
+  fallback_to_parent
+elif ! git merge-base --is-ancestor "$candidate" "$head_ref"; then
+  echo "resolve-diff-base: push base is not an ancestor of ${head_ref}; using ${head_ref}^" >&2
+  fallback_to_parent
+else
+  git rev-parse "$candidate"
+fi

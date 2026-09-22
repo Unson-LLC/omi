@@ -119,6 +119,15 @@ class PrePushCiPredictionTests(unittest.TestCase):
             ["app-dart-format", "app-ci-only"],
         )
 
+    def test_app_only_push_does_not_select_desktop_ci(self) -> None:
+        plan = self.plan(
+            ["app/lib/utils/date_formats.dart"],
+            {"app/lib/utils/date_formats.dart": "class DateFormats {}"},
+            event="push",
+        )
+        self.assertFalse(plan.includes("desktop-ci-only"))
+        self.assertEqual(github_outputs(plan)["should_run_tests"], "false")
+
     def test_codegen_annotation_selects_build_runner_check(self) -> None:
         self.assertEqual(
             self.select(
