@@ -19,6 +19,7 @@ import 'package:omi/utils/logger.dart';
 typedef ConversationListFetcher = Future<({List<ServerConversation> items, bool ok})> Function();
 typedef ConversationPageFetcher = Future<({List<ServerConversation> items, bool ok, bool truncated})> Function();
 typedef ConversationLifecycleFetcher = Future<({ServerConversation? item, bool ok})> Function(String id);
+
 /// Returns null when the check could not be made, so the caller keeps the
 /// last known answer instead of reading a failure as "no recaps".
 typedef DailySummariesChecker = Future<bool?> Function();
@@ -164,7 +165,10 @@ class ConversationProvider extends ChangeNotifier {
 
   ConversationProvider({
     ConversationListFetcher? conversationListFetcher,
+    ConversationPageFetcher? conversationPageFetcher,
     ConversationLifecycleFetcher? conversationLifecycleFetcher,
+    ConversationDetailsFetcher? conversationDetailsFetcher,
+    Future<bool> Function(String conversationId)? conversationDeleteFetcher,
     DailySummariesChecker? dailySummariesChecker,
     ConversationSearchFetcher? conversationSearchFetcher,
     bool Function()? isSignedIn,
@@ -178,6 +182,9 @@ class ConversationProvider extends ChangeNotifier {
         _conversationSearchFetcher = conversationSearchFetcher ?? searchConversationsServer,
         _isSignedIn = isSignedIn ?? AuthService.instance.isSignedIn,
         _conversationApi = conversationApi {
+    conversationPageFetcherOverride = conversationPageFetcher;
+    conversationDetailsFetcherOverride = conversationDetailsFetcher;
+    conversationDeleteFetcherOverride = conversationDeleteFetcher;
     _setupMergeListener();
     _loadSettings();
   }
@@ -285,13 +292,16 @@ class ConversationProvider extends ChangeNotifier {
   }
 
   Future<void> updateSearchedConvoDetails(String id) async {
-    final convo = await (conversationDetailsFetcherOverride?.call(id) ?? getConversationById(id));
+    final convo = await fetchConversationDetails(id);
     if (convo != null) {
       updateConversationInSortedList(convo);
     } else {
       notifyListeners();
     }
   }
+
+  Future<ServerConversation?> fetchConversationDetails(String id) =>
+      conversationDetailsFetcherOverride?.call(id) ?? getConversationById(id);
 
   Future<void> searchConversations(String query, {bool showShimmer = false}) async {
     if (!_isSignedIn()) return;

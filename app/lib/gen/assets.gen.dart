@@ -22,6 +22,16 @@ class $AssetsCompetitorLogosGen {
   List<AssetGenImage> get values => [limitlessLogo];
 }
 
+class $AssetsDebugGen {
+  const $AssetsDebugGen();
+
+  /// File path: assets/debug/synthetic_pcm16_v1.json
+  String get syntheticPcm16V1 => 'assets/debug/synthetic_pcm16_v1.json';
+
+  /// List of all assets
+  List<String> get values => [syntheticPcm16V1];
+}
+
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
@@ -488,6 +498,7 @@ class $AssetsIntegrationAppLogosGen {
 abstract final class Assets {
   static const $AssetsCompetitorLogosGen competitorLogos =
       $AssetsCompetitorLogosGen();
+  static const $AssetsDebugGen debug = $AssetsDebugGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsIntegrationAppLogosGen integrationAppLogos =

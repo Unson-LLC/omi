@@ -18,6 +18,7 @@ import 'package:omi/gen/pigeon_communicator.g.dart';
 import 'package:omi/services/bridges/ble_bridge.dart';
 import 'package:omi/services/account_cutover/account_cutover_runtime.dart';
 import 'package:omi/widgets/bluetooth_guidance_listener.dart';
+import 'package:omi/widgets/brainbase_fixture_replay_launcher.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:opus_dart/opus_dart.dart';
@@ -36,6 +37,7 @@ import 'package:omi/env/env.dart';
 import 'package:omi/env/environment_profile.dart';
 import 'package:omi/env/prod_env.dart';
 import 'package:omi/firebase_options_local.dart' as local;
+import 'package:omi/firebase_options_personal.dart';
 import 'package:omi/firebase_options_prod.dart' as prod;
 import 'package:omi/flavors.dart';
 import 'package:omi/startup_auth.dart';
@@ -95,9 +97,20 @@ import 'package:omi/utils/platform/platform_manager.dart';
 import 'package:omi/utils/notification_channel_strings.dart';
 
 /// Firebase parameters for the current flavor, resolved identically in every engine.
-FirebaseOptions _firebaseOptionsForFlavor() => Env.profile == AppEnvironmentProfile.localDev
-    ? local.DefaultFirebaseOptions.currentPlatform
-    : prod.DefaultFirebaseOptions.currentPlatform;
+FirebaseOptions _firebaseOptionsForFlavor() {
+  if (PersonalFirebaseOptions.enabled) return PersonalFirebaseOptions.currentPlatform;
+  return Env.profile == AppEnvironmentProfile.localDev
+      ? local.DefaultFirebaseOptions.currentPlatform
+      : prod.DefaultFirebaseOptions.currentPlatform;
+}
+
+void _validateFirebaseProject(String projectId) {
+  if (PersonalFirebaseOptions.enabled) {
+    PersonalFirebaseOptions.validateProject(projectId);
+    return;
+  }
+  Env.validateFirebaseProject(projectId: projectId);
+}
 
 /// The single Firebase entry point for every Flutter engine in the app.
 ///
@@ -110,7 +123,7 @@ Future<FirebaseApp> _ensureFirebaseApp() {
     configuredProjectId: options.projectId,
     initializeApp: () => Firebase.initializeApp(options: options),
     projectIdOf: (app) => app.options.projectId,
-    validateProject: (projectId) => Env.validateFirebaseProject(projectId: projectId),
+    validateProject: _validateFirebaseProject,
   );
 }
 
@@ -180,7 +193,7 @@ Future _init() async {
   // Firebase
   await _ensureFirebaseApp();
 
-  if (Env.profile.usesFirebaseAuthEmulator) {
+  if (Env.profile.usesFirebaseAuthEmulator && !PersonalFirebaseOptions.enabled) {
     await FirebaseAuth.instance.useAuthEmulator(Env.firebaseAuthEmulatorHost, Env.firebaseAuthEmulatorPort);
   }
 
@@ -445,65 +458,67 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ],
       builder: (context, child) {
         return WithForegroundTask(
-          child: MaterialApp(
-            debugShowCheckedModeBanner: F.env == Environment.dev,
-            title: F.title,
-            navigatorKey: MyApp.navigatorKey,
-            locale: context.watch<LocaleProvider>().locale,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            theme: ThemeData(
-              useMaterial3: false,
-              colorScheme: const ColorScheme.dark(
-                primary: Colors.black,
-                secondary: Color(0xFF35343B),
-                surface: Colors.black38,
+          child: BrainbaseFixtureReplayLauncher(
+            child: MaterialApp(
+              debugShowCheckedModeBanner: F.env == Environment.dev,
+              title: F.title,
+              navigatorKey: MyApp.navigatorKey,
+              locale: context.watch<LocaleProvider>().locale,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              theme: ThemeData(
+                useMaterial3: false,
+                colorScheme: const ColorScheme.dark(
+                  primary: Colors.black,
+                  secondary: Color(0xFF35343B),
+                  surface: Colors.black38,
+                ),
+                snackBarTheme: const SnackBarThemeData(
+                  backgroundColor: Color(0xFF1F1F25),
+                  contentTextStyle: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
+                ),
+                textTheme: TextTheme(
+                  titleLarge: const TextStyle(fontSize: 18, color: Colors.white),
+                  titleMedium: const TextStyle(fontSize: 16, color: Colors.white),
+                  bodyMedium: const TextStyle(fontSize: 14, color: Colors.white),
+                  labelMedium: TextStyle(fontSize: 12, color: Colors.grey.shade200),
+                ),
+                textSelectionTheme: const TextSelectionThemeData(
+                  cursorColor: Colors.white,
+                  selectionColor: Colors.white24,
+                  selectionHandleColor: Colors.white,
+                ),
+                cupertinoOverrideTheme: const CupertinoThemeData(
+                  primaryColor: Colors.white, // Controls the selection handles on iOS
+                ),
               ),
-              snackBarTheme: const SnackBarThemeData(
-                backgroundColor: Color(0xFF1F1F25),
-                contentTextStyle: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
+              themeMode: ThemeMode.dark,
+              builder: (context, child) {
+                FlutterError.onError = (FlutterErrorDetails details) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Logger.instance.talker.handle(details.exception, details.stack);
+                    DebugLogManager.logError(details.exception, details.stack, 'FlutterError');
+                  });
+                };
+                ErrorWidget.builder = (errorDetails) {
+                  return CustomErrorWidget(errorMessage: errorDetails.exceptionAsString());
+                };
+                final content = child!;
+                final guidedContent = BluetoothGuidanceListener(child: content);
+                return PlatformService.isIOS && Env.posthogApiKey != null
+                    ? RageClickContextTracker(child: guidedContent)
+                    : guidedContent;
+              },
+              home: TalkerWrapper(
+                talker: Logger.instance.talker,
+                options: const TalkerWrapperOptions(enableErrorAlerts: false, enableExceptionAlerts: false),
+                child: const AppShell(),
               ),
-              textTheme: TextTheme(
-                titleLarge: const TextStyle(fontSize: 18, color: Colors.white),
-                titleMedium: const TextStyle(fontSize: 16, color: Colors.white),
-                bodyMedium: const TextStyle(fontSize: 14, color: Colors.white),
-                labelMedium: TextStyle(fontSize: 12, color: Colors.grey.shade200),
-              ),
-              textSelectionTheme: const TextSelectionThemeData(
-                cursorColor: Colors.white,
-                selectionColor: Colors.white24,
-                selectionHandleColor: Colors.white,
-              ),
-              cupertinoOverrideTheme: const CupertinoThemeData(
-                primaryColor: Colors.white, // Controls the selection handles on iOS
-              ),
-            ),
-            themeMode: ThemeMode.dark,
-            builder: (context, child) {
-              FlutterError.onError = (FlutterErrorDetails details) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Logger.instance.talker.handle(details.exception, details.stack);
-                  DebugLogManager.logError(details.exception, details.stack, 'FlutterError');
-                });
-              };
-              ErrorWidget.builder = (errorDetails) {
-                return CustomErrorWidget(errorMessage: errorDetails.exceptionAsString());
-              };
-              final content = child!;
-              final guidedContent = BluetoothGuidanceListener(child: content);
-              return PlatformService.isIOS && Env.posthogApiKey != null
-                  ? RageClickContextTracker(child: guidedContent)
-                  : guidedContent;
-            },
-            home: TalkerWrapper(
-              talker: Logger.instance.talker,
-              options: const TalkerWrapperOptions(enableErrorAlerts: false, enableExceptionAlerts: false),
-              child: const AppShell(),
             ),
           ),
         );

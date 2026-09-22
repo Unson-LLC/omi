@@ -272,7 +272,7 @@ void main() {
       matches(
         RegExp(
           r'projectIdOf:\s*\(app\)\s*=>\s*app\.options\.projectId,\s*'
-          r'validateProject:\s*\(projectId\)\s*=>\s*Env\.validateFirebaseProject\(projectId:\s*projectId\),',
+          r'validateProject:\s*_validateFirebaseProject,',
         ),
       ),
     );

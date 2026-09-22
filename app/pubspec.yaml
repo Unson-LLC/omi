@@ -207,6 +207,7 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/integration_app_logos/
+    - assets/debug/
     - assets/competitor-logos/
     - shorebird.yaml
   fonts:

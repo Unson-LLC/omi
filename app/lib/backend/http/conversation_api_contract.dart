@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:omi/backend/http/api/conversations.dart';
 import 'package:omi/env/env.dart';
 import 'package:omi/providers/conversation_provider.dart';
+import 'package:omi/services/brainbase_ingest/brainbase_conversation_source.dart';
+import 'package:omi/services/brainbase_ingest/brainbase_transcript_client.dart';
 import 'package:omi/utils/l10n_extensions.dart';
 
 import 'api_presentation.dart';
@@ -16,6 +18,9 @@ ConversationProvider createProductionConversationProvider({
   ApiSend? send,
   bool Function()? isSignedIn,
 }) {
+  if (BrainbaseTranscriptClient.environmentEnabled) {
+    return createBrainbaseConversationProvider();
+  }
   final baseUrl = Env.apiBaseUrl ?? 'http://127.0.0.1:8000/';
   return ConversationProvider(
     conversationApi: ConversationApi(baseUrl: baseUrl, send: send),
