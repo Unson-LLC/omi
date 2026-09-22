@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:omi/pages/conversation_detail/conversation_detail_provider.dart';
 import 'package:omi/pages/conversation_detail/page.dart';
-import 'package:omi/pages/conversations/conversations_page.dart';
 import 'package:omi/providers/app_provider.dart';
 import 'package:omi/providers/conversation_provider.dart';
 import 'package:omi/services/brainbase_ingest/brainbase_conversation_source.dart';
