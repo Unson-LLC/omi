@@ -129,8 +129,8 @@ class BrainbaseConversationSource {
       };
 }
 
-ConversationProvider createBrainbaseConversationProvider() {
-  final source = BrainbaseConversationSource.fromClient(BrainbaseTranscriptClient.fromEnvironment());
+ConversationProvider createBrainbaseConversationProvider({BrainbaseTranscriptClient? client}) {
+  final source = BrainbaseConversationSource.fromClient(client ?? BrainbaseTranscriptClient.fromEnvironment());
   return ConversationProvider(
     conversationListFetcher: source.fetchList,
     conversationPageFetcher: source.fetchNextPage,
