@@ -40,6 +40,8 @@ class JourneyFixtureBackend {
   final List<Map<String, dynamic>> conversations = [];
   final List<Map<String, dynamic>> memories = [];
   final List<Map<String, dynamic>> actionItems = [];
+  final List<Map<String, dynamic>> transcriptSessions = [];
+  final Map<String, List<Map<String, dynamic>>> transcriptChunksBySession = {};
 
   /// Request journal: method + path -> count. Journeys assert on it (e.g.
   /// "the send request actually reached the server") — the structural
@@ -143,6 +145,23 @@ class JourneyFixtureBackend {
       await req.response.close();
       return;
     }
+    if (method == 'GET' && path.startsWith('/v1/transcript-sessions/')) {
+      final id = path.substring('/v1/transcript-sessions/'.length).split('/').first;
+      final match = transcriptSessions.where((session) => session['id'] == id).toList();
+      if (match.isEmpty) {
+        req.response.statusCode = 404;
+        req.response.write(jsonEncode({'error': 'unknown transcript session', 'id': id}));
+      } else {
+        req.response.statusCode = 200;
+        req.response.headers.contentType = ContentType.json;
+        req.response.write(jsonEncode({
+          'session': match.first,
+          'chunks': transcriptChunksBySession[id] ?? <Map<String, dynamic>>[],
+        }));
+      }
+      await req.response.close();
+      return;
+    }
 
     switch ('$method $path') {
       case 'POST /v1/auth/local-dev/custom-token':
@@ -173,6 +192,16 @@ class JourneyFixtureBackend {
         await req.response.close();
         return;
 
+      case 'GET /v1/transcript-sessions':
+        req.response.statusCode = 200;
+        req.response.headers.contentType = ContentType.json;
+        req.response.write(jsonEncode({
+          'sessions': transcriptSessions,
+          'next_cursor': null,
+        }));
+        await req.response.close();
+        return;
+
       case 'GET /v1/action-items':
         req.response.statusCode = 200;
         req.response.headers.contentType = ContentType.json;
@@ -186,7 +215,15 @@ class JourneyFixtureBackend {
         req.response.headers.contentType = ContentType.json;
         req.response.write(jsonEncode({
           'data': [],
-          'pagination': {'total': 0, 'count': 0, 'offset': 0, 'limit': 50},
+          'pagination': {
+            'total': 0,
+            'count': 0,
+            'offset': 0,
+            'limit': 50,
+            'hasNext': false,
+            'hasPrevious': false,
+            'links': {'next': null, 'previous': null},
+          },
           'filters': {
             'sort': 'popular',
             'categories': [],
