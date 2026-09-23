@@ -486,5 +486,36 @@ void main() {
         if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
       }
     });
+
+    test('completes when loading WALs fails', () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences.setMockInitialValues({});
+      await SharedPreferencesUtil.init();
+
+      final tempDir = await Directory.systemTemp.createTemp('wal_ready_failure_test_');
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+        const MethodChannel('plugins.flutter.io/path_provider'),
+        (MethodCall methodCall) async {
+          if (methodCall.method == 'getApplicationDocumentsDirectory') return tempDir.path;
+          return null;
+        },
+      );
+
+      final listener = _FakeListener();
+      final sync = LocalWalSyncImpl(listener, loadWals: () async => throw StateError('load failed'));
+      try {
+        sync.start();
+
+        await sync.walReady.timeout(const Duration(seconds: 2));
+        expect(listener.walUpdatedCount, 0);
+      } finally {
+        await sync.stop();
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/path_provider'),
+          null,
+        );
+        if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
+      }
+    });
   });
 }

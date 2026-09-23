@@ -26,6 +26,28 @@ trap cleanup EXIT HUP INT TERM
 # project remains untouched and project-relative Runner/Pods paths still work.
 cp -R "$ios_dir" "$personal_ios_dir"
 
+# Flutter's CocoaPods helper discovers plugin pods from this generated file in
+# the parent directory of ios/. The disposable build root only contains the
+# copied ios directory, so omitting it silently regenerates Pods without any
+# Flutter plugin targets.
+flutter_plugins_file="$repo_dir/.flutter-plugins-dependencies"
+if [ ! -f "$flutter_plugins_file" ]; then
+  echo "Missing $flutter_plugins_file. Run 'flutter pub get' before building." >&2
+  exit 66
+fi
+cp "$flutter_plugins_file" "$personal_build_root/.flutter-plugins-dependencies"
+
+# The checked-in Pods sandbox can lag behind Podfile.lock (for example after a
+# dependency lock update that has not yet been installed on this machine).
+# Repair only the disposable copy so personal builds stay reproducible without
+# mutating the shared checkout.
+if ! cmp -s "$personal_ios_dir/Podfile.lock" "$personal_ios_dir/Pods/Manifest.lock"; then
+  (
+    cd "$personal_ios_dir"
+    pod install --no-repo-update
+  )
+fi
+
 # CocoaPods records Flutter SDK source references relative to the original iOS
 # directory. The disposable copy is shallower, so those references would point
 # at /toolchains instead of the actual external toolchain. Resolve the Flutter
@@ -71,6 +93,7 @@ done
 dart_defines=$({
   jq -r 'to_entries | map("\(.key)=\(.value|tostring)") | .[]' "$defines_file"
   printf '%s\n' \
+    'OMI_PERSONAL_E2E_BUILD=true' \
     'OMI_FIXTURE_REPLAY_ENABLED=true' \
     'OMI_FIXTURE_REPLAY_ON_START=true' \
     'OMI_FIXTURE_REPLAY_ASSET=test/fixtures/audio/synthetic_pcm16_v1.json'
@@ -91,7 +114,7 @@ cd "$repo_dir"
 # A Debug Flutter engine cannot start when the app is launched directly on a
 # physical iPhone without an attached Flutter debugger. Personal installs must
 # therefore use the standalone-capable release configuration.
-DART_DEFINES="$dart_defines" xcodebuild \
+xcodebuild \
   -workspace "$personal_workspace" \
   -scheme dev \
   -configuration Release-dev \
@@ -101,6 +124,7 @@ DART_DEFINES="$dart_defines" xcodebuild \
   DEVELOPMENT_TEAM=9585RQB8F7 \
   CODE_SIGN_STYLE=Automatic \
   APP_BUNDLE_IDENTIFIER=jp.brainbase.omi.ksato.dev \
+  DART_DEFINES="$dart_defines" \
   CODE_SIGN_ENTITLEMENTS="$personal_ios_dir/Config/Personal/Minimal.entitlements" \
   CODE_SIGN_INJECT_BASE_ENTITLEMENTS=YES \
   build

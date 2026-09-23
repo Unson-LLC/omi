@@ -312,53 +312,56 @@ class LocalWalSyncImpl implements LocalWalSync {
 
   Future<void> _initializeWals() async {
     final generation = _sessionGeneration;
-    await WalFileManager.init();
-    if (!_isCurrent(generation)) {
-      if (!_walReady.isCompleted) _walReady.complete();
-      return;
-    }
-    final loaded = _loadWalsOverride != null ? await _loadWalsOverride!() : await WalFileManager.loadWals();
-    if (!_isCurrent(generation)) {
-      if (!_walReady.isCompleted) _walReady.complete();
-      return;
-    }
-    _admitLoadedWals(loaded);
-    Logger.debug("wal service start: ${_wals.length}");
+    try {
+      await WalFileManager.init();
+      if (!_isCurrent(generation)) return;
+      final loaded = _loadWalsOverride != null ? await _loadWalsOverride!() : await WalFileManager.loadWals();
+      if (!_isCurrent(generation)) return;
+      _admitLoadedWals(loaded);
+      Logger.debug("wal service start: ${_wals.length}");
 
-    final missingCount = _wals.where((w) => w.status == WalStatus.miss).length;
-    final syncedCount = _wals.where((w) => w.status == WalStatus.synced).length;
-    DebugLogManager.logEvent('wal_initialized', {
-      'totalWals': _wals.length,
-      'missing': missingCount,
-      'synced': syncedCount,
-    });
+      final missingCount = _wals.where((w) => w.status == WalStatus.miss).length;
+      final syncedCount = _wals.where((w) => w.status == WalStatus.synced).length;
+      DebugLogManager.logEvent('wal_initialized', {
+        'totalWals': _wals.length,
+        'missing': missingCount,
+        'synced': syncedCount,
+      });
 
-    // Run migrations for legacy Limitless files
-    final migratedCount = await WalFileManager.migrateLegacyLimitlessFiles(_wals);
-    if (!_isCurrent(generation)) {
-      if (!_walReady.isCompleted) _walReady.complete();
-      return;
-    }
-    if (migratedCount > 0) {
-      // Reload WALs after migration
-      _admitLoadedWals(_loadWalsOverride != null ? await _loadWalsOverride!() : await WalFileManager.loadWals());
-      if (!_isCurrent(generation)) {
-        if (!_walReady.isCompleted) _walReady.complete();
-        return;
+      // Migrations are best-effort. Once the durable WAL inventory is loaded,
+      // a legacy migration failure must not hide it from the upload coordinator.
+      try {
+        final migratedCount = await WalFileManager.migrateLegacyLimitlessFiles(_wals);
+        if (!_isCurrent(generation)) return;
+        if (migratedCount > 0) {
+          // Reload WALs after migration
+          _admitLoadedWals(_loadWalsOverride != null ? await _loadWalsOverride!() : await WalFileManager.loadWals());
+          if (!_isCurrent(generation)) return;
+          Logger.debug("wal service after migration: ${_wals.length}");
+          DebugLogManager.logInfo('WAL migration completed', {
+            'migratedCount': migratedCount,
+            'totalAfter': _wals.length,
+          });
+        }
+
+        // Fix any inconsistent WAL states from old implementations
+        await WalFileManager.migrateInconsistentWals(_wals);
+        if (!_isCurrent(generation)) return;
+      } catch (error, stackTrace) {
+        Logger.debug('WAL migration failed; continuing with loaded inventory: $error');
+        unawaited(
+            DebugLogManager.logError(error, stackTrace, 'WAL migration failed; continuing with loaded inventory'));
       }
-      Logger.debug("wal service after migration: ${_wals.length}");
-      DebugLogManager.logInfo('WAL migration completed', {'migratedCount': migratedCount, 'totalAfter': _wals.length});
-    }
 
-    // Fix any inconsistent WAL states from old implementations
-    await WalFileManager.migrateInconsistentWals(_wals);
-    if (!_isCurrent(generation)) {
+      _notifyUpdated(generation);
+    } catch (error, stackTrace) {
+      // A corrupt index must not leave every upload path waiting on walReady
+      // forever. The local audio files remain untouched for later recovery.
+      Logger.debug('LocalWalSync initialization failed: $error');
+      unawaited(DebugLogManager.logError(error, stackTrace, 'LocalWalSync initialization failed'));
+    } finally {
       if (!_walReady.isCompleted) _walReady.complete();
-      return;
     }
-
-    if (!_walReady.isCompleted) _walReady.complete();
-    _notifyUpdated(generation);
   }
 
   @override
