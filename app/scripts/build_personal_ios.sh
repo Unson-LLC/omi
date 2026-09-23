@@ -114,7 +114,7 @@ cd "$repo_dir"
 # A Debug Flutter engine cannot start when the app is launched directly on a
 # physical iPhone without an attached Flutter debugger. Personal installs must
 # therefore use the standalone-capable release configuration.
-DART_DEFINES="$dart_defines" xcodebuild \
+xcodebuild \
   -workspace "$personal_workspace" \
   -scheme dev \
   -configuration Release-dev \
@@ -124,6 +124,7 @@ DART_DEFINES="$dart_defines" xcodebuild \
   DEVELOPMENT_TEAM=9585RQB8F7 \
   CODE_SIGN_STYLE=Automatic \
   APP_BUNDLE_IDENTIFIER=jp.brainbase.omi.ksato.dev \
+  DART_DEFINES="$dart_defines" \
   CODE_SIGN_ENTITLEMENTS="$personal_ios_dir/Config/Personal/Minimal.entitlements" \
   CODE_SIGN_INJECT_BASE_ENTITLEMENTS=YES \
   build

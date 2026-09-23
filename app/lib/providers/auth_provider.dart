@@ -13,6 +13,7 @@ import 'package:omi/env/environment_profile.dart';
 import 'package:omi/app_globals.dart';
 import 'package:omi/providers/base_provider.dart';
 import 'package:omi/services/account_cutover/account_cutover_runtime.dart';
+import 'package:omi/services/account_cutover/account_cutover_policy.dart';
 import 'package:omi/services/auth_service.dart';
 import 'package:omi/services/auth/auth_token_result.dart';
 import 'package:omi/services/notifications.dart';
@@ -78,7 +79,8 @@ class AuthenticationProvider extends BaseProvider {
           SharedPreferencesUtil().email = user.email ?? '';
           SharedPreferencesUtil().givenName = user.displayName?.split(' ')[0] ?? '';
         }
-        final cutoverOwner = (user != null && !user.isAnonymous) ? user.uid : null;
+        final authenticatedOwner = (user != null && !user.isAnonymous) ? user.uid : null;
+        final cutoverOwner = AccountCutoverPolicy.ownerFor(authenticatedOwner);
         unawaited(AccountCutoverRuntime.instance.bindAuthenticatedOwner(cutoverOwner));
         notifyListeners();
       });

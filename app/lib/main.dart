@@ -17,6 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:omi/gen/pigeon_communicator.g.dart';
 import 'package:omi/services/bridges/ble_bridge.dart';
 import 'package:omi/services/account_cutover/account_cutover_runtime.dart';
+import 'package:omi/services/account_cutover/account_cutover_policy.dart';
 import 'package:omi/widgets/bluetooth_guidance_listener.dart';
 import 'package:omi/widgets/brainbase_fixture_replay_launcher.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -231,7 +232,7 @@ Future _init() async {
     // Anonymous Firebase sessions are not cutover product owners.
     final bootstrapUser = FirebaseAuth.instance.currentUser;
     if (bootstrapUser != null && !bootstrapUser.isAnonymous) {
-      await AccountCutoverRuntime.instance.bindAuthenticatedOwner(bootstrapUser.uid);
+      await AccountCutoverRuntime.instance.bindAuthenticatedOwner(AccountCutoverPolicy.ownerFor(bootstrapUser.uid));
     }
   }
   initOpus(await opus_flutter.load());
@@ -348,7 +349,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // legacy/allow projection cannot admit one offline upload.
     final resumeUser = FirebaseAuth.instance.currentUser;
     final resumeOwner = (resumeUser != null && !resumeUser.isAnonymous) ? resumeUser.uid : null;
-    await AccountCutoverRuntime.instance.bindAuthenticatedOwner(resumeOwner);
+    await AccountCutoverRuntime.instance.bindAuthenticatedOwner(AccountCutoverPolicy.ownerFor(resumeOwner));
     SyncReconciler.instance.onForeground();
     unawaited(SyncUploadGate.instance.reconcileFairUseStatus());
   }
