@@ -50,18 +50,54 @@ class BrainbaseTranscriptSession {
   final int transcriptCharCount;
 }
 
+class BrainbaseTranscriptSegment {
+  const BrainbaseTranscriptSegment({
+    required this.start,
+    required this.end,
+    required this.text,
+  });
+
+  static BrainbaseTranscriptSegment? tryParse(
+    Map<String, dynamic> json, {
+    double? durationSeconds,
+  }) {
+    final start = _finiteDouble(json['start']);
+    final end = _finiteDouble(json['end']);
+    final text = json['text'];
+    if (start == null || end == null || start < 0 || end <= start || text is! String || text.trim().isEmpty) {
+      return null;
+    }
+    if (durationSeconds != null && end > durationSeconds) return null;
+    return BrainbaseTranscriptSegment(start: start, end: end, text: text);
+  }
+
+  final double start;
+  final double end;
+  final String text;
+}
+
 class BrainbaseTranscriptChunk {
-  const BrainbaseTranscriptChunk({required this.sequence, required this.text});
+  const BrainbaseTranscriptChunk({
+    required this.sequence,
+    required this.text,
+    this.durationSeconds,
+    this.segments = const [],
+  });
 
   factory BrainbaseTranscriptChunk.fromJson(Map<String, dynamic> json) {
+    final durationSeconds = _nonNegativeFiniteDouble(json['duration_seconds']);
     return BrainbaseTranscriptChunk(
       sequence: _integer(json['sequence']),
       text: json['text'] as String? ?? '',
+      durationSeconds: durationSeconds,
+      segments: _parseSegments(json['segments_json'], durationSeconds: durationSeconds),
     );
   }
 
   final int sequence;
   final String text;
+  final double? durationSeconds;
+  final List<BrainbaseTranscriptSegment> segments;
 }
 
 class BrainbaseTranscriptPage {
@@ -184,6 +220,45 @@ class BrainbaseTranscriptClient {
 }
 
 int _integer(dynamic value) => value is num ? value.toInt() : 0;
+
+double? _finiteDouble(dynamic value) {
+  if (value is! num) return null;
+  final result = value.toDouble();
+  return result.isFinite ? result : null;
+}
+
+double? _nonNegativeFiniteDouble(dynamic value) {
+  final result = _finiteDouble(value);
+  return result == null || result < 0 ? null : result;
+}
+
+List<BrainbaseTranscriptSegment> _parseSegments(
+  dynamic value, {
+  double? durationSeconds,
+}) {
+  dynamic decoded = value;
+  if (value is String) {
+    if (value.trim().isEmpty) return const [];
+    try {
+      decoded = jsonDecode(value);
+    } catch (_) {
+      return const [];
+    }
+  }
+  if (decoded is! List) return const [];
+
+  final segments = <BrainbaseTranscriptSegment>[];
+  for (final entry in decoded) {
+    if (entry is! Map) return const [];
+    final segment = BrainbaseTranscriptSegment.tryParse(
+      Map<String, dynamic>.from(entry),
+      durationSeconds: durationSeconds,
+    );
+    if (segment == null) return const [];
+    segments.add(segment);
+  }
+  return List.unmodifiable(segments);
+}
 
 DateTime? _dateTime(dynamic value) {
   if (value is! String || value.isEmpty) return null;
