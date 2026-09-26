@@ -116,6 +116,18 @@ void main() {
     expect(getCalls, 1);
   });
 
+  test('keeps the journal when finalize does not acknowledge queueing', () async {
+    await _expectFinalizeRetryAfterUnacknowledgedResponse(
+      firstFinalizeResponse: () => _json({'ok': true, 'queued': false}),
+    );
+  });
+
+  test('keeps the journal when finalize returns an empty body', () async {
+    await _expectFinalizeRetryAfterUnacknowledgedResponse(
+      firstFinalizeResponse: () => http.Response('', 200),
+    );
+  });
+
   test('does not presign a closed session when resuming', () async {
     final directory = await Directory.systemTemp.createTemp('brainbase_offline_closed_');
     addTearDown(() => directory.delete(recursive: true));
@@ -242,6 +254,70 @@ void main() {
       expect(BrainbaseOfflineSync.fromEnvironment(), isNull);
     }
   });
+}
+
+Future<void> _expectFinalizeRetryAfterUnacknowledgedResponse({
+  required http.Response Function() firstFinalizeResponse,
+}) async {
+  final directory = await Directory.systemTemp.createTemp('brainbase_offline_finalize_ack_');
+  addTearDown(() => directory.delete(recursive: true));
+  final file = await _writePcmWal(directory, timestampMilliseconds: 1700000000000);
+  var finalizeCalls = 0;
+  var getCalls = 0;
+  var presignCalls = 0;
+  final client = MockClient((request) async {
+    if (request.method == 'POST' && request.url.path == '/v1/upload-sessions') {
+      return _json({'sessionId': 'session-finalize-ack'});
+    }
+    if (request.method == 'POST' && request.url.path.endsWith('/presign')) {
+      presignCalls++;
+      return _json({'putUrl': 'https://r2.test/chunk', 'alreadyUploaded': false});
+    }
+    if (request.method == 'PUT') return http.Response('', 200);
+    if (request.method == 'POST' && request.url.path.endsWith('/complete')) {
+      return _json({'ok': true});
+    }
+    if (request.method == 'POST' && request.url.path.endsWith('/finalize')) {
+      finalizeCalls++;
+      return finalizeCalls == 1 ? firstFinalizeResponse() : _json({'ok': true, 'queued': true});
+    }
+    if (request.method == 'GET' && request.url.path.endsWith('/session-finalize-ack')) {
+      getCalls++;
+      return _json({
+        'session': {
+          'id': 'session-finalize-ack',
+          'status': 'transcribed',
+          'chunk_count': 1,
+        },
+        'chunks': const <dynamic>[],
+      });
+    }
+    throw StateError('unexpected ${request.method} ${request.url}');
+  });
+  final sync = BrainbaseOfflineSync(
+    baseUrl: 'https://ingest.test',
+    token: 'test-token',
+    client: client,
+    journalDirectory: directory,
+  );
+
+  await expectLater(
+    sync.upload([file]),
+    throwsA(
+      isA<BrainbaseOfflineSyncException>().having(
+        (error) => error.statusCode,
+        'statusCode',
+        isNull,
+      ),
+    ),
+  );
+  final journal = jsonDecode(await File('${directory.path}/journal.json').readAsString()) as Map<String, dynamic>;
+  expect((journal['batches'] as Map<String, dynamic>).values.single['sessionId'], 'session-finalize-ack');
+
+  expect(await sync.upload([file]), 'session-finalize-ack');
+  expect(getCalls, 1);
+  expect(presignCalls, 1);
+  expect(finalizeCalls, 1);
 }
 
 Future<File> _writePcmWal(

@@ -499,7 +499,13 @@ class BrainbaseOfflineSync {
         headers: _authHeaders,
       ),
     );
-    _decodeObject(response, 'finalize upload session');
+    final body = _decodeObject(response, 'finalize upload session');
+    if (body['queued'] != true) {
+      throw BrainbaseOfflineSyncException(
+        'finalize upload session was not acknowledged as queued',
+        cause: body,
+      );
+    }
   }
 
   Future<http.Response> _request({
