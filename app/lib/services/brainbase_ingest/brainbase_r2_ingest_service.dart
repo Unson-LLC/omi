@@ -236,7 +236,7 @@ class BrainbaseR2UploadQueue {
     _items.add({
       'sessionId': sessionId,
       'sequence': sequence,
-      'path': file.path,
+      'path': name,
       'sha256': sha256.convert(bytes).toString(),
       'byteLength': bytes.length,
     });
@@ -254,8 +254,21 @@ class BrainbaseR2UploadQueue {
     try {
       while (_items.isNotEmpty) {
         final item = _items.first;
-        final file = File(item['path'] as String);
-        if (!await file.exists()) {
+        final storedPath = item['path'];
+        if (storedPath is! String) {
+          Logger.error('[BrainbaseIngest] queued file path is invalid');
+          return;
+        }
+        final file = _resolveQueuedFile(storedPath);
+        if (file == null) {
+          Logger.error('[BrainbaseIngest] queued file path rejected');
+          return;
+        }
+        final fileType = await FileSystemEntity.type(
+          file.path,
+          followLinks: false,
+        );
+        if (fileType != FileSystemEntityType.file) {
           Logger.error('[BrainbaseIngest] queued file missing: ${file.path}');
           return;
         }
@@ -318,6 +331,15 @@ class BrainbaseR2UploadQueue {
     } finally {
       _draining = false;
     }
+  }
+
+  File? _resolveQueuedFile(String storedPath) {
+    final normalized = storedPath.replaceAll('\\', '/');
+    final isAbsolute = normalized.startsWith('/') || RegExp(r'^[A-Za-z]:/').hasMatch(normalized);
+    final basename = normalized.split('/').last;
+    if (basename.isEmpty || basename == '.' || basename == '..') return null;
+    if (!isAbsolute && basename != normalized) return null;
+    return File('${_directory.path}/$basename');
   }
 
   Map<String, dynamic> _decode(http.Response response) {
