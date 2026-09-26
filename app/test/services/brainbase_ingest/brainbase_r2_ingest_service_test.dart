@@ -11,6 +11,10 @@ import 'package:omi/services/brainbase_ingest/brainbase_r2_ingest_service.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('startup recovery is a no-op when Brainbase ingest is disabled', () async {
+    await BrainbaseR2IngestService.instance.resumePendingUploads();
+  });
+
   test(
     'keeps a chunk and finalize intent until a failed upload can retry',
     () async {
@@ -134,6 +138,8 @@ void main() {
       await queue.drain();
       expect(events, hasAudio ? ['complete', 'old-finalize'] : isEmpty);
       await queue.markSessionActive('new-session');
+      await queue.drain();
+      expect(events.where((event) => event == 'new-finalize'), isEmpty);
       await queue.enqueue(sessionId: 'new-session', sequence: 0, bytes: Uint8List.fromList([4, 5, 6]));
       await queue.drain();
       await queue.markForFinalize('new-session');

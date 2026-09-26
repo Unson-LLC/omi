@@ -36,18 +36,27 @@ class BrainbaseR2IngestService {
 
   bool get enabled => _baseUrl.isNotEmpty && _token.isNotEmpty;
 
+  /// Reopens the durable queue after app startup, without creating a recording
+  /// session. The caller may fire-and-forget this operation so a slow network
+  /// does not delay the first frame.
+  Future<void> resumePendingUploads() {
+    final operation = _serial.then((_) async {
+      if (!enabled) return;
+      await _ensureQueueReady();
+      await _queue!.drain();
+    });
+    _serial = operation.catchError((Object error, StackTrace stack) {
+      Logger.error(
+        '[BrainbaseIngest] pending upload recovery failed: $error\n$stack',
+      );
+    });
+    return _serial;
+  }
+
   Future<void> start({required BleAudioCodec codec, required String deviceId}) {
     final operation = _serial.then((_) async {
       if (!enabled || _sessionId != null) return;
-      _queue ??= await BrainbaseR2UploadQueue.open(
-        baseUrl: _baseUrl,
-        token: _token,
-        client: _http,
-      );
-      _retryTimer ??= Timer.periodic(
-        const Duration(seconds: 15),
-        (_) => unawaited(_queue?.drain()),
-      );
+      await _ensureQueueReady();
       await _queue!.drain();
       late final String sourceCodec;
       try {
@@ -78,6 +87,18 @@ class BrainbaseR2IngestService {
       Logger.error('[BrainbaseIngest] start failed: $error\n$stack');
     });
     return operation;
+  }
+
+  Future<void> _ensureQueueReady() async {
+    _queue ??= await BrainbaseR2UploadQueue.open(
+      baseUrl: _baseUrl,
+      token: _token,
+      client: _http,
+    );
+    _retryTimer ??= Timer.periodic(
+      const Duration(seconds: 15),
+      (_) => unawaited(_queue?.drain()),
+    );
   }
 
   Future<void> addFrames(List<WalFrame> frames) {
