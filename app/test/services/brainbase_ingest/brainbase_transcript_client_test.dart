@@ -62,9 +62,16 @@ void main() {
             'transcript_char_count': 9,
           },
           'chunks': [
-            {'sequence': 2, 'text': 'アイテム'},
-            {'sequence': 0, 'text': 'アクション'},
-            {'sequence': 1, 'text': '  '},
+            {
+              'sequence': 2,
+              'text': 'アイテム',
+              'duration_seconds': 3.5,
+              'segments_json': jsonEncode([
+                {'start': 0.5, 'end': 1.5, 'text': 'アイテム'},
+              ]),
+            },
+            {'sequence': 0, 'text': 'アクション', 'duration_seconds': 2},
+            {'sequence': 1, 'text': '  ', 'duration_seconds': 4},
           ],
         });
       }),
@@ -74,6 +81,49 @@ void main() {
 
     expect(detail.transcript, 'アクション\nアイテム');
     expect(detail.chunks.map((chunk) => chunk.sequence), [0, 1, 2]);
+    expect(detail.chunks[2].durationSeconds, 3.5);
+    expect(detail.chunks[2].segments, hasLength(1));
+    expect(detail.chunks[2].segments.single.start, 0.5);
+    expect(detail.chunks[2].segments.single.end, 1.5);
+  });
+
+  test('falls back when any recognition segment is malformed', () async {
+    final client = BrainbaseTranscriptClient(
+      baseUrl: 'https://ingest.test',
+      token: 'test-token',
+      client: MockClient((_) async {
+        return _jsonResponse({
+          'session': {
+            'id': 'session-1',
+            'device_id': 'fixture-device',
+            'status': 'transcribed',
+            'created_at': '2026-09-21T10:00:00.000Z',
+            'chunk_count': 1,
+            'non_empty_chunk_count': 1,
+            'transcript_char_count': 4,
+          },
+          'chunks': [
+            {
+              'sequence': 0,
+              'text': '本文',
+              'duration_seconds': 4,
+              'segments_json': jsonEncode([
+                {'start': -1, 'end': 1, 'text': '負の開始'},
+                {'start': 2, 'end': 1, 'text': '逆順'},
+                {'start': 1, 'end': 2, 'text': '有効'},
+                {'start': 2, 'end': 5, 'text': '長すぎる'},
+                {'start': 1, 'end': 2, 'text': '  '},
+              ]),
+            },
+          ],
+        });
+      }),
+    );
+
+    final detail = await client.getSession('session-1');
+
+    expect(detail.chunks.single.text, '本文');
+    expect(detail.chunks.single.segments, isEmpty);
   });
 
   test('does not turn an API failure into an empty list', () async {
