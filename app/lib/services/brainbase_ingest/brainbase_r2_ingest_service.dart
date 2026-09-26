@@ -62,13 +62,15 @@ class BrainbaseR2IngestService {
         sampleRate: _sampleRate,
         channels: _channels,
       );
-      _sessionId = await _queue!.createSession(
+      final sessionId = await _queue!.createSession(
         deviceId: deviceId,
         sourceCodec: sourceCodec,
         sampleRate: _sampleRate,
         channels: _channels,
         chunkDurationSeconds: _chunkSeconds,
       );
+      await _queue!.markSessionActive(sessionId);
+      _sessionId = sessionId;
       _sequence = 0;
       Logger.debug('[BrainbaseIngest] session started: $_sessionId');
     });
@@ -154,6 +156,8 @@ class BrainbaseR2UploadQueue {
   final http.Client _client;
   final List<Map<String, dynamic>> _items = [];
   final Set<String> _finalizeSessions = {};
+  String? _activeSessionId;
+  bool _activeSessionHasChunks = false;
   Future<void> _saveSerial = Future.value();
   bool _draining = false;
 
@@ -187,6 +191,7 @@ class BrainbaseR2UploadQueue {
       client,
     );
     await queue._load();
+    await queue._recoverOrphanedSessions();
     return queue;
   }
 
@@ -195,6 +200,12 @@ class BrainbaseR2UploadQueue {
 
   @visibleForTesting
   bool isFinalizePending(String sessionId) => _finalizeSessions.contains(sessionId);
+
+  Future<void> markSessionActive(String sessionId) async {
+    _activeSessionId = sessionId;
+    _activeSessionHasChunks = false;
+    await _save();
+  }
 
   Map<String, String> get _headers => {
         'authorization': 'Bearer $_token',
@@ -240,11 +251,19 @@ class BrainbaseR2UploadQueue {
       'sha256': sha256.convert(bytes).toString(),
       'byteLength': bytes.length,
     });
+    if (_activeSessionId == sessionId) _activeSessionHasChunks = true;
     await _save();
   }
 
   Future<void> markForFinalize(String sessionId) async {
-    _finalizeSessions.add(sessionId);
+    if (_activeSessionId == sessionId) {
+      final hasChunks = _activeSessionHasChunks;
+      _activeSessionId = null;
+      _activeSessionHasChunks = false;
+      if (hasChunks) _finalizeSessions.add(sessionId);
+    } else {
+      _finalizeSessions.add(sessionId);
+    }
     await _save();
   }
 
@@ -361,17 +380,42 @@ class BrainbaseR2UploadQueue {
     _finalizeSessions.addAll(
       (value['finalizeSessions'] as List<dynamic>? ?? []).cast<String>(),
     );
+    final activeSessionId = value['activeSessionId'];
+    if (activeSessionId is String && activeSessionId.isNotEmpty) {
+      _activeSessionId = activeSessionId;
+      _activeSessionHasChunks = value['activeSessionHasChunks'] == true;
+    }
+  }
+
+  Future<void> _recoverOrphanedSessions() async {
+    final orphanedSessions = <String>{};
+    final activeSessionId = _activeSessionId;
+    if (activeSessionId != null && _activeSessionHasChunks) {
+      orphanedSessions.add(activeSessionId);
+    }
+    for (final item in _items) {
+      final sessionId = item['sessionId'];
+      if (sessionId is String && sessionId.isNotEmpty) {
+        orphanedSessions.add(sessionId);
+      }
+    }
+    if (orphanedSessions.isEmpty && activeSessionId == null) return;
+    _finalizeSessions.addAll(orphanedSessions);
+    _activeSessionId = null;
+    _activeSessionHasChunks = false;
+    await _save();
   }
 
   Future<void> _save() async {
     final snapshot = jsonEncode({
       'items': _items,
       'finalizeSessions': _finalizeSessions.toList(),
+      'activeSessionId': _activeSessionId,
+      'activeSessionHasChunks': _activeSessionHasChunks,
     });
     _saveSerial = _saveSerial.catchError((_) {}).then((_) async {
       final temporary = File('${_manifest.path}.tmp');
       await temporary.writeAsString(snapshot, flush: true);
-      if (await _manifest.exists()) await _manifest.delete();
       await temporary.rename(_manifest.path);
     });
     await _saveSerial;
