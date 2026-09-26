@@ -651,6 +651,9 @@ class _SyncPageState extends State<SyncPage> {
       phase: s.phase,
       currentFile: s.currentFile,
       totalFiles: s.totalFiles,
+      progress: s.progress,
+      uploadedBytes: s.uploadedBytes,
+      totalBytesToUpload: s.totalBytesToUpload,
       counterLabel: (processed, total) => context.l10n.syncCardProgressOf(processed, total),
       speedSuffix: speedStr,
     );

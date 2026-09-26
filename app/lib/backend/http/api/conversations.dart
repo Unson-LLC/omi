@@ -11,6 +11,7 @@ import 'package:omi/backend/schema/gen/apps_wire.g.dart' as apps_wire;
 import 'package:omi/backend/schema/gen/conversation_wire.g.dart' as wire;
 import 'package:omi/backend/schema/schema.dart';
 import 'package:omi/env/env.dart';
+import 'package:omi/services/brainbase_ingest/brainbase_offline_sync.dart';
 import 'package:omi/utils/debug_log_manager.dart';
 import 'package:omi/utils/logger.dart';
 import 'package:omi/utils/platform/platform_manager.dart';
@@ -730,8 +731,28 @@ Future<UploadFilesResult> uploadLocalFilesV2(
   String? conversationId,
   bool claimLiveCapture = false,
   Geolocation? geolocation,
+  BrainbaseOfflineSync? brainbaseClient,
 }) async {
   assertWalSyncFilesAreFramedBins(files.map((file) => file.path));
+  final cloudflare = brainbaseClient ?? _brainbaseOfflineSync;
+  if (cloudflare != null) {
+    try {
+      final sessionId = await cloudflare.upload(
+        files,
+        onProgress: onUploadProgress,
+        conversationId: conversationId,
+      );
+      return UploadFilesResult.queued('cloudflare:$sessionId');
+    } on BrainbaseOfflineSyncException catch (error) {
+      if (error.statusCode == 429) {
+        throw SyncRateLimitedException(
+          kind: SyncRateLimitKind.backendCapacity,
+          retryAfterSeconds: error.retryAfterSeconds,
+        );
+      }
+      throw SyncUploadHttpException(error.statusCode ?? 0, 'Cloudflare audio upload could not be confirmed');
+    }
+  }
   String? captureManifest;
   if (shouldRequestSyncCaptureManifest(conversationId, claimLiveCapture)) {
     captureManifest = await _createSyncCaptureManifest(files, conversationId!);
@@ -801,9 +822,56 @@ class SyncJobFetch {
   const SyncJobFetch(this.outcome, [this.status]);
 }
 
+final BrainbaseOfflineSync? _brainbaseOfflineSync = BrainbaseOfflineSync.fromEnvironment();
+
+/// Cloudflare's canonical transcription acknowledgement is independent of
+/// transcript text: silence is a valid completed recording. Unknown states and
+/// mismatched identities must never clear a retained WAL or trigger re-upload.
+@visibleForTesting
+SyncJobFetch mapBrainbaseSyncJobStatus(
+  String jobId, {
+  required String sessionId,
+  required String status,
+  required int chunkCount,
+}) {
+  if (jobId != 'cloudflare:$sessionId' || sessionId.isEmpty || chunkCount < 0) {
+    return const SyncJobFetch(SyncJobFetchOutcome.transient);
+  }
+  final completed = status == 'transcribed';
+  return SyncJobFetch(
+    SyncJobFetchOutcome.ok,
+    SyncJobStatusResponse(
+      jobId: jobId,
+      status: completed ? 'completed' : 'processing',
+      totalSegments: chunkCount,
+      processedSegments: completed ? chunkCount : 0,
+      successfulSegments: completed ? chunkCount : 0,
+    ),
+  );
+}
+
 /// Single GET of a sync job's status — no polling loop. The reconciler owns
 /// the polling cadence and decides what to do per [SyncJobFetchOutcome].
-Future<SyncJobFetch> fetchSyncJobStatus(String jobId) async {
+Future<SyncJobFetch> fetchSyncJobStatus(String jobId, {BrainbaseOfflineSync? brainbaseClient}) async {
+  if (jobId.startsWith('cloudflare:')) {
+    // Never send this namespace to the Omi API: its 403/404 recovery policy
+    // clears the job and would duplicate audio that Cloudflare already owns.
+    try {
+      final cloudflare = brainbaseClient ?? _brainbaseOfflineSync;
+      if (cloudflare == null) return const SyncJobFetch(SyncJobFetchOutcome.transient);
+      final status = await cloudflare.fetchStatus(jobId.substring('cloudflare:'.length));
+      return mapBrainbaseSyncJobStatus(
+        jobId,
+        sessionId: status.sessionId,
+        status: status.status,
+        chunkCount: status.chunkCount,
+      );
+    } catch (_) {
+      // Auth, missing/unknown sessions and temporary failures retain the job
+      // and local audio until the same Worker can authoritatively resolve it.
+      return const SyncJobFetch(SyncJobFetchOutcome.transient);
+    }
+  }
   final response = await makeApiCall(
     url: '${Env.apiBaseUrl}v2/sync-local-files/$jobId',
     headers: {},

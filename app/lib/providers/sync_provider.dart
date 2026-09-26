@@ -506,7 +506,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     if (!_isCurrent(generation)) return const RecordingTransferDrainResult.contended();
 
     _admittedWorkGeneration = generation;
-    _updateSyncState(_syncState.toIdle(), generation);
+    _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
     _totalWalsToProcess = missingWals.length;
     _walsProcessedCount = 0;
     final result = await _performSync(
@@ -532,6 +532,13 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     if (generation != null && !_isCurrent(generation)) return;
     _syncState = newState;
     notifyListeners();
+  }
+
+  /// Clears transfer metadata when a sync returns to idle. SyncState's
+  /// copyWith intentionally treats null file counters as "keep the current
+  /// value", so use zero as the empty sentinel for the next phase.
+  SyncState _resetTransferProgress(SyncState state) {
+    return state.copyWith(currentFile: 0, totalFiles: 0);
   }
 
   Future<void> refreshWals() => _refreshWals(_sessionGeneration);
@@ -610,7 +617,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     await _uploadGate.prepareToUpload();
     if (!_isCurrent(generation)) return;
     _admittedWorkGeneration = generation;
-    _updateSyncState(_syncState.toIdle(), generation);
+    _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
     _totalWalsToProcess = missingWals.length;
     _walsProcessedCount = 0;
     await _performSync(
@@ -636,7 +643,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     await _uploadGate.prepareToUpload();
     if (!_isCurrent(generation)) return;
     _admittedWorkGeneration = generation;
-    _updateSyncState(_syncState.toIdle(), generation);
+    _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
     _totalWalsToProcess = 1;
     _walsProcessedCount = 0;
     final result = await _performSync(
@@ -751,7 +758,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
         DebugLogManager.logWarning(
           'SyncProvider: $context had $localFailures transient local upload failure(s); re-arming recovery',
         );
-        _updateSyncState(_syncState.toIdle(), generation);
+        _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
         // Coordinator drains use rethrowOnError and schedule their own cooldown
         // via RecordingTransferCoordinator._runPass — do not double-wake here.
         if (_startBackgroundSync && !rethrowOnError) {
@@ -766,7 +773,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
       }
       if (isTransientNetworkError(e)) {
         DebugLogManager.logWarning('SyncProvider: $context hit transient network error; re-arming recovery: $e');
-        _updateSyncState(_syncState.toIdle(), generation);
+        _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
         // Wake only for direct/manual calls; coordinator owns retry scheduling.
         if (_startBackgroundSync && !rethrowOnError) {
           unawaited(_wakeTransfer(WakeTrigger.cooldownElapsed));
@@ -865,7 +872,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
   }
 
   void clearSyncResult() {
-    _updateSyncState(_syncState.toIdle());
+    _updateSyncState(_resetTransferProgress(_syncState.toIdle()));
   }
 
   void setStorageFilter(WalStorage? filter) {
@@ -1018,14 +1025,22 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     }
 
     final incomingPhase = phase ?? _syncState.phase;
-    var nextCurrent = currentFile ?? _syncState.currentFile;
-    var nextTotal = totalFiles ?? _syncState.totalFiles;
+    final phaseChanged = phase != null && phase != _syncState.phase;
 
-    // Per-chunk device downloads report 1/1; do not clobber multi-recording upload counts.
-    if (incomingPhase == SyncPhase.downloadingFromDevice && totalFiles == 1 && (_syncState.totalFiles ?? 0) > 1) {
-      nextCurrent = _syncState.currentFile;
-      nextTotal = _syncState.totalFiles;
-    }
+    // File counters belong to the phase that produced them. Device callbacks
+    // often report only byte progress (and some report 1/1 for a single
+    // transfer), so carrying upload counters into this phase makes a device
+    // transfer look like a large upload batch. Reset on an explicit phase
+    // boundary and let callbacks in the new phase populate their own counts.
+    final nextCurrent = phaseChanged ? (currentFile ?? 0) : (currentFile ?? _syncState.currentFile ?? 0);
+    final nextTotal = phaseChanged ? (totalFiles ?? 0) : (totalFiles ?? _syncState.totalFiles ?? 0);
+
+    // Byte counters have the same phase ownership. Unlike file counters,
+    // nullable byte fields can be cleared by SyncState.copyWith, so preserve
+    // them only while the phase remains unchanged.
+    final nextUploadedBytes = phaseChanged ? uploadedBytes : (uploadedBytes ?? _syncState.uploadedBytes);
+    final nextTotalBytesToUpload =
+        phaseChanged ? totalBytesToUpload : (totalBytesToUpload ?? _syncState.totalBytesToUpload);
 
     final progress = percentage.clamp(0.0, 1.0);
     _updateSyncState(
@@ -1035,8 +1050,8 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
         phase: incomingPhase,
         currentFile: nextCurrent,
         totalFiles: nextTotal,
-        uploadedBytes: uploadedBytes,
-        totalBytesToUpload: totalBytesToUpload,
+        uploadedBytes: nextUploadedBytes,
+        totalBytesToUpload: nextTotalBytesToUpload,
       ),
       _admittedWorkGeneration,
     );
@@ -1060,7 +1075,7 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     if (partialResults != null && _hasConversationResults(partialResults)) {
       unawaited(_processConversationResults(partialResults, generation));
     } else {
-      _updateSyncState(_syncState.toIdle(), generation);
+      _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
     }
     // Drop the Android transfer FGS immediately so screen-off keep-alive
     // cannot outlive a user cancel (#5221).
@@ -1084,10 +1099,10 @@ class SyncProvider extends ChangeNotifier implements IWalServiceListener, IWalSy
     try {
       await _walService.getSyncs().syncWal(wal: wal, progress: this);
       await _refreshWals(generation);
-      _updateSyncState(_syncState.toIdle(), generation);
+      _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
     } catch (e) {
       await _refreshWals(generation);
-      _updateSyncState(_syncState.toIdle(), generation);
+      _updateSyncState(_resetTransferProgress(_syncState.toIdle()), generation);
       rethrow;
     } finally {
       await _keepAlive.release();
