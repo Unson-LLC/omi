@@ -11,7 +11,7 @@ import 'package:omi/services/dev_controls/journey_faults.dart';
 class HttpPoolManager {
   static final HttpPoolManager instance = HttpPoolManager._();
 
-  late final IOClient _client;
+  late final http.Client _client;
   late final Pool _pool;
 
   // GET deduplication: URL -> pending future
@@ -23,6 +23,12 @@ class HttpPoolManager {
       ..idleTimeout = const Duration(seconds: 15);
 
     _client = IOClient(httpClient);
+    _pool = Pool(10, timeout: const Duration(seconds: 60));
+  }
+
+  @visibleForTesting
+  HttpPoolManager.withClient(http.Client client) {
+    _client = client;
     _pool = Pool(10, timeout: const Duration(seconds: 60));
   }
 
@@ -55,8 +61,13 @@ class HttpPoolManager {
     });
 
     if (isGet) {
-      _pendingGets[url] = future;
-      future.whenComplete(() => _pendingGets.remove(url));
+      // Return the cleanup future too: discarding it duplicates request errors
+      // into the zone even when every caller handles the original failure.
+      final tracked = future.whenComplete(() {
+        _pendingGets.remove(url);
+      });
+      _pendingGets[url] = tracked;
+      return tracked;
     }
     return future;
   }
