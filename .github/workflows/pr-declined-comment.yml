@@ -4,11 +4,15 @@ on:
   pull_request_target:
     types: [closed]
 
+concurrency:
+  group: pr-declined-comment-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   comment-on-declined-pr:
     # Only run if PR was closed WITHOUT being merged
     if: github.event.pull_request.merged == false
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     
     permissions:
       pull-requests: write

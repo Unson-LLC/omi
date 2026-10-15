@@ -1,11 +1,9 @@
 name: Web Checks
 
 on:
+  workflow_dispatch:
   push:
     branches: main
-  pull_request:
-    branches: main
-
 concurrency:
   group: web-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -13,7 +11,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 15
     outputs:
       has_admin: ${{ steps.changes.outputs.has_admin }}
@@ -26,19 +24,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
+          fetch-depth: 0
+          filter: blob:none
+          lfs: false
           # detect-changes diffs against the merge base, so it needs history;
           # blob:none skips file contents, which is what made the unfiltered
           # clone of this ~1.25GB repo take minutes.
-          fetch-depth: 0
-          filter: blob:none
-
       - name: Detect changed paths
         id: changes
         uses: ./.github/actions/detect-changes
 
   frontend-lint:
     name: Frontend Lint
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_web_lint == 'true'
     timeout-minutes: 15
@@ -46,9 +44,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
-          # Lint/test only reads the worktree; no git history is consulted.
           fetch-depth: 1
-
+          lfs: false
+          # Lint/test only reads the worktree; no git history is consulted.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
@@ -80,7 +78,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_web_build == 'true'
     timeout-minutes: 15
@@ -88,9 +86,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
-          # Builds only read the worktree; no git history is consulted.
           fetch-depth: 1
-
+          lfs: false
+          # Builds only read the worktree; no git history is consulted.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:

@@ -14,7 +14,7 @@ concurrency:
 jobs:
   read-only-plan:
     environment: development
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     env:
       TF_IN_AUTOMATION: "true"
     steps:

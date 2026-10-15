@@ -28,7 +28,7 @@ jobs:
         github.event.check_run.conclusion == 'failure' &&
         github.event.check_run.app.slug == 'codemagic-ci-cd' &&
         startsWith(github.event.check_run.details_url, 'https://codemagic.io/app/66c95e6ec76853c447b8bcbb/build/')))
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 10
     steps:
       - name: Checkout recovery controls

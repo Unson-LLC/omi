@@ -260,8 +260,8 @@ class AdminDeployScopeAdmissionTests(unittest.TestCase):
             ),
             (
                 "cloud authentication",
-                "    runs-on: ubuntu-latest\n    outputs:",
-                "    runs-on: ubuntu-latest\n    steps:\n      - uses: google-github-actions/auth@v3\n    outputs:",
+                "    runs-on: [self-hosted, Linux, wsl-linux]\n    outputs:",
+                "    runs-on: [self-hosted, Linux, wsl-linux]\n    steps:\n      - uses: google-github-actions/auth@v3\n    outputs:",
                 "admin scope decision must not authenticate to cloud services",
             ),
             (

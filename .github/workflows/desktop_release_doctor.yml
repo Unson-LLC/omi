@@ -18,7 +18,7 @@ concurrency:
 jobs:
   proactive-health:
     if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout release controls
         uses: actions/checkout@v7
@@ -132,7 +132,7 @@ jobs:
         run: exit 1
 
   beta-freshness:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout release controls
         uses: actions/checkout@v7

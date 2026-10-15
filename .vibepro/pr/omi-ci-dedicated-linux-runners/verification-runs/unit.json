@@ -1,0 +1,148 @@
+{
+  "schema_version": "0.1.0",
+  "status": "pass",
+  "exit_code": 0,
+  "evidence_source": "runner_direct",
+  "producer": "vibepro verify run",
+  "kind": "unit",
+  "story_id": "omi-ci-dedicated-linux-runners",
+  "runtime_identity": {
+    "schema_version": "0.2.0",
+    "collected_at": "2026-10-15T08:16:56.963Z",
+    "mode": "normal",
+    "source_kind": "npm_package",
+    "test_context": null,
+    "package": {
+      "name": "vibepro",
+      "version": "0.2.0-beta.30",
+      "exact_version": "0.2.0-beta.30",
+      "root": "/Volumes/UNSON-DRIVE/codex-runtime-staging/node-caches/npm-cache/_npx/e0f82dd780a6134d/node_modules/vibepro"
+    },
+    "cli": {
+      "entrypoint": "/Volumes/UNSON-DRIVE/codex-runtime-staging/node-caches/npm-cache/_npx/e0f82dd780a6134d/node_modules/vibepro/bin/vibepro.js",
+      "invoked_as": "/Volumes/UNSON-DRIVE/codex-runtime-staging/node-caches/npm-cache/_npx/e0f82dd780a6134d/node_modules/.bin/vibepro",
+      "runtime_module": "/Volumes/UNSON-DRIVE/codex-runtime-staging/node-caches/npm-cache/_npx/e0f82dd780a6134d/node_modules/vibepro/src/runtime-info.js"
+    },
+    "release_manifest": {
+      "status": "valid",
+      "manifest": {
+        "schema_version": "0.1.0",
+        "package": {
+          "name": "vibepro",
+          "version": "0.2.0-beta.30",
+          "package_json_sha256": "0f12133e8a3ea491b7207545c24267355120f5bd9c28780fd04c0a8b31c5b4af",
+          "entrypoint": "bin/vibepro.js"
+        },
+        "source_git": {
+          "commit": "34f5dea61e97730e464999da83a6ecba9f2e09b5",
+          "origin_url": "https://github.com/Unson-LLC/vibepro",
+          "origin_main_commit": "34f5dea61e97730e464999da83a6ecba9f2e09b5",
+          "origin_main_relation": "same",
+          "dirty": false
+        }
+      },
+      "errors": []
+    },
+    "source_git": {
+      "is_git_repo": false,
+      "commit": "34f5dea61e97730e464999da83a6ecba9f2e09b5",
+      "branch": null,
+      "origin_url": "https://github.com/Unson-LLC/vibepro",
+      "origin_main_commit": "34f5dea61e97730e464999da83a6ecba9f2e09b5",
+      "origin_main_relation": "published",
+      "dirty": false,
+      "dirty_summary": []
+    },
+    "identity_digest": "6fd7c55d09ca635d77807bf2ccc4415100d29b3dac2d77d9236206b1a97280aa",
+    "integrity": {
+      "status": "trusted",
+      "code": null,
+      "purpose": "evidence_generation",
+      "reasons": [
+        "manifested immutable npm runtime"
+      ]
+    }
+  },
+  "head_sha": "ada92ad2828e8f489c098663d8567404c4cb40d4",
+  "observed": {
+    "status": "pass",
+    "evidence_source": "runner_direct",
+    "run_artifact": ".vibepro/pr/omi-ci-dedicated-linux-runners/verification-runs/unit.json",
+    "run_log": ".vibepro/pr/omi-ci-dedicated-linux-runners/verification-runs/unit.log",
+    "exit_code": "0",
+    "duration_ms": "9052",
+    "started_at": "2026-10-15T08:16:57.209Z",
+    "finished_at": "2026-10-15T08:17:06.261Z",
+    "head_sha_before": "ada92ad2828e8f489c098663d8567404c4cb40d4",
+    "head_sha_after": "ada92ad2828e8f489c098663d8567404c4cb40d4",
+    "head_sha": "ada92ad2828e8f489c098663d8567404c4cb40d4",
+    "worktree_sampled": "true",
+    "worktree_sampling_complete": "true",
+    "worktree_sha256_before": "bc019fc3eb9ff4fb786e1c4e672dd0d1d1c4f225f12b5c53cd29afd35599114c",
+    "worktree_sha256_after": "bc019fc3eb9ff4fb786e1c4e672dd0d1d1c4f225f12b5c53cd29afd35599114c",
+    "stdout_sha256": "c417903189fd516dc719338e805aa1d71142126ffe7b53e14837303aea9a5f49",
+    "output_sha256": "c417903189fd516dc719338e805aa1d71142126ffe7b53e14837303aea9a5f49",
+    "output_bytes": "113",
+    "log_truncated": "false",
+    "output_metrics": "none",
+    "timed_out": "false",
+    "output_limit_exceeded": "false",
+    "external_kill_signal": "none",
+    "timeout_ms": "7200000",
+    "max_output_bytes": "67108864",
+    "harness_env_removed": "none",
+    "runner_node_version": "v22.23.2",
+    "tree_mutated_during_run": "false",
+    "head_moved_during_run": "false",
+    "worktree_changed_during_run": "false",
+    "worktree_status_sha256_before": "037f6e8eeac1ca3a67d15cda82480af7bb59f934e7bafcd541a6829d76b7eb30",
+    "worktree_status_sha256_after": "037f6e8eeac1ca3a67d15cda82480af7bb59f934e7bafcd541a6829d76b7eb30",
+    "worktree_diff_sha256_before": "e3245967da971b53c02a9265e26347ee7b77536b6ae6da3d85630f16e1af0a48",
+    "worktree_diff_sha256_after": "e3245967da971b53c02a9265e26347ee7b77536b6ae6da3d85630f16e1af0a48"
+  },
+  "run": {
+    "argv": [
+      "pytest",
+      "-q",
+      ".github/scripts/test_plan_desktop_release.py",
+      ".github/scripts/test_desktop_windows_ci_contract.py",
+      ".github/scripts/test_check_ci_budget.py",
+      ".github/scripts/test_check_runner_cost_policy.py"
+    ],
+    "command": "pytest -q .github/scripts/test_plan_desktop_release.py .github/scripts/test_desktop_windows_ci_contract.py .github/scripts/test_check_ci_budget.py .github/scripts/test_check_runner_cost_policy.py",
+    "cwd": ".",
+    "started_at": "2026-10-15T08:16:57.209Z",
+    "finished_at": "2026-10-15T08:17:06.261Z",
+    "duration_ms": 9052,
+    "exit_code": 0,
+    "signal": null,
+    "timed_out": false,
+    "output_limit_exceeded": false,
+    "external_kill_signal": null,
+    "timeout_ms": 7200000,
+    "max_output_bytes": 67108864,
+    "head_sha_before": "ada92ad2828e8f489c098663d8567404c4cb40d4",
+    "head_sha_after": "ada92ad2828e8f489c098663d8567404c4cb40d4",
+    "worktree_sha256_before": "bc019fc3eb9ff4fb786e1c4e672dd0d1d1c4f225f12b5c53cd29afd35599114c",
+    "worktree_sha256_after": "bc019fc3eb9ff4fb786e1c4e672dd0d1d1c4f225f12b5c53cd29afd35599114c",
+    "tree_mutated_during_run": false,
+    "head_moved_during_run": false,
+    "worktree_changed_during_run": false,
+    "worktree_sampled": true,
+    "worktree_sampling_complete": true,
+    "output_metrics": "none",
+    "counts": null,
+    "node_version": "v22.23.2",
+    "harness_env_removed": [],
+    "log": ".vibepro/pr/omi-ci-dedicated-linux-runners/verification-runs/unit.log",
+    "log_truncated": false
+  },
+  "discarded_agent_observations": [],
+  "warnings": [
+    {
+      "id": "verification_run_counts_not_parsed",
+      "command_name": "verify run",
+      "reason": "the command exited 0 but no test counts could be parsed from its output; the record proves the command did not fail, not how much it checked"
+    }
+  ]
+}

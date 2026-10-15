@@ -1,11 +1,9 @@
 name: Desktop Checks
 
 on:
+  workflow_dispatch:
   push:
     branches: main
-  pull_request:
-    branches: main
-
 concurrency:
   group: desktop-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -13,7 +11,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       diff_base: ${{ steps.changes.outputs.diff_base }}
       has_desktop_agent_runtime: ${{ steps.changes.outputs.has_desktop_agent_runtime }}
@@ -22,14 +20,15 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Detect changed paths
         id: changes
         uses: ./.github/actions/detect-changes
 
   agent-runtime:
     name: Agent Runtime
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_desktop_agent_runtime == 'true'
     steps:
@@ -37,7 +36,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Setup Node.js for desktop agent runtime
         uses: actions/setup-node@v7
         with:

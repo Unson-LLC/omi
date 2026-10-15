@@ -15,6 +15,7 @@ name: Backend Emulator Proofs
 # it to a required check once it has a stable green history.
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -31,21 +32,6 @@ on:
       - 'firebase.json'
       - 'firestore.rules'
       - '.github/workflows/backend-emulator-proofs.yml'
-  pull_request:
-    paths:
-      - 'backend/utils/memory/**'
-      - 'backend/database/**'
-      - 'backend/models/memory_apply.py'
-      - 'backend/models/daily_sweep_dispatch.py'
-      - 'backend/utils/llm/memories.py'
-      - 'backend/models/product_memory.py'
-      - 'backend/scripts/*_emulator_test.py'
-      - 'backend/scripts/run-emulator-proofs.sh'
-      - 'backend/pylock.toml'
-      - 'firebase.json'
-      - 'firestore.rules'
-      - '.github/workflows/backend-emulator-proofs.yml'
-
 concurrency:
   group: backend-emulator-proofs-${{ github.ref }}
   cancel-in-progress: true
@@ -53,12 +39,15 @@ concurrency:
 jobs:
   emulator-proofs:
     name: Backend emulator proofs
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 20
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
