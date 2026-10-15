@@ -36,18 +36,27 @@ class BrainbaseR2IngestService {
 
   bool get enabled => _baseUrl.isNotEmpty && _token.isNotEmpty;
 
+  /// Reopens the durable queue after app startup, without creating a recording
+  /// session. The caller may fire-and-forget this operation so a slow network
+  /// does not delay the first frame.
+  Future<void> resumePendingUploads() {
+    final operation = _serial.then((_) async {
+      if (!enabled) return;
+      await _ensureQueueReady();
+      await _queue!.drain();
+    });
+    _serial = operation.catchError((Object error, StackTrace stack) {
+      Logger.error(
+        '[BrainbaseIngest] pending upload recovery failed: $error\n$stack',
+      );
+    });
+    return _serial;
+  }
+
   Future<void> start({required BleAudioCodec codec, required String deviceId}) {
     final operation = _serial.then((_) async {
       if (!enabled || _sessionId != null) return;
-      _queue ??= await BrainbaseR2UploadQueue.open(
-        baseUrl: _baseUrl,
-        token: _token,
-        client: _http,
-      );
-      _retryTimer ??= Timer.periodic(
-        const Duration(seconds: 15),
-        (_) => unawaited(_queue?.drain()),
-      );
+      await _ensureQueueReady();
       await _queue!.drain();
       late final String sourceCodec;
       try {
@@ -62,13 +71,15 @@ class BrainbaseR2IngestService {
         sampleRate: _sampleRate,
         channels: _channels,
       );
-      _sessionId = await _queue!.createSession(
+      final sessionId = await _queue!.createSession(
         deviceId: deviceId,
         sourceCodec: sourceCodec,
         sampleRate: _sampleRate,
         channels: _channels,
         chunkDurationSeconds: _chunkSeconds,
       );
+      await _queue!.markSessionActive(sessionId);
+      _sessionId = sessionId;
       _sequence = 0;
       Logger.debug('[BrainbaseIngest] session started: $_sessionId');
     });
@@ -76,6 +87,18 @@ class BrainbaseR2IngestService {
       Logger.error('[BrainbaseIngest] start failed: $error\n$stack');
     });
     return operation;
+  }
+
+  Future<void> _ensureQueueReady() async {
+    _queue ??= await BrainbaseR2UploadQueue.open(
+      baseUrl: _baseUrl,
+      token: _token,
+      client: _http,
+    );
+    _retryTimer ??= Timer.periodic(
+      const Duration(seconds: 15),
+      (_) => unawaited(_queue?.drain()),
+    );
   }
 
   Future<void> addFrames(List<WalFrame> frames) {
@@ -154,6 +177,8 @@ class BrainbaseR2UploadQueue {
   final http.Client _client;
   final List<Map<String, dynamic>> _items = [];
   final Set<String> _finalizeSessions = {};
+  String? _activeSessionId;
+  bool _activeSessionHasChunks = false;
   Future<void> _saveSerial = Future.value();
   bool _draining = false;
 
@@ -187,6 +212,7 @@ class BrainbaseR2UploadQueue {
       client,
     );
     await queue._load();
+    await queue._recoverOrphanedSessions();
     return queue;
   }
 
@@ -195,6 +221,12 @@ class BrainbaseR2UploadQueue {
 
   @visibleForTesting
   bool isFinalizePending(String sessionId) => _finalizeSessions.contains(sessionId);
+
+  Future<void> markSessionActive(String sessionId) async {
+    _activeSessionId = sessionId;
+    _activeSessionHasChunks = false;
+    await _save();
+  }
 
   Map<String, String> get _headers => {
         'authorization': 'Bearer $_token',
@@ -236,15 +268,23 @@ class BrainbaseR2UploadQueue {
     _items.add({
       'sessionId': sessionId,
       'sequence': sequence,
-      'path': file.path,
+      'path': name,
       'sha256': sha256.convert(bytes).toString(),
       'byteLength': bytes.length,
     });
+    if (_activeSessionId == sessionId) _activeSessionHasChunks = true;
     await _save();
   }
 
   Future<void> markForFinalize(String sessionId) async {
-    _finalizeSessions.add(sessionId);
+    if (_activeSessionId == sessionId) {
+      final hasChunks = _activeSessionHasChunks;
+      _activeSessionId = null;
+      _activeSessionHasChunks = false;
+      if (hasChunks) _finalizeSessions.add(sessionId);
+    } else {
+      _finalizeSessions.add(sessionId);
+    }
     await _save();
   }
 
@@ -254,8 +294,21 @@ class BrainbaseR2UploadQueue {
     try {
       while (_items.isNotEmpty) {
         final item = _items.first;
-        final file = File(item['path'] as String);
-        if (!await file.exists()) {
+        final storedPath = item['path'];
+        if (storedPath is! String) {
+          Logger.error('[BrainbaseIngest] queued file path is invalid');
+          return;
+        }
+        final file = _resolveQueuedFile(storedPath);
+        if (file == null) {
+          Logger.error('[BrainbaseIngest] queued file path rejected');
+          return;
+        }
+        final fileType = await FileSystemEntity.type(
+          file.path,
+          followLinks: false,
+        );
+        if (fileType != FileSystemEntityType.file) {
           Logger.error('[BrainbaseIngest] queued file missing: ${file.path}');
           return;
         }
@@ -320,6 +373,15 @@ class BrainbaseR2UploadQueue {
     }
   }
 
+  File? _resolveQueuedFile(String storedPath) {
+    final normalized = storedPath.replaceAll('\\', '/');
+    final isAbsolute = normalized.startsWith('/') || RegExp(r'^[A-Za-z]:/').hasMatch(normalized);
+    final basename = normalized.split('/').last;
+    if (basename.isEmpty || basename == '.' || basename == '..') return null;
+    if (!isAbsolute && basename != normalized) return null;
+    return File('${_directory.path}/$basename');
+  }
+
   Map<String, dynamic> _decode(http.Response response) {
     final value = jsonDecode(response.body) as Map<String, dynamic>;
     if (response.statusCode < 200 || response.statusCode >= 300) {
@@ -339,17 +401,42 @@ class BrainbaseR2UploadQueue {
     _finalizeSessions.addAll(
       (value['finalizeSessions'] as List<dynamic>? ?? []).cast<String>(),
     );
+    final activeSessionId = value['activeSessionId'];
+    if (activeSessionId is String && activeSessionId.isNotEmpty) {
+      _activeSessionId = activeSessionId;
+      _activeSessionHasChunks = value['activeSessionHasChunks'] == true;
+    }
+  }
+
+  Future<void> _recoverOrphanedSessions() async {
+    final orphanedSessions = <String>{};
+    final activeSessionId = _activeSessionId;
+    if (activeSessionId != null && _activeSessionHasChunks) {
+      orphanedSessions.add(activeSessionId);
+    }
+    for (final item in _items) {
+      final sessionId = item['sessionId'];
+      if (sessionId is String && sessionId.isNotEmpty) {
+        orphanedSessions.add(sessionId);
+      }
+    }
+    if (orphanedSessions.isEmpty && activeSessionId == null) return;
+    _finalizeSessions.addAll(orphanedSessions);
+    _activeSessionId = null;
+    _activeSessionHasChunks = false;
+    await _save();
   }
 
   Future<void> _save() async {
     final snapshot = jsonEncode({
       'items': _items,
       'finalizeSessions': _finalizeSessions.toList(),
+      'activeSessionId': _activeSessionId,
+      'activeSessionHasChunks': _activeSessionHasChunks,
     });
     _saveSerial = _saveSerial.catchError((_) {}).then((_) async {
       final temporary = File('${_manifest.path}.tmp');
       await temporary.writeAsString(snapshot, flush: true);
-      if (await _manifest.exists()) await _manifest.delete();
       await temporary.rename(_manifest.path);
     });
     await _saveSerial;
