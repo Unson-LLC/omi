@@ -577,7 +577,7 @@
     },
     "desktop-windows-ci.yml/build-linux": {
       "budget_p50_minutes": 9,
-      "display_name": "Linux package · helper smoke",
+      "display_name": "Linux package \u00b7 helper smoke",
       "expected_runs_class": "sampled-pr-day",
       "expected_runs_per_day": 5,
       "if": null,
@@ -599,7 +599,7 @@
     },
     "desktop-windows-ci.yml/checks": {
       "budget_p50_minutes": 7,
-      "display_name": "Typecheck · Lint · Test",
+      "display_name": "Typecheck \u00b7 Lint \u00b7 Test",
       "expected_runs_class": "sampled-pr-day",
       "expected_runs_per_day": 5,
       "if": null,
@@ -973,28 +973,6 @@
       "expected_runs_class": "non-pr-or-unsampled",
       "expected_runs_per_day": 0,
       "if": null,
-      "matrix": {},
-      "matrix_size": 1,
-      "needs": [],
-      "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Unobserved in one-day PR sample; conservative 5-minute placeholder",
-      "reusable": null,
-      "runner": "linux",
-      "runner_counts": {
-        "linux": 1
-      },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
-    },
-    "desktop_windows_release.yml/plan-and-tag": {
-      "budget_p50_minutes": 5,
-      "display_name": "plan-and-tag",
-      "expected_runs_class": "non-pr-or-unsampled",
-      "expected_runs_per_day": 0,
-      "if": "github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'chore(windows): release v')",
       "matrix": {},
       "matrix_size": 1,
       "needs": [],
@@ -3483,7 +3461,7 @@
     "desktop-windows-ci.yml": {
       "name": "Desktop Windows CI",
       "owner": "CI maintainers",
-      "rationale": "Refresh pre-existing inventory drift: the current upstream workflow already triggers for desktop_windows_release.yml. This PR does not edit that workflow; forecast one additional execution per day per job for the existing release path, with duration budgets and global caps unchanged.",
+      "rationale": "2026-10-15 Unson fork: desktop_windows_release.yml deleted, so it is removed from the push paths trigger. Budgets unchanged.",
       "triggers": {
         "push": {
           "branches": [
@@ -3491,8 +3469,7 @@
           ],
           "paths": [
             "desktop/windows/**",
-            ".github/workflows/desktop-windows-ci.yml",
-            ".github/workflows/desktop_windows_release.yml"
+            ".github/workflows/desktop-windows-ci.yml"
           ]
         },
         "workflow_dispatch": ""
@@ -3501,13 +3478,8 @@
     "desktop_auto_release.yml": {
       "name": "Build Desktop Release Candidate",
       "owner": "CI maintainers",
-      "rationale": "Initial workflow inventory",
+      "rationale": "2026-10-15 Unson fork: hourly schedule removed; workflow_dispatch only so the app-token step never runs automatically on shared self-hosted runners.",
       "triggers": {
-        "schedule": [
-          {
-            "cron": "7 * * * *"
-          }
-        ],
         "workflow_dispatch": ""
       }
     },
@@ -3869,37 +3841,6 @@
               "description": "Exact retained known-good macOS tag",
               "required": "true",
               "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "desktop_windows_release.yml": {
-      "name": "Auto Release Desktop (Windows) on Main",
-      "owner": "CI maintainers",
-      "rationale": "Initial workflow inventory",
-      "triggers": {
-        "workflow_dispatch": {
-          "inputs": {
-            "bypass_update_feed_probe_reason": {
-              "description": "Emergency only: supply a tracking-issue URL or reason AND the literal phrase I ACKNOWLEDGE THE ROUTE IS REQUIRED to skip the probe. Empty or any other text = probe runs.",
-              "required": "false",
-              "type": "string"
-            },
-            "next_version": {
-              "description": "Optional explicit version to tag (for example, 1.2.0)",
-              "required": "false",
-              "type": "string"
-            },
-            "release_mode": {
-              "default": "release_now",
-              "description": "Release behavior",
-              "options": [
-                "release_now",
-                "force_release"
-              ],
-              "required": "false",
-              "type": "choice"
             }
           }
         }

@@ -19,7 +19,6 @@ on:
     paths:
       - 'desktop/windows/**'
       - '.github/workflows/desktop-windows-ci.yml'
-      - '.github/workflows/desktop_windows_release.yml'
 defaults:
   run:
     working-directory: desktop/windows

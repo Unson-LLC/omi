@@ -29,3 +29,8 @@
    Windows の build ステップを読んでいた vitest 2件と、`ubuntu-latest` を期待していた契約テストを合わせて直す。
 2. Windows job を `if: false` で止めて残す。ラベルが残り、キュー待ちの誤解と inventory のずれが続くので不採用。
 3. `desktop_windows_release.yml` 全体を削除する。plan-and-tag（Linux）まで消えるため、指示の範囲を超えるので今回は見送り、判断を Director に残す。
+
+### 2026-10-15 Director 決定の反映
+- `desktop_windows_release.yml` はファイルごと削除した（PR 内の変更なので戻せる）。参照していた checks-manifest・desktop-windows-ci の paths・ci-budget も更新した。
+- `desktop_auto_release.yml` は毎時の schedule をやめ、workflow_dispatch のみにした。アプリのキーを使う処理を共有 self-hosted で自動実行しないため。契約テスト `test_auto_release_is_manual_dispatch_only` に置き換えた。
+- macOS・Xcode の job は触っていない。例外の候補で、佐藤さんの判断待ち。

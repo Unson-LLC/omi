@@ -1,11 +1,9 @@
 name: Build Desktop Release Candidate
 
 on:
-  # The hourly release train: at most one candidate per hour, coalescing every
-  # merge since the last tag. Schedule and manual dispatch use the same
-  # throttle; a retry must never create a second candidate inside the hour.
-  schedule:
-    - cron: "7 * * * *"
+  # Manual dispatch only (Unson fork): the hourly schedule is removed so the
+  # app-token step never runs automatically on the shared self-hosted runners.
+  # The min-tag-interval throttle still applies to every manual run.
   workflow_dispatch:
 
 permissions:

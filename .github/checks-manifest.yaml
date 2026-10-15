@@ -238,7 +238,7 @@ checks:
     reason: "the hermetic dev-harness stack backs local desktop tests; the Jul 22 2026 Typesense runtime must stay behaviorally covered, and the mobile-verify selection/discovery contract (SCA-490) executes here — journey runner, session evidence contract, and Makefile edits must keep it selected"
   - id: windows-update-feed-probe-tests
     command: ["python3", ".github/scripts/test_probe_windows_update_feed.py"]
-    triggers: [".github/scripts/probe_windows_update_feed.py", ".github/scripts/test_probe_windows_update_feed.py", ".github/workflows/desktop_windows_release.yml", ".github/checks-manifest.yaml"]
+    triggers: [".github/scripts/probe_windows_update_feed.py", ".github/scripts/test_probe_windows_update_feed.py", ".github/checks-manifest.yaml"]
     lanes: ["local", "ci"]
     reason: "Windows releases must not tag while production is missing /v2/desktop/update-feed/windows; the probe's trust-boundary validation is the release-lane guard"
   - id: pre-push-final-pr-diff
@@ -828,7 +828,7 @@ checks:
     reason: "fork heavy jobs depend on one live label read; same-repo runs need no API and lookup errors must fail closed"
   - id: windows-sync-pr-retirement-contract
     command: ["python3", ".github/scripts/test_retire_superseded_sync_prs.py"]
-    triggers: [".github/workflows/desktop_windows_release.yml", ".github/scripts/retire_superseded_sync_prs.py", ".github/scripts/test_retire_superseded_sync_prs.py"]
+    triggers: [".github/scripts/retire_superseded_sync_prs.py", ".github/scripts/test_retire_superseded_sync_prs.py"]
     lanes: ["local", "ci"]
     reason: "#10727: the Windows release sync-PR cleanup must retain the current PR, only close same-repo release/windows-v* heads, and never block the release"
   - id: telegram-deployment-notifier

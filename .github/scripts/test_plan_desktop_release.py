@@ -648,12 +648,12 @@ class DesktopCandidateSourceCheckTests(unittest.TestCase):
         self.assertIn("--codemagic-source-gate", workflow)
         self.assertNotIn("wait_for_required_source_checks", Path(SCRIPT).read_text(encoding="utf-8"))
 
-    def test_auto_release_is_an_hourly_train_plus_manual_dispatch(self) -> None:
+    def test_auto_release_is_manual_dispatch_only(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
         trigger = workflow.split("\njobs:", 1)[0]
         self.assertIn("workflow_dispatch:", trigger)
-        self.assertIn("schedule:", trigger)
-        self.assertIn('cron: "7 * * * *"', trigger)
+        self.assertNotIn("schedule:", trigger)
+        self.assertNotIn("cron:", trigger)
         self.assertNotIn("\n  push:", trigger)
         with self.assertRaises(AssertionError):
             _parse_push_filter(workflow)
