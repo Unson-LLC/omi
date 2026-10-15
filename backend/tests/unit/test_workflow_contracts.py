@@ -304,18 +304,18 @@ def test_backend_unit_ci_runner_stays_in_ci_while_pre_push_keeps_its_budget():
 
 def test_expensive_pr_contracts_cancel_only_superseded_pull_request_runs():
     repo = BACKEND_DIR.parent
-    workflows = {
-        "backend-unit-tests.yml": "backend-unit-tests-",
-        "openapi-contract.yml": "openapi-contract-",
-    }
-
-    for filename, group_prefix in workflows.items():
+    # Unson fork: backend-unit and openapi are no longer pull_request workflows
+    # (EVO capacity). They keep ref-scoped concurrency for push/dispatch.
+    for filename, group_line in {
+        "backend-unit-tests.yml": "group: backend-unit-tests-${{ github.ref }}",
+        "openapi-contract.yml": "group: openapi-contract-${{ github.ref }}",
+    }.items():
         workflow = (repo / ".github/workflows" / filename).read_text(encoding="utf-8")
+        header = workflow.split("jobs:", 1)[0]
         assert "concurrency:" in workflow
-        assert f"group: {group_prefix}${{{{ github.event_name == 'pull_request'" in workflow
-        assert "format('pr-{0}', github.event.pull_request.number)" in workflow
-        assert "format('run-{0}', github.run_id)" in workflow
+        assert group_line in workflow
         assert "cancel-in-progress: true" in workflow
+        assert "pull_request:" not in header.split("on:", 1)[-1].split("permissions:", 1)[0]
 
 
 def test_backend_unit_suite_is_sharded_with_a_literal_gate_and_budget():

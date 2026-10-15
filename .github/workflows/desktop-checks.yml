@@ -1,16 +1,9 @@
 name: Desktop Checks
 
 on:
+  workflow_dispatch:
   push:
     branches: main
-  pull_request:
-    branches: main
-
-    paths:
-      - 'desktop/**'
-      - '.github/workflows/desktop-checks.yml'
-      - '.github/actions/detect-changes/**'
-      - 'scripts/changed-files'
 concurrency:
   group: desktop-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

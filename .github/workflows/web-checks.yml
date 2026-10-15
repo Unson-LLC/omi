@@ -1,16 +1,9 @@
 name: Web Checks
 
 on:
+  workflow_dispatch:
   push:
     branches: main
-  pull_request:
-    branches: main
-
-    paths:
-      - 'web/**'
-      - '.github/workflows/web-checks.yml'
-      - '.github/actions/detect-changes/**'
-      - 'scripts/changed-files'
 concurrency:
   group: web-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

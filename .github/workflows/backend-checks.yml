@@ -1,16 +1,9 @@
 name: Backend Checks
 
 on:
+  workflow_dispatch:
   push:
     branches: main
-  pull_request:
-    branches: main
-
-    paths:
-      - 'backend/**'
-      - '.github/workflows/backend-checks.yml'
-      - '.github/actions/detect-changes/**'
-      - 'scripts/changed-files'
 concurrency:
   group: backend-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

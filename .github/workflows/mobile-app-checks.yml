@@ -67,7 +67,7 @@ jobs:
     runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 20
     needs: changes
-    if: needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_flutter_generated == 'true'
+    if: github.event_name != 'pull_request' && needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_flutter_generated == 'true'
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -262,7 +262,7 @@ jobs:
     name: Seeded Journeys (hermetic)
     runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
-    if: github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_journeys == 'true') || (needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_journeys_pr == 'true')
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_journeys == 'true') || (github.event_name == 'workflow_dispatch' && needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_journeys_pr == 'true')
     timeout-minutes: 30
     steps:
       - name: Checkout code
@@ -325,7 +325,7 @@ jobs:
     name: Android Compile Smoke
     runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
-    if: github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') || (needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_android_pr == 'true')
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') || (github.event_name == 'workflow_dispatch' && needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_android_pr == 'true')
     timeout-minutes: 25
     steps:
       - name: Checkout code
@@ -452,7 +452,7 @@ jobs:
     name: Android JVM Unit Tests
     runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
-    if: github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') || (needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_android_pr == 'true')
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') || (github.event_name == 'workflow_dispatch' && needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_android_pr == 'true')
     timeout-minutes: 25
     steps:
       - name: Checkout code
@@ -537,7 +537,7 @@ jobs:
     name: Android Emulator Acceptance
     runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') || (needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_android_pr == 'true')
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true')
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v7
@@ -620,7 +620,7 @@ jobs:
     name: iOS Compile Check
     runs-on: macos-26
     needs: changes
-    if: needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_ios_compile == 'true'
+    if: github.event_name != 'pull_request' && needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_ios_compile == 'true'
     # Local cold Xcode time was 334s on an M-series Mac. Hosted macos-26 still
     # pays Flutter SDK, pub get, build_runner, and CocoaPods on top of that.
     # Expect ~20-30 min warm / ~35 min cold; 40 is the wedge-guard.
@@ -837,7 +837,7 @@ jobs:
       - android-emulator-checks
       - ios-compile-check
       - dart-tests-kiritimati
-    if: ${{ always() }}
+    if: ${{ always() && github.event_name != 'pull_request' }}
     timeout-minutes: 10
     steps:
       - name: Aggregate conditional mobile checks
@@ -856,7 +856,7 @@ jobs:
           ANDROID_COMPILE_RESULT: ${{ needs.android-compile-smoke.result }}
           ANDROID_UNIT_RESULT: ${{ needs.android-unit-tests.result }}
           ANDROID_EMULATOR_RESULT: ${{ needs.android-emulator-checks.result }}
-          EMULATOR_EXPECTED: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') || (needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.has_app_android_pr == 'true') }}
+          EMULATOR_EXPECTED: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && needs.changes.outputs.has_app_compile_smoke == 'true') }}
           IOS_COMPILE_RESULT: ${{ needs.ios-compile-check.result }}
           DART_TIMEZONE_RESULT: ${{ needs.dart-tests-kiritimati.result }}
         run: |
