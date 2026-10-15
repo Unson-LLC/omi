@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   plan-and-tag:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 30
     concurrency:
       group: desktop-release-planner-main

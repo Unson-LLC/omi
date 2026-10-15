@@ -5,9 +5,9 @@ name: Desktop Windows CI
 #
 # - `checks` runs on ubuntu (fast; the vitest electron stub lets the suite run
 #   without the electron binary) and BLOCKS merge on typecheck/test failures.
-# - `build-windows` proves the app still packages on a real Windows runner,
-#   exercising the native paths (better-sqlite3 rebuild, OCR/automation helpers)
-#   that ubuntu cannot.
+# - `build-windows` (native Windows packaging) was removed in the Unson fork
+#   (2026-10-15): omi CI runs only on the dedicated self-hosted Linux runners
+#   (wsl-linux-7/-8), and no Windows runner is available to this repo.
 #
 # Lint runs as a blocking check: ESLint errors fail the build; Prettier
 # formatting warnings remain non-blocking (formatting is not enforced here).
@@ -60,53 +60,6 @@ jobs:
       - name: Test
         run: pnpm test
 
-  build-windows:
-    name: Windows build smoke
-    runs-on: [self-hosted, Windows]
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 1
-          lfs: false
-      - uses: pnpm/action-setup@v6
-        with:
-          version: 10
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: desktop/windows/pnpm-lock.yaml
-      # Same network-flake surface as the Linux job: electron-builder pulls
-      # nsis/winCodeSign tooling and Electron's postinstall pulls the release
-      # archive from github.com on every uncached run.
-      - name: Cache electron & electron-builder downloads
-        uses: actions/cache@v6
-        with:
-          path: |
-            ~\AppData\Local\electron\Cache
-            ~\AppData\Local\electron-builder\Cache
-          key: electron-builder-windows-${{ hashFiles('desktop/windows/pnpm-lock.yaml') }}
-          restore-keys: electron-builder-windows-
-      # OCR + UI-automation helpers are .NET projects built during install/build.
-      - uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: '8.0.x'
-      - name: Provision .env (ships public Firebase/PostHog config)
-        shell: pwsh
-        run: Copy-Item .env.example .env
-      # Full install: runs postinstall (electron-builder install-app-deps,
-      # electron-rebuild better-sqlite3, ensure-ocr-helper).
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Build unpacked app
-        run: pnpm run build:win:unpack
-      - name: Upload unpacked build
-        uses: actions/upload-artifact@v7
-        with:
-          name: omi-windows-unpacked
-          path: desktop/windows/dist/win-unpacked
-          if-no-files-found: warn
-          retention-days: 7
 
   build-linux:
     name: Linux package · helper smoke

@@ -8,10 +8,6 @@ import { describe, it, expect } from 'vitest'
 // `build:linux` shipped without the flag and turned the Desktop Windows CI
 // Linux job red on main. Every platform build command must pass it.
 describe('electron-builder package scripts', () => {
-  const windowsReleaseWorkflow = readFileSync(
-    resolve(import.meta.dirname, '../../../.github/workflows/desktop_windows_release.yml'),
-    'utf8'
-  )
   const scripts = JSON.parse(
     readFileSync(resolve(import.meta.dirname, '../package.json'), 'utf8')
   ).scripts
@@ -43,15 +39,4 @@ describe('electron-builder package scripts', () => {
       )
     }
   )
-
-  it('checks the packaged main runtime after signed Windows packaging', () => {
-    const signedBuild = windowsReleaseWorkflow.match(
-      /- name: Build signed installer \(Azure Trusted Signing\)[\s\S]*?(?=\n\s+- name: Build unsigned installer)/
-    )?.[0]
-
-    expect(signedBuild).toBeDefined()
-    expect(signedBuild.indexOf('pnpm verify:packaged-main')).toBeGreaterThan(
-      signedBuild.indexOf('pnpm exec electron-builder')
-    )
-  })
 })
