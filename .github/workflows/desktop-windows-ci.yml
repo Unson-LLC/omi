@@ -33,7 +33,7 @@ defaults:
 jobs:
   checks:
     name: Typecheck · Lint · Test
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
       # The app is pnpm-managed (pnpm-lock.yaml, lockfileVersion 9).
@@ -61,7 +61,7 @@ jobs:
 
   build-windows:
     name: Windows build smoke
-    runs-on: windows-latest
+    runs-on: [self-hosted, Windows]
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -106,7 +106,7 @@ jobs:
 
   build-linux:
     name: Linux package · helper smoke
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     # A successful run finishes in ~10 minutes; 20 gives headroom while still
     # failing fast instead of riding out the 6h GitHub Actions job ceiling.
     # This job has hung for the full 6h on multiple unrelated PRs and on

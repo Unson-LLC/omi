@@ -19,7 +19,7 @@ jobs:
     environment: prod
     permissions:
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Use the existing production Google identity
         uses: google-github-actions/auth@v3

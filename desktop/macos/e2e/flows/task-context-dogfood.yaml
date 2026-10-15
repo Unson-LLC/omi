@@ -9,7 +9,6 @@ covers:
   - desktop/macos/Desktop/Sources/ProactiveAssistants/Assistants/TaskExtraction/TaskDeduplicationService.swift
   - desktop/macos/Desktop/Sources/ProactiveAssistants/Assistants/TaskExtraction/TaskPrioritizationService.swift
   - desktop/macos/Desktop/Sources/ProactiveAssistants/ProactiveAssistantsPlugin+RewindCapture.swift
-  - desktop/macos/Desktop/Sources/ProactiveAssistants/Core/ContextBucketSchema.swift
   - desktop/macos/Desktop/Sources/ProactiveAssistants/Core/ContextDetection.swift
   - desktop/macos/Desktop/Sources/ProactiveAssistants/Core/KnowledgeLedgerMirrorSnapshot.swift
   - desktop/macos/Desktop/Sources/ProactiveAssistants/Core/EnvironmentalSpeakerContext.swift

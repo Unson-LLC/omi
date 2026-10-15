@@ -60,7 +60,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       break_glass: ${{ steps.admitted_source.outputs.break_glass }}
       admitted_sha: ${{ steps.admitted_source.outputs.admitted_sha }}
@@ -286,7 +286,7 @@ jobs:
     permissions:
       contents: 'read'
       issues: 'write'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Record that the eligibility proof was bypassed
         env:

@@ -32,7 +32,7 @@ permissions:
 
 jobs:
   dispatch:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v5
         with:

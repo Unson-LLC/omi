@@ -29,7 +29,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout recovery controls
         uses: actions/checkout@v7

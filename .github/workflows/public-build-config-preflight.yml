@@ -37,7 +37,7 @@ permissions:
 jobs:
   preflight:
     name: ${{ matrix.environment }} configuration
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     strategy:
       fail-fast: false
       matrix:

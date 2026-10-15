@@ -25,7 +25,7 @@ jobs:
   metadata-preflight:
     name: PR Metadata Preflight
     if: github.event_name == 'pull_request' && contains(fromJSON('["edited", "labeled", "unlabeled"]'), github.event.action)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -56,7 +56,7 @@ jobs:
   changes:
     name: Detect Changes
     if: github.event_name != 'pull_request' || !contains(fromJSON('["edited", "labeled", "unlabeled"]'), github.event.action)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       diff_base: ${{ steps.changes.outputs.diff_base }}
       has_arb: ${{ steps.changes.outputs.has_arb }}
@@ -77,7 +77,7 @@ jobs:
 
   hygiene:
     name: Hygiene
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: github.event_name != 'pull_request' || !contains(fromJSON('["edited", "labeled", "unlabeled"]'), github.event.action)
     steps:
@@ -179,7 +179,7 @@ jobs:
 
   formatting:
     name: Formatting
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_format == 'true'
     steps:

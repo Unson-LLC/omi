@@ -157,6 +157,19 @@ class SyncRunTracker {
         done = walSeconds(wals.where(
           (w) => _stepIds.contains(_key(w)) && (w.status == WalStatus.uploaded || w.status == WalStatus.synced),
         ));
+        // A batch upload (e.g. the personal Brainbase/Cloudflare lane) sends many
+        // recordings in one request, so no recording turns "uploaded" until the
+        // whole batch lands and the bar would sit still. When the uploader
+        // reports bytes for the in-flight batch, credit that byte fraction of
+        // the batch's seconds on top of what has already landed (#12).
+        final uploaded = state.uploadedBytes;
+        final totalBytes = state.totalBytesToUpload;
+        if (uploaded != null && totalBytes != null && totalBytes > 0) {
+          final inFlight = walSeconds(wals.where(
+            (w) => _stepIds.contains(_key(w)) && w.status == WalStatus.miss && w.isSyncing,
+          ));
+          done += ((uploaded / totalBytes).clamp(0.0, 1.0) * inFlight).round();
+        }
       case SyncStep.transcribe:
         return SyncStepProgress(step: step, doneSeconds: 0, totalSeconds: 0, barStep: barStep);
     }

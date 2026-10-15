@@ -13,7 +13,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       diff_base: ${{ steps.changes.outputs.diff_base }}
       has_desktop_agent_runtime: ${{ steps.changes.outputs.has_desktop_agent_runtime }}
@@ -29,7 +29,7 @@ jobs:
 
   agent-runtime:
     name: Agent Runtime
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_desktop_agent_runtime == 'true'
     steps:

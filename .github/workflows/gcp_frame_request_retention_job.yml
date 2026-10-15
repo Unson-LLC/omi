@@ -30,7 +30,7 @@ jobs:
       id-token: write
       contents: read
       actions: read
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
         with:

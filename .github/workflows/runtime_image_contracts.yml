@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   source-closure:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
       - name: Check final-image first-party source closures
@@ -36,7 +36,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     env:
       GCP_CREDENTIALS_AVAILABLE: ${{ secrets.GCP_CREDENTIALS != '' }}
     strategy:

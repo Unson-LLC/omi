@@ -98,7 +98,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Validate Environment Input
         if: github.event_name == 'workflow_dispatch'

@@ -120,7 +120,7 @@ concurrency:
 jobs:
   ci-tier:
     name: Resolve CI Tier
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       full_ci: ${{ steps.resolve.outputs.full_ci }}
     steps:
@@ -143,7 +143,7 @@ jobs:
   # while retaining process isolation and the unchanged 720s regression gate.
   backend-unit-shard:
     name: Backend unit shard ${{ matrix.shard }}/6
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -223,7 +223,7 @@ jobs:
   backend-unit-guardrails:
     name: Backend unit guardrails
     needs: ci-tier
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     if: needs.ci-tier.outputs.full_ci == 'true'
     timeout-minutes: 10
     steps:
@@ -260,7 +260,7 @@ jobs:
     name: Backend unit suite
     needs: [ci-tier, backend-unit-shard, backend-unit-guardrails]
     if: ${{ always() && !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Require every shard and the guardrails to pass
         env:

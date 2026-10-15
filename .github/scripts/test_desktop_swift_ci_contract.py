@@ -136,7 +136,7 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
         """#9440: non-desktop changes must not claim a costly macOS runner."""
         changes = self.jobs["changes"]
 
-        self.assertIn("runs-on: ubuntu-latest", changes)
+        self.assertIn("runs-on: [self-hosted, Linux, wsl-linux]", changes)
         self.assertIn("should_run", changes)
         self.assertIn("should_run_static", changes)
         self.assertIn("should_run_tests", changes)

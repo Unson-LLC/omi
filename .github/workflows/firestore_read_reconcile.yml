@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   reconcile:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     # The prod WIF provider attribute condition requires a GitHub environment
     # assertion. Scheduled runs without one die at google-github-actions/auth@v3
     # with unauthorized_client. `cron` is a new no-approval environment — do NOT

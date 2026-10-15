@@ -44,7 +44,7 @@ jobs:
       # that moved to gcp_x_connector_sync_job.yml, so it stays on this workflow.
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Validate Environment Input
         env:

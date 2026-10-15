@@ -35,7 +35,7 @@ jobs:
     # web/admin/ can match the path filter without changing admin runtime.
     permissions:
       contents: read
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       applies: ${{ steps.scope.outputs.applies }}
     steps:
@@ -68,7 +68,7 @@ jobs:
       id-token: write
     env:
       DEPLOY_ENVIRONMENT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || (github.ref == 'refs/heads/development' && 'development') || 'prod' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout
         uses: actions/checkout@v7

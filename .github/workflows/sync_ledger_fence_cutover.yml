@@ -43,7 +43,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout cutover controls
         uses: actions/checkout@v7
@@ -147,7 +147,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout cutover controls
         uses: actions/checkout@v7

@@ -55,7 +55,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
     steps:
@@ -96,7 +96,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       typesense_image: ${{ steps.images.outputs.typesense_image }}
       runner_image: ${{ steps.images.outputs.runner_image }}
@@ -261,7 +261,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
         with:
@@ -375,7 +375,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       typesense_url: ${{ steps.url.outputs.typesense_url }}
     steps:
@@ -433,7 +433,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: google-github-actions/auth@v3
         with:
@@ -492,7 +492,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: google-github-actions/auth@v3
         with:

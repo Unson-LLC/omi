@@ -299,7 +299,11 @@ def validate(root: Path, base: dict | None = None) -> list[str]:
                         errors.append(f"{key}: structural or budget change needs rationale change")
                     if section == "jobs" and changed and row["budget_p50_minutes"] == previous["budget_p50_minutes"] and row["expected_runs_per_day"] == previous["expected_runs_per_day"]:
                         # Pure narrowing is allowed without a number change.
-                        widening = row["matrix_size"] > previous.get("matrix_size", 1) or row["runner"] != previous.get("runner") or row["if"] != previous.get("if") or row["runs_on"] != previous.get("runs_on")
+                        # Moving a job onto a self-hosted runner of the same class spends no
+                        # hosted minutes, so it is not a widening on its own.
+                        to_self_hosted = previous.get("runner") in (row["runner"], "dynamic") and "self-hosted" in json.dumps(row["runs_on"])
+                        runs_on_widened = row["runs_on"] != previous.get("runs_on") and not to_self_hosted
+                        widening = row["matrix_size"] > previous.get("matrix_size", 1) or (row["runner"] != previous.get("runner") and not to_self_hosted) or row["if"] != previous.get("if") or runs_on_widened
                         if widening:
                             errors.append(f"{key}: expanded job needs explicit budget or expected-runs change")
         for workflow, row in data["workflows"].items():

@@ -31,7 +31,7 @@ jobs:
     environment: prod
     permissions:
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 5
     steps:
       - name: Validate explicit Beta admission intent

@@ -20,7 +20,7 @@ concurrency:
 jobs:
   promote:
     environment: beta
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Ask the backend to verify and promote the signed candidate
         env:

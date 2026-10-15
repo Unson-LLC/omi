@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   validate-recovery:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Record the bounded recovery request
         env:

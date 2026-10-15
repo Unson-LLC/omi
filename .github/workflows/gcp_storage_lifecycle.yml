@@ -60,7 +60,7 @@ jobs:
       contents: read
       id-token: write
       actions: read
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     env:
       RESOLVED_ENVIRONMENT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'development' }}
       LIFECYCLE_VARIANT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lifecycle_variant || 'apply' }}

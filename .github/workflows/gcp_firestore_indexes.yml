@@ -62,7 +62,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 240
     steps:
       - name: Validate Firestore migration input
@@ -186,7 +186,7 @@ jobs:
     permissions:
       id-token: 'write'
       contents: 'read'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 240
     steps:
       - name: Checkout merged Firestore control plane
@@ -232,7 +232,7 @@ jobs:
       github.event_name == 'workflow_dispatch' &&
       github.event.inputs.operation == 'field-exemptions' &&
       github.event.inputs.environment != 'prod'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - run: |
           echo "Field exemptions affect the shared production data plane; select the prod environment."
@@ -250,7 +250,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Validate destructive Firestore field-exemption input
         env:

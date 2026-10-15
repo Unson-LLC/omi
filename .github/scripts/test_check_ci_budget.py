@@ -69,6 +69,24 @@ class BudgetTests(unittest.TestCase):
         self.save(data)
         self.assertIn("explicit budget", " ".join(validate(self.root, self.base)))
 
+    def test_move_to_self_hosted_same_class_needs_only_rationale(self):
+        self.path.write_text(WORKFLOW.replace("ubuntu-latest", "[self-hosted, Linux, wsl-linux]"))
+        refresh(self.root)
+        data = json.loads((self.root / ".github/ci-budget.yaml").read_text())
+        key = "fixture.yml/test"
+        self.assertIn("rationale change", " ".join(validate(self.root, self.base)))
+        data["jobs"][key]["rationale"] = "Moved to self-hosted; no hosted minutes"
+        self.save(data)
+        self.assertEqual(validate(self.root, self.base), [])
+
+    def test_self_hosted_class_change_still_needs_budget(self):
+        self.path.write_text(WORKFLOW.replace("ubuntu-latest", "[self-hosted, macOS]"))
+        refresh(self.root)
+        data = json.loads((self.root / ".github/ci-budget.yaml").read_text())
+        data["jobs"]["fixture.yml/test"]["rationale"] = "macOS self-hosted"
+        self.save(data)
+        self.assertIn("explicit budget", " ".join(validate(self.root, self.base)))
+
     def test_budget_raise_needs_rationale(self):
         data = copy.deepcopy(self.base)
         data["jobs"]["fixture.yml/test"]["budget_p50_minutes"] += 1

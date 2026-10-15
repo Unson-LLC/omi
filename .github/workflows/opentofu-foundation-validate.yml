@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   validate-no-mutation-slice:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     env:
       TF_IN_AUTOMATION: "true"
     steps:

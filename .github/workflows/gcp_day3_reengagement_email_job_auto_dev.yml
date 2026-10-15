@@ -34,7 +34,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       # Retain this until the summary shows it no longer buys enough headroom.
       - name: Measure runner disk cleanup

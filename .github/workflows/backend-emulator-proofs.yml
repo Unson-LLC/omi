@@ -53,7 +53,7 @@ concurrency:
 jobs:
   emulator-proofs:
     name: Backend emulator proofs
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 20
 
     steps:

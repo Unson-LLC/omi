@@ -120,6 +120,62 @@ void main() {
       expect(tracker.runSeconds, 675, reason: 'the run total must not shrink as recordings finish');
     });
 
+    test('batch upload progress follows uploaded bytes of the in-flight batch (#12)', () {
+      final a = wal(1, 600, WalStatus.miss, WalStorage.disk);
+      final b = wal(2, 400, WalStatus.miss, WalStorage.disk);
+      final wals = [a, b];
+      final tracker = SyncRunTracker();
+      final start = tracker.update(
+        const SyncState(status: SyncStatus.syncing, phase: SyncPhase.uploadingToCloud),
+        wals,
+      )!;
+      expect((start.step, start.doneSeconds, start.totalSeconds), (SyncStep.upload, 0, 1000));
+
+      a.isSyncing = true;
+      b.isSyncing = true;
+      final mid = tracker.update(
+        const SyncState(
+          status: SyncStatus.syncing,
+          phase: SyncPhase.uploadingToCloud,
+          uploadedBytes: 250,
+          totalBytesToUpload: 1000,
+        ),
+        wals,
+      )!;
+      expect((mid.doneSeconds, mid.totalSeconds), (250, 1000));
+
+      final rewind = tracker.update(
+        const SyncState(
+          status: SyncStatus.syncing,
+          phase: SyncPhase.uploadingToCloud,
+          uploadedBytes: 100,
+          totalBytesToUpload: 1000,
+        ),
+        wals,
+      )!;
+      expect(rewind.doneSeconds, 250, reason: 'byte progress must never rewind the bar');
+    });
+
+    test('byte progress of a later batch adds to the recordings already uploaded (#12)', () {
+      final first = wal(1, 600, WalStatus.miss, WalStorage.disk);
+      final second = wal(2, 400, WalStatus.miss, WalStorage.disk);
+      final wals = [first, second];
+      final tracker = SyncRunTracker();
+      tracker.update(const SyncState(status: SyncStatus.syncing, phase: SyncPhase.uploadingToCloud), wals);
+      first.status = WalStatus.uploaded;
+      second.isSyncing = true;
+      final step = tracker.update(
+        const SyncState(
+          status: SyncStatus.syncing,
+          phase: SyncPhase.uploadingToCloud,
+          uploadedBytes: 500,
+          totalBytesToUpload: 1000,
+        ),
+        wals,
+      )!;
+      expect((step.doneSeconds, step.totalSeconds), (800, 1000));
+    });
+
     test('device download applies the byte fraction to the on-device seconds', () {
       final wals = [
         wal(1, 1080, WalStatus.miss, WalStorage.sdcard),

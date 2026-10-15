@@ -108,7 +108,7 @@ jobs:
   validate-production-boundary:
     if: >-
       github.event.inputs.mode == 'deploy'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Reject unsupported production deployment boundary before side effects
         env:
@@ -145,7 +145,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Validate Environment Input
         run: |
@@ -212,7 +212,7 @@ jobs:
     permissions:
       actions: 'read'
       contents: 'read'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       admitted_sha: ${{ steps.admitted_source.outputs.admitted_sha }}
       break_glass: ${{ steps.admitted_source.outputs.break_glass }}
@@ -324,7 +324,7 @@ jobs:
     permissions:
       contents: 'read'
       issues: 'write'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Record that the eligibility proof was bypassed
         env:
@@ -377,7 +377,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout workflow dispatch surface for composite action
         uses: actions/checkout@v7

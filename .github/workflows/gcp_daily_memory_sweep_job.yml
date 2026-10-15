@@ -41,7 +41,7 @@ jobs:
       actions: 'read'
       contents: 'read'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Require exact main dispatch ref
         env:

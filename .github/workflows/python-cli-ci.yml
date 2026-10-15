@@ -27,7 +27,7 @@ defaults:
 jobs:
   ci-tier:
     name: Resolve CI Tier
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       full_ci: ${{ steps.resolve.outputs.full_ci }}
     steps:
@@ -48,12 +48,10 @@ jobs:
       matrix:
         include:
           - label: Linux / Python 3.10
-            os: ubuntu-latest
             python-version: '3.10'
           - label: Linux / Python 3.12
-            os: ubuntu-latest
             python-version: '3.12'
-    runs-on: ${{ matrix.os }}
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
 
@@ -75,7 +73,7 @@ jobs:
     name: Windows ACL / Python 3.12
     needs: ci-tier
     if: needs.ci-tier.outputs.full_ci == 'true'
-    runs-on: windows-latest
+    runs-on: [self-hosted, Windows]
     steps:
       - uses: actions/checkout@v7
 
@@ -95,7 +93,7 @@ jobs:
 
   install-smoke:
     name: Clean install smoke (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     strategy:
       fail-fast: false
       matrix:

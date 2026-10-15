@@ -53,7 +53,7 @@ concurrency:
 jobs:
   openapi-contract:
     name: Public Developer API contract
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 15
 
     steps:

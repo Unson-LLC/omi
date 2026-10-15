@@ -13,7 +13,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 15
     outputs:
       has_admin: ${{ steps.changes.outputs.has_admin }}
@@ -38,7 +38,7 @@ jobs:
 
   frontend-lint:
     name: Frontend Lint
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_web_lint == 'true'
     timeout-minutes: 15
@@ -80,7 +80,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     needs: changes
     if: needs.changes.outputs.has_web_build == 'true'
     timeout-minutes: 15

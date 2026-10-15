@@ -2106,6 +2106,21 @@ class LocalWalSyncImpl with WidgetsBindingObserver implements LocalWalSync {
         final audioBounds = syncUploadAudioBounds(batchWals);
         final result = await _uploadGate.upload(
           files,
+          // Byte progress of this batch, so a long batch upload moves the bar
+          // before any recording in it lands (#12).
+          onUploadProgress: (bytesSent, totalBytes, speedKBps) {
+            if (!_isCurrent(generation)) return;
+            final done = wals.where((w) => w.status == WalStatus.uploaded || w.status == WalStatus.synced).length;
+            progress?.onWalSyncedProgress(
+              totalFilesToUpload > 0 ? done / totalFilesToUpload : 0.0,
+              phase: SyncPhase.uploadingToCloud,
+              currentFile: done,
+              totalFiles: totalFilesToUpload,
+              speedKBps: speedKBps,
+              uploadedBytes: bytesSent,
+              totalBytesToUpload: totalBytes,
+            );
+          },
           conversationId: batchWals.first.conversationId,
           captureEvidence: captureEvidenceUploadHeader(batchWals, files),
           recordingSessionId: batchWals.first.recordingSessionId,

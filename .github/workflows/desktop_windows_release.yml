@@ -57,7 +57,7 @@ concurrency:
 
 jobs:
   plan-and-tag:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     # Fast-path loop guard: never act on our own release-bump commit.
     if: >-
       github.event_name == 'workflow_dispatch' ||
@@ -228,7 +228,7 @@ jobs:
   build-and-publish:
     needs: [plan-and-tag]
     if: needs.plan-and-tag.outputs.should_release == 'true'
-    runs-on: windows-latest
+    runs-on: [self-hosted, Windows]
     defaults:
       run:
         working-directory: desktop/windows

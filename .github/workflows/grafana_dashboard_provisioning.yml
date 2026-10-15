@@ -31,7 +31,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
       - name: Validate dashboard JSON
@@ -56,7 +56,7 @@ jobs:
 
   provision:
     needs: validate
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     strategy:
       matrix:
         include:

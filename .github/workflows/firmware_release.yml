@@ -63,7 +63,7 @@ permissions:
 jobs:
   build-cv1:
     name: Omi CV1 (nRF5340)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     concurrency:
       group: firmware-release-cv1
       cancel-in-progress: false

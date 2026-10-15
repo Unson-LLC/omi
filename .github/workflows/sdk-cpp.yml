@@ -13,7 +13,7 @@ on:
 
 jobs:
   cpp:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     defaults:
       run:
         working-directory: sdks/device/cpp

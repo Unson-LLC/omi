@@ -292,8 +292,8 @@ class WorkflowContractTests(unittest.TestCase):
             ),
             (
                 "cloud authentication",
-                "    runs-on: ubuntu-latest\n    outputs:",
-                "    runs-on: ubuntu-latest\n    steps:\n      - uses: google-github-actions/auth@v3\n    outputs:",
+                "    runs-on: [self-hosted, Linux, wsl-linux]\n    outputs:",
+                "    runs-on: [self-hosted, Linux, wsl-linux]\n    steps:\n      - uses: google-github-actions/auth@v3\n    outputs:",
                 "auto backend scope decision must not authenticate to cloud services",
             ),
         )
@@ -499,7 +499,7 @@ class WorkflowContractTests(unittest.TestCase):
             root,
             CHECKER.AUTO_WORKFLOW_PATH,
             "  firestore_readiness:\n",
-            "  dummy:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Resolve and verify the newest proven main source\n        run: true\n\n  firestore_readiness:\n",
+            "  dummy:\n    runs-on: [self-hosted, Linux, wsl-linux]\n    steps:\n      - name: Resolve and verify the newest proven main source\n        run: true\n\n  firestore_readiness:\n",
         )
         self.assertIn(
             "automatic release-proof freshness validation must run before read-only credential use",

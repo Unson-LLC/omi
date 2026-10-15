@@ -32,7 +32,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Desktop Swift Changes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       diff_base: ${{ steps.changed.outputs.diff_base }}
       full_ci: ${{ steps.tier.outputs.full_ci }}
@@ -488,7 +488,7 @@ jobs:
     name: Desktop Swift Build & Tests
     needs: [changes, desktop-swift-verify, desktop-swift-release-compile]
     if: ${{ always() && needs.changes.outputs.should_run == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Require static contracts and Swift tests
         env:
@@ -634,7 +634,7 @@ jobs:
     name: Post-merge Desktop Swift Release Compile failure issue
     needs: [changes, desktop-swift-release-compile]
     if: ${{ always() && (github.event_name == 'push' || github.event_name == 'schedule') }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     permissions:
       contents: read
       issues: write

@@ -78,7 +78,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 90
     steps:
       - name: Checkout the current main source

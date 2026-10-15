@@ -55,7 +55,7 @@ jobs:
     # support a safe workflow-level paths filter, so inspect its immutable SHA.
     permissions:
       contents: 'read'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       applies: ${{ steps.scope.outputs.applies }}
     steps:
@@ -131,7 +131,7 @@ jobs:
       # deploy lane's readiness job already does.
       actions: 'read'
       contents: 'read'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       admitted_sha: ${{ steps.admitted_source.outputs.admitted_sha }}
     steps:
@@ -249,7 +249,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout workflow dispatch surface for composite action
         uses: actions/checkout@v7

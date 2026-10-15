@@ -1,6 +1,8 @@
 self-hosted-runner:
   labels:
     - macos
+    # Unson fork self-hosted runners (EVO-X2 WSL Linux pool).
+    - wsl-linux
     # GitHub-hosted public preview label; actionlint's built-in list lags the image rollout.
     - xcode-27
 

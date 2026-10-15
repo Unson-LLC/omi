@@ -29,7 +29,7 @@ env:
 jobs:
   promote:
     environment: prod
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout promotion controls
         uses: actions/checkout@v7

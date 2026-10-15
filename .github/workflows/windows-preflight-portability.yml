@@ -38,7 +38,7 @@ permissions:
 jobs:
   portability:
     name: Native Windows process and launcher contracts
-    runs-on: windows-latest
+    runs-on: [self-hosted, Windows]
     timeout-minutes: 10
     steps:
       - name: Checkout code
