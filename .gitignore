@@ -299,3 +299,8 @@ pnpm-workspace.yaml
 
 .github/firestore-workflow
 .github/firestore-source
+.vibepro/*
+!.vibepro/config.json
+!.vibepro/reviews/
+.vibepro-store/
+.worktrees/vibepro/
