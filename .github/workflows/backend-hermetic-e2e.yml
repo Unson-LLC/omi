@@ -1,8 +1,6 @@
 name: Backend Hermetic E2E
 
 on:
-  pull_request:
-    branches: main
   push:
     branches: main
   schedule:
@@ -16,8 +14,8 @@ permissions:
   issues: read
 
 concurrency:
-  group: backend-hermetic-e2e-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: backend-hermetic-e2e-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   scope:
@@ -43,7 +41,7 @@ jobs:
         with:
           fetch-depth: 0
           filter: blob:none
-
+          lfs: false
       - name: Resolve current CI tier
         id: tier
         uses: ./.github/actions/ci-tier
@@ -121,6 +119,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -169,6 +170,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -260,6 +264,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -341,6 +348,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v6

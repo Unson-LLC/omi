@@ -1,15 +1,16 @@
 name: C++ Device SDK
 
 on:
-  pull_request:
-    paths:
-      - "sdks/device/cpp/**"
-      - ".github/workflows/sdk-cpp.yml"
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - "sdks/device/cpp/**"
       - ".github/workflows/sdk-cpp.yml"
+
+concurrency:
+  group: sdk-cpp-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   cpp:
@@ -19,6 +20,9 @@ jobs:
         working-directory: sdks/device/cpp
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       # No third-party dependency step: the package must configure and build
       # from a bare checkout. A dependency that needs fetching fails here.
       - run: cmake -S . -B build -DOMI_DEVICE_BUILD_TESTS=ON

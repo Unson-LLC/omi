@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: main
 
+    paths:
+      - 'web/**'
+      - '.github/workflows/web-checks.yml'
+      - '.github/actions/detect-changes/**'
+      - 'scripts/changed-files'
 concurrency:
   group: web-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -26,12 +31,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
+          fetch-depth: 0
+          filter: blob:none
+          lfs: false
           # detect-changes diffs against the merge base, so it needs history;
           # blob:none skips file contents, which is what made the unfiltered
           # clone of this ~1.25GB repo take minutes.
-          fetch-depth: 0
-          filter: blob:none
-
       - name: Detect changed paths
         id: changes
         uses: ./.github/actions/detect-changes
@@ -46,9 +51,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
-          # Lint/test only reads the worktree; no git history is consulted.
           fetch-depth: 1
-
+          lfs: false
+          # Lint/test only reads the worktree; no git history is consulted.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
@@ -88,9 +93,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
-          # Builds only read the worktree; no git history is consulted.
           fetch-depth: 1
-
+          lfs: false
+          # Builds only read the worktree; no git history is consulted.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:

@@ -7,6 +7,13 @@ on:
   # made GitHub skip the entire workflow — the iOS job never existed, which
   # reads as "green" and proves nothing.
   pull_request:
+    paths:
+      - 'app/**'
+      - 'plugins/**'
+      - '.github/workflows/mobile-app-checks.yml'
+      - '.github/actions/detect-changes/**'
+      - '.github/actions/ci-tier/**'
+      - 'scripts/changed-files'
   workflow_dispatch:
   schedule:
     - cron: '41 4 * * *'
@@ -40,13 +47,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
+          fetch-depth: 0
+          filter: blob:none
+          lfs: false
           # Full history is required: detect-changes diffs against the merge
           # base. blob:none keeps the commit graph but skips file contents,
           # which is what made the unfiltered clone of this ~1.25GB repo take
           # 7-13 minutes.
-          fetch-depth: 0
-          filter: blob:none
-
       - name: Resolve current CI tier
         id: tier
         uses: ./.github/actions/ci-tier
@@ -66,7 +73,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
-
+          lfs: false
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -130,6 +137,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -259,7 +269,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
-
+          lfs: false
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -322,7 +332,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
-
+          lfs: false
       - name: Free runner disk space
         # ubuntu-latest ships with ~14GB free; the Gradle build runs out of
         # space during stripDebugSymbols. Remove unused preinstalled toolchains
@@ -449,7 +459,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
-
+          lfs: false
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -531,6 +541,9 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -617,7 +630,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Select and assert pinned Xcode
         run: desktop/macos/scripts/run-swift-ci.sh --select-toolchain
 
@@ -747,6 +761,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2

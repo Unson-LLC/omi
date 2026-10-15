@@ -425,20 +425,18 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
         """A backend/docs push must not strand an earlier selected desktop SHA."""
         workflow = _workflow_text()
         concurrency = workflow.split("jobs:", 1)[0]
+        triggers = workflow.split("concurrency:", 1)[0]
 
-        # PR updates remain safely supersedable by PR number, while every main
-        # push gets an immutable group and therefore runs its own exact-SHA
-        # Build & Tests and Release Compile checks to a terminal conclusion.
+        # Unson fork: Desktop Swift is no longer a pull_request workflow (EVO
+        # runner capacity). Every push/schedule/dispatch is keyed by exact SHA
+        # so a later main push cannot cancel an earlier selected desktop SHA.
+        self.assertNotIn("pull_request:", triggers.split("on:", 1)[-1].split("permissions:", 1)[0])
         self.assertIn(
-            "group: desktop-swift-${{ github.event.pull_request.number || github.sha }}",
+            "group: desktop-swift-${{ github.sha }}",
             concurrency,
         )
-        self.assertIn(
-            "cancel-in-progress: ${{ github.event_name == 'pull_request' }}",
-            concurrency,
-        )
+        self.assertIn("cancel-in-progress: true", concurrency)
         self.assertNotIn("github.ref", concurrency)
-        self.assertNotIn("cancel-in-progress: true", concurrency)
 
     def test_launcher_contract_prerequisites_are_installed(self):
         """Discovered shell tests may use the repository's pinned workflow linter."""

@@ -1,6 +1,7 @@
 name: Python CLI
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -8,14 +9,6 @@ on:
       - '.github/actions/ci-tier/**'
       - '.github/workflows/python-cli-ci.yml'
       - '.github/workflows/publish_omi_cli.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'sdks/python-cli/**'
-      - '.github/actions/ci-tier/**'
-      - '.github/workflows/python-cli-ci.yml'
-      - '.github/workflows/publish_omi_cli.yml'
-
 permissions:
   contents: read
   issues: read
@@ -23,6 +16,10 @@ permissions:
 defaults:
   run:
     working-directory: sdks/python-cli
+
+concurrency:
+  group: python-cli-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci-tier:
@@ -32,6 +29,9 @@ jobs:
       full_ci: ${{ steps.resolve.outputs.full_ci }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - id: resolve
         uses: ./.github/actions/ci-tier
       - name: Explain deferred Windows coverage
@@ -54,6 +54,9 @@ jobs:
     runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - uses: actions/setup-python@v6
         with:
@@ -76,6 +79,9 @@ jobs:
     runs-on: [self-hosted, Windows]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - uses: actions/setup-python@v6
         with:
@@ -102,6 +108,9 @@ jobs:
         python-version: ['3.10', '3.11', '3.12']
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - uses: actions/setup-python@v6
         with:

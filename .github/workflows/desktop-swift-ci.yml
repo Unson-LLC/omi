@@ -3,11 +3,6 @@ name: Desktop Swift CI
 on:
   push:
     branches: main
-  pull_request:
-    branches: main
-  # A later backend/docs commit must not make the last path-selected Desktop
-  # Swift verdict look current. Run against default-branch HEAD every day at an
-  # off-round UTC minute; the selector treats this as a full health event.
   schedule:
     - cron: "17 5 * * *"
   # Recovery hatch. `plan-desktop-release.py` requires this workflow's checks on the
@@ -26,8 +21,8 @@ permissions:
 concurrency:
   # Supersede stale revisions of the same PR, but never let a later main push
   # cancel the exact-SHA evidence consumed by desktop release planning.
-  group: desktop-swift-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: desktop-swift-${{ github.sha }}
+  cancel-in-progress: true
 
 jobs:
   changes:
@@ -51,7 +46,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Resolve current CI tier
         id: tier
         uses: ./.github/actions/ci-tier
@@ -162,12 +158,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
+          fetch-depth: 0
+          filter: blob:none
+          lfs: false
           # Static-check diffing needs full history; blob:none keeps that while
           # skipping the ~1.25 GB of blob download that made this checkout cost
           # a macOS-runner minute per run.
-          fetch-depth: 0
-          filter: blob:none
-
       - name: Select and assert pinned Xcode 26.6
         run: desktop/macos/scripts/run-swift-ci.sh --select-toolchain
 
@@ -558,7 +554,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
-
+          lfs: false
       - name: Select and assert pinned Xcode 26.6
         run: desktop/macos/scripts/run-swift-ci.sh --select-toolchain
 
@@ -682,6 +678,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
+          lfs: false
       - name: Select Xcode 27 release toolchain
         run: |
           echo "DEVELOPER_DIR=/Applications/Xcode_27.0.app/Contents/Developer" >> "$GITHUB_ENV"

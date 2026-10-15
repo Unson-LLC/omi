@@ -1,24 +1,23 @@
 name: Runtime Image Contracts
 
 on:
-  pull_request:
-    paths:
-      - 'backend/**'
-      - 'plugins/**'
-      - 'Makefile'
-      - '.github/workflows/runtime_image_contracts.yml'
-      - '.github/workflows/desktop_backend_auto_dev.yml'
-      - '.github/workflows/gcp_*.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: runtime_image_contracts-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   source-closure:
     runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - name: Check final-image first-party source closures
         run: make runtime-image-source-closure
       - id: matrix
@@ -44,6 +43,9 @@ jobs:
       matrix: ${{ fromJSON(needs.source-closure.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - name: Skip image smoke when GCP credentials are unavailable
         if: env.GCP_CREDENTIALS_AVAILABLE != 'true'
         run: >-

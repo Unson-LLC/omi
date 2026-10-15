@@ -1,15 +1,16 @@
 name: Rust SDK
 
 on:
-  pull_request:
-    paths:
-      - "sdks/rust/**"
-      - ".github/workflows/sdk-rust.yml"
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - "sdks/rust/**"
       - ".github/workflows/sdk-rust.yml"
+
+concurrency:
+  group: sdk-rust-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   rust:
@@ -19,6 +20,9 @@ jobs:
         working-directory: sdks/rust/omi-device
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt

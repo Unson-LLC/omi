@@ -125,6 +125,9 @@ jobs:
       full_ci: ${{ steps.resolve.outputs.full_ci }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - id: resolve
         uses: ./.github/actions/ci-tier
 
@@ -153,12 +156,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
+          fetch-depth: 0
+          filter: blob:none
+          lfs: false
           # Full history is required: the pull_request path resolves the merge base
           # live via scripts/changed-files. blob:none keeps the history without
           # downloading every historical file blob.
-          fetch-depth: 0
-          filter: blob:none
-
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -229,6 +232,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v6

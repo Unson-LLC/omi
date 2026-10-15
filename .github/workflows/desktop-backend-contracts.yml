@@ -1,33 +1,19 @@
 name: Desktop Backend Contracts
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/desktop-backend-contracts.yml"
-      - "backend/testing/contracts/**"
-      - "backend/database/conversations.py"
-      - "backend/database/helpers.py"
-      - "backend/database/memories.py"
-      - "backend/models/**"
-      - "backend/test.sh"
-      - "backend/utils/encryption.py"
-      - "contract_tests/**"
-      - "desktop/macos/scripts/desktop-core-harness.sh"
-      - "desktop/macos/scripts/desktop-flow-lint.py"
-      - "desktop/macos/scripts/desktop_flow_contract.py"
-      - "desktop/macos/e2e/**"
-      - "desktop/macos/Desktop/Sources/DesktopAutomationBridge.swift"
-      - "desktop/macos/Desktop/Sources/DesktopAutomationOpenOmiShortcutQA.swift"
-      - "desktop/macos/Desktop/Sources/FloatingControlBar/RealtimeHubController.swift"
-      - "desktop/macos/Desktop/Sources/MainWindow/Pages/TasksPage.swift"
-      - "desktop/macos/Desktop/Sources/MainWindow/Pages/MemoriesPage.swift"
-      - "desktop/macos/Desktop/Sources/Rewind/Core/RewindArtifactGauntlet.swift"
+  workflow_dispatch:
+concurrency:
+  group: desktop-backend-contracts-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   desktop-core-e2e-t0:
     runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - uses: actions/setup-python@v6
         with:
@@ -54,6 +40,9 @@ jobs:
       GOOGLE_CLOUD_PROJECT: omi-contract-tests
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
 
       - uses: actions/setup-python@v6
         with:

@@ -13,22 +13,20 @@ name: Desktop Windows CI
 # formatting warnings remain non-blocking (formatting is not enforced here).
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - 'desktop/windows/**'
       - '.github/workflows/desktop-windows-ci.yml'
       - '.github/workflows/desktop_windows_release.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'desktop/windows/**'
-      - '.github/workflows/desktop-windows-ci.yml'
-      - '.github/workflows/desktop_windows_release.yml'
-
 defaults:
   run:
     working-directory: desktop/windows
+
+concurrency:
+  group: desktop-windows-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   checks:
@@ -36,6 +34,9 @@ jobs:
     runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       # The app is pnpm-managed (pnpm-lock.yaml, lockfileVersion 9).
       - uses: pnpm/action-setup@v6
         with:
@@ -64,6 +65,9 @@ jobs:
     runs-on: [self-hosted, Windows]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - uses: pnpm/action-setup@v6
         with:
           version: 10
@@ -116,6 +120,9 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - uses: pnpm/action-setup@v6
         with:
           version: 10
