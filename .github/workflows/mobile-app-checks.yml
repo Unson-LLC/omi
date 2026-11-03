@@ -837,7 +837,7 @@ jobs:
       - android-emulator-checks
       - ios-compile-check
       - dart-tests-kiritimati
-    if: ${{ always() && github.event_name != 'pull_request' }}
+    if: ${{ always() }}
     timeout-minutes: 10
     steps:
       - name: Aggregate conditional mobile checks
