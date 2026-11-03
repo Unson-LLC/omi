@@ -93,11 +93,19 @@ Without an existing explicit target, offline speech follows the same default
 silence boundary as realtime: a speech gap of at least 120 seconds starts a new
 conversation; shorter gaps stay connected.
 Speaker enrollment and own-voice attribution are not prerequisites. Short,
-filler-only fragments remain visible with their original transcript and a minimal
-title, without automatic summarization; later meaningful content promotes the
-merged recording. Uncertain content stays kept. Long narration is not reliable
+filler-only fragments stay out of the default conversation list and search,
+without automatic summarization. Their original transcript and audio remain
+recoverable through Show discarded; later meaningful content automatically
+promotes the merged recording. Explicitly restored or curated recordings stay
+visible. Duration alone never establishes irrelevance: brief meaningful speech
+must remain available. Uncertain content stays kept. Long narration is not reliable
 evidence of irrelevance, so it remains one retained recording rather than being
 silently discarded. Implementation and limits: `backend/utils/sync/ARCHITECTURE.md`.
+
+Selecting Process Now for a saved phone Transcribe Later recording is an explicit
+keep choice. Once transcription produces speech, preserve that choice across
+enrichment and later refreshes. Silence or an empty transcription creates no
+conversation. Automatic offline fallback continues to assess content normally.
 
 Silence-only audio creates nothing and cannot bridge conversations.
 Without an existing explicit target, sync intake groups connected speech intervals

@@ -14,7 +14,7 @@ on:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Sync issues
         uses: paritytech/github-issue-sync@34a24348bf2f2a73924e322f43d6132e0c276b5f

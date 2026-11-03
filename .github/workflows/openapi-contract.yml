@@ -21,24 +21,6 @@ on:
       - 'web/personas-open-source/src/lib/omiApi.generated.ts'
       - 'docs/docs.json'
       - '.github/workflows/openapi-contract.yml'
-  pull_request:
-    paths:
-      - 'backend/**'
-      - 'docs/api-reference/openapi.json'
-      - 'docs/api-reference/app-client-openapi.json'
-      - 'docs/api-reference/integration-public-openapi.json'
-      - 'app/lib/backend/http/api/**'
-      - 'app/lib/backend/schema/**'
-      - 'app/lib/backend/schema/gen/**'
-      - 'app/lib/models/announcement.dart'
-      - 'app/lib/models/subscription.dart'
-      - 'app/lib/models/user_usage.dart'
-      - 'desktop/windows/src/renderer/src/lib/omiApi.generated.ts'
-      - 'web/app/src/lib/omiApi.generated.ts'
-      - 'web/admin/lib/services/omi-api/omiApi.generated.ts'
-      - 'web/personas-open-source/src/lib/omiApi.generated.ts'
-      - 'docs/docs.json'
-      - '.github/workflows/openapi-contract.yml'
   workflow_dispatch:
 
 permissions:
@@ -47,13 +29,13 @@ permissions:
 concurrency:
   # Preserve every main/manual compatibility result while cancelling obsolete
   # PR revisions that can no longer merge.
-  group: openapi-contract-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  group: openapi-contract-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   openapi-contract:
     name: Public Developer API contract
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 15
 
     steps:
@@ -61,7 +43,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -84,6 +67,12 @@ jobs:
       - name: Reject released app-client breaking changes
         if: github.event_name == 'pull_request'
         run: python backend/scripts/check_app_client_openapi_compatibility.py --base-ref FETCH_HEAD
+
+      - name: Reject public Developer API breaking changes
+        if: github.event_name == 'pull_request'
+        run: >-
+          python backend/scripts/check_app_client_openapi_compatibility.py --base-ref FETCH_HEAD
+          --head-spec docs/api-reference/openapi.json --label 'Developer API'
 
       - name: Check committed OpenAPI contract
         working-directory: backend

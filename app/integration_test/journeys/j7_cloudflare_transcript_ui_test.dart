@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:omi/pages/conversation_detail/conversation_detail_provider.dart';
 import 'package:omi/pages/conversation_detail/page.dart';
+import 'package:omi/widgets/conversation_bottom_bar.dart';
 import 'package:omi/providers/app_provider.dart';
 import 'package:omi/providers/conversation_provider.dart';
 import 'package:omi/services/brainbase_ingest/brainbase_conversation_source.dart';
@@ -79,7 +80,7 @@ void main() {
       ..selectedDate = conversationLocalDayKey(conversation.createdAt);
     await JourneyHermeticBoot.pumpPage(
       tester,
-      page: ConversationDetailPage(conversation: conversation, initialTabIndex: 0),
+      page: ConversationDetailPage(conversation: conversation, initialTab: ConversationTab.transcript),
       providers: [
         ChangeNotifierProvider<AppProvider>.value(value: appProvider),
         ChangeNotifierProvider<ConversationDetailProvider>.value(value: detailProvider),

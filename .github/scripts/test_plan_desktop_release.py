@@ -618,14 +618,14 @@ class DesktopCandidateSourceCheckTests(unittest.TestCase):
         self.assertNotIn("tag-release:", workflow)
         self.assertNotIn("plan-release:", workflow)
         self.assertNotIn("omi-qual", workflow)
-        self.assertNotIn("self-hosted", workflow)
         self.assertNotIn("CI_GATE_TIMEOUT_SECONDS", workflow)
         self.assertNotIn("source-check-wait-seconds", workflow)
         self.assertNotIn("source-check-poll-seconds", workflow)
         self.assertNotIn("pre-tag-readiness", workflow)
         self.assertNotIn("verify-pre-tag-readiness.py", workflow)
         self.assertIn("timeout-minutes: 30", workflow)
-        self.assertIn("runs-on: ubuntu-latest", workflow)
+        # Unson fork: omi CI runs only on the dedicated self-hosted Linux runners.
+        self.assertIn("runs-on: [self-hosted, Linux, wsl-linux]", workflow)
         self.assertIn("group: desktop-release-planner-main", workflow)
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertIn("ref: ${{ steps.plan.outputs.source_sha }}", workflow)
@@ -648,12 +648,12 @@ class DesktopCandidateSourceCheckTests(unittest.TestCase):
         self.assertIn("--codemagic-source-gate", workflow)
         self.assertNotIn("wait_for_required_source_checks", Path(SCRIPT).read_text(encoding="utf-8"))
 
-    def test_auto_release_is_an_hourly_train_plus_manual_dispatch(self) -> None:
+    def test_auto_release_is_manual_dispatch_only(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
         trigger = workflow.split("\njobs:", 1)[0]
         self.assertIn("workflow_dispatch:", trigger)
-        self.assertIn("schedule:", trigger)
-        self.assertIn('cron: "7 * * * *"', trigger)
+        self.assertNotIn("schedule:", trigger)
+        self.assertNotIn("cron:", trigger)
         self.assertNotIn("\n  push:", trigger)
         with self.assertRaises(AssertionError):
             _parse_push_filter(workflow)

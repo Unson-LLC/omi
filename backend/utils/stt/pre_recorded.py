@@ -1,8 +1,12 @@
+from utils.observability.sync_phases import observe_sync_call, sync_phase_timer
 import logging
 import os
+import time
 import wave as _wave
 from abc import ABC, abstractmethod
 from collections import defaultdict
+from contextlib import contextmanager
+from contextvars import ContextVar
 from io import BytesIO
 from math import ceil
 from threading import RLock
@@ -31,14 +35,39 @@ from config.stt_provider_policy import (
 )
 from models.transcript_segment import TranscriptSegment
 from utils.byok import get_byok_key
+from utils.log_sanitizer import sanitize_provider_error
 from utils.observability.fallback import record_fallback
 from utils.other.endpoints import timeit
 from utils.stt.outcomes import TranscriptionFailure
+from utils.stt.brand_terms import normalize_brand_terms
 from utils.stt.speaker_clustering import select_speaker_cluster
 from utils.stt.speaker_embedding import compare_embeddings, extract_embedding_from_bytes
 
 _DG_TIMEOUT = httpx.Timeout(connect=10.0, read=120.0, write=30.0, pool=10.0)
 _MODULATE_TIMEOUT = httpx.Timeout(connect=10.0, read=300.0, write=30.0, pool=10.0)
+_verification_deadline: ContextVar[Optional[float]] = ContextVar('verification_stt_deadline', default=None)
+
+
+@contextmanager
+def verification_stt_deadline(deadline: float):
+    """Limit the prompt verifier's one provider attempt to its caller's budget."""
+    token = _verification_deadline.set(deadline)
+    try:
+        yield
+    finally:
+        _verification_deadline.reset(token)
+
+
+def _verification_timeout(default: httpx.Timeout | float) -> httpx.Timeout | float:
+    deadline = _verification_deadline.get()
+    if deadline is None:
+        return default
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError('speaker tag verification deadline expired')
+    return httpx.Timeout(remaining)
+
+
 _MAX_PRE_RECORDED_SEGMENT_DURATION_SECONDS = 30.0
 
 logger = logging.getLogger(__name__)
@@ -459,7 +488,7 @@ def deepgram_prerecorded_from_bytes(
         source: Dict[str, Any] = {"buffer": audio_buffer, "mimetype": mimetype}
 
         rest_client: Any = _deepgram_client_for_request().listen.rest.v("1")
-        response = rest_client.transcribe_file(source, options, timeout=_DG_TIMEOUT)
+        response = rest_client.transcribe_file(source, options, timeout=_verification_timeout(_DG_TIMEOUT))
 
         # Extract words from response
         result: Dict[str, Any] = response.to_dict()
@@ -508,7 +537,7 @@ def deepgram_prerecorded_from_bytes(
             type(e).__name__,
             attempts + 1,
         )
-        if attempts < 1:
+        if attempts < 1 and _verification_deadline.get() is None:
             return deepgram_prerecorded_from_bytes(
                 audio_bytes,
                 sample_rate,
@@ -531,6 +560,7 @@ def modulate_prerecorded_from_bytes(
     diarize: bool = True,
     attempts: int = 0,
     return_language: bool = False,
+    language: Optional[str] = None,
 ) -> Union[List[Dict[str, Any]], Tuple[List[Dict[str, Any]], str]]:
     logger.info(f'modulate_prerecorded_from_bytes bytes_len={len(audio_bytes)} {sample_rate} {diarize} {attempts}')
 
@@ -543,7 +573,7 @@ def modulate_prerecorded_from_bytes(
         files = {'upload_file': ('audio.wav', BytesIO(audio_bytes), 'audio/wav')}
         data = {'speaker_diarization': str(diarize).lower()}
 
-        with httpx.Client(timeout=300) as client:
+        with httpx.Client(timeout=_verification_timeout(300)) as client:
             response = client.post(url, headers=headers, files=files, data=data)
         response.raise_for_status()
         result = response.json()
@@ -551,11 +581,11 @@ def modulate_prerecorded_from_bytes(
         utterances = result.get('utterances', [])
         if not utterances:
             if return_language:
-                return [], 'en'
+                return [], language or 'multi'
             return []
 
         words: List[Dict[str, Any]] = []
-        detected_language = 'en'
+        language_votes: List[Tuple[str, int, float]] = []
         for utt in utterances:
             text = utt.get('text', '').strip()
             if not text:
@@ -577,17 +607,30 @@ def modulate_prerecorded_from_bytes(
 
             lang = utt.get('language')
             if lang:
-                detected_language = lang
+                lang = lang.split('-')[0].split('_')[0].lower()
+                language_votes.append((lang, len(text.split()), max(0, duration_ms)))
 
         if return_language:
+            # Tiny acknowledgments are noisy detection evidence. Only use them
+            # when the provider supplied no longer transcribed utterance.
+            has_long_utterance = any(len(utt.get('text', '').split()) >= 3 for utt in utterances)
+            totals: Dict[str, Tuple[int, float]] = {}
+            for lang, word_count, duration in language_votes:
+                if has_long_utterance and word_count < 3:
+                    continue
+                count, seconds = totals.get(lang, (0, 0))
+                totals[lang] = (count + word_count, seconds + duration)
+            detected_language = max(totals, key=lambda lang: totals[lang]) if totals else language or 'multi'
             return words, detected_language
 
         return words
 
     except Exception as e:
         logger.error('Modulate prerecorded error exception_type=%s attempt=%s', type(e).__name__, attempts + 1)
-        if attempts < 2:
-            return modulate_prerecorded_from_bytes(audio_bytes, sample_rate, diarize, attempts + 1, return_language)
+        if attempts < 2 and _verification_deadline.get() is None:
+            return modulate_prerecorded_from_bytes(
+                audio_bytes, sample_rate, diarize, attempts + 1, return_language, language
+            )
         raise RuntimeError(f'Modulate transcription failed after {attempts + 1} attempts') from e
 
 
@@ -609,7 +652,7 @@ def modulate_prerecorded(
             resp.raise_for_status()
             audio_bytes = resp.content
         return modulate_prerecorded_from_bytes(
-            audio_bytes, diarize=diarize, attempts=attempts, return_language=return_language
+            audio_bytes, diarize=diarize, attempts=attempts, return_language=return_language, language=language
         )
     except Exception as e:
         logger.error(
@@ -683,7 +726,7 @@ class DeepgramPrerecordedProvider(PrerecordedSTTProvider):
 class ModulatePrerecordedProvider(PrerecordedSTTProvider):
     def _normalize_lang(self, language: Optional[str]) -> str:
         if not language:
-            return 'en'
+            return 'multi'
         return language.split('-')[0].split('_')[0].lower()
 
     def transcribe_url(
@@ -725,6 +768,7 @@ class ModulatePrerecordedProvider(PrerecordedSTTProvider):
             diarize=diarize,
             attempts=attempts,
             return_language=return_language,
+            language=self._normalize_lang(language),
         )
 
 
@@ -795,11 +839,14 @@ def parakeet_prerecorded_from_bytes(
             url = api_url.rstrip('/') + '/v1/transcribe'
             data = {}
 
-        with httpx.Client(timeout=_PARAKEET_TIMEOUT) as client:
-            response = client.post(url, files=files, data=data if data else None)
+        with httpx.Client(timeout=_verification_timeout(_PARAKEET_TIMEOUT)) as client:
+            response = observe_sync_call('parakeet', client.post, url, files=files, data=data if data else None)
             if response.status_code == 404 and use_v2:
                 url = api_url.rstrip('/') + '/v1/transcribe'
-                response = client.post(url, files={'file': ('audio.wav', BytesIO(audio_bytes), 'audio/wav')})
+                client.timeout = _verification_timeout(_PARAKEET_TIMEOUT)
+                response = observe_sync_call(
+                    'parakeet', client.post, url, files={'file': ('audio.wav', BytesIO(audio_bytes), 'audio/wav')}
+                )
                 use_v2 = False
         response.raise_for_status()
         payload: Any = response.json()
@@ -857,7 +904,7 @@ def parakeet_prerecorded_from_bytes(
 
     except Exception as e:
         logger.error('Parakeet prerecorded error exception_type=%s attempt=%s', type(e).__name__, attempts + 1)
-        if attempts < 1:
+        if attempts < 1 and _verification_deadline.get() is None:
             return parakeet_prerecorded_from_bytes(
                 audio_bytes, sample_rate, diarize, attempts + 1, None, channels, language, return_language
             )
@@ -875,7 +922,7 @@ def parakeet_prerecorded(
 ) -> Union[List[Dict[str, Any]], Tuple[List[Dict[str, Any]], str]]:
     logger.info(f'parakeet_prerecorded url_len={len(audio_url)} {speakers_count} {attempts}')
     try:
-        with httpx.Client(timeout=_PARAKEET_URL_DOWNLOAD_TIMEOUT) as client:
+        with sync_phase_timer('gcs'), httpx.Client(timeout=_PARAKEET_URL_DOWNLOAD_TIMEOUT) as client:
             with client.stream('GET', audio_url) as resp:
                 resp.raise_for_status()
                 content_length = resp.headers.get('content-length')
@@ -952,7 +999,7 @@ def _parakeet_assign_speaker_sync(
         counts.append(1)
         return f'SPEAKER_{best_i:02d}'
     except Exception as e:
-        logger.warning(f'Parakeet batch diarization failed, defaulting to SPEAKER_00: {e}')
+        logger.warning('Parakeet batch diarization failed, defaulting to SPEAKER_00: %s', sanitize_provider_error(e))
         return 'SPEAKER_00'
 
 
@@ -1216,7 +1263,7 @@ def _segments_as_objects(segments: List[Dict[str, Any]]) -> List[TranscriptSegme
     starts_at = segments[0]['start']
     return [
         TranscriptSegment(
-            text=str(segment['text']).strip().capitalize(),
+            text=normalize_brand_terms(str(segment['text']).strip().capitalize()),
             speaker=segment['speaker'],
             is_user=segment['is_user'],
             person_id=None,

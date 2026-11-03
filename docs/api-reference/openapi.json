@@ -111,6 +111,84 @@
         "title": "BatchMemoriesResponse",
         "type": "object"
       },
+      "CaptureEvidenceLineage": {
+        "properties": {
+          "capability": {
+            "const": "stable_artifact",
+            "title": "Capability",
+            "type": "string"
+          },
+          "capture_root": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Capture Root",
+            "type": "string"
+          },
+          "clock_domain": {
+            "const": "desktop_session_ms",
+            "title": "Clock Domain",
+            "type": "string"
+          },
+          "lineage": {
+            "enum": [
+              "complete",
+              "incomplete"
+            ],
+            "title": "Lineage",
+            "type": "string"
+          },
+          "units": {
+            "items": {
+              "$ref": "#/components/schemas/CaptureEvidenceLineageUnit"
+            },
+            "maxItems": 64,
+            "title": "Units",
+            "type": "array"
+          },
+          "version": {
+            "const": 1,
+            "default": 1,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "capability",
+          "capture_root",
+          "clock_domain",
+          "lineage",
+          "units"
+        ],
+        "title": "CaptureEvidenceLineage",
+        "type": "object"
+      },
+      "CaptureEvidenceLineageUnit": {
+        "properties": {
+          "end_ms": {
+            "exclusiveMinimum": 0.0,
+            "title": "End Ms",
+            "type": "integer"
+          },
+          "id": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "start_ms": {
+            "minimum": 0.0,
+            "title": "Start Ms",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "start_ms",
+          "end_ms"
+        ],
+        "title": "CaptureEvidenceLineageUnit",
+        "type": "object"
+      },
       "CategoryEnum": {
         "enum": [
           "personal",
@@ -178,6 +256,38 @@
         "title": "ConversationCreateResponse",
         "type": "object"
       },
+      "ConversationSearchResponse": {
+        "properties": {
+          "conversations": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Conversations",
+            "type": "array"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "search_coverage": {
+            "title": "Search Coverage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "search_coverage"
+        ],
+        "title": "ConversationSearchResponse",
+        "type": "object"
+      },
       "ConversationSource": {
         "enum": [
           "friend",
@@ -241,6 +351,16 @@
       },
       "CreateConversationFromTranscriptRequest": {
         "properties": {
+          "capture_evidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CaptureEvidenceLineage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "client_device_id": {
             "anyOf": [
               {
@@ -292,15 +412,6 @@
           "conversation_finalization_reason": {
             "anyOf": [
               {
-                "enum": [
-                  "user_stop",
-                  "finish_and_continue",
-                  "meeting_started",
-                  "meeting_ended",
-                  "max_duration_rotation",
-                  "crash_recovery",
-                  "retry"
-                ],
                 "type": "string"
               },
               {
@@ -1612,6 +1723,26 @@
             ],
             "title": "Language"
           },
+          "participants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Participants",
+            "type": "array"
+          },
+          "participants_included": {
+            "default": false,
+            "title": "Participants Included",
+            "type": "boolean"
+          },
+          "person_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Person Ids",
+            "type": "array"
+          },
           "source": {
             "anyOf": [
               {
@@ -1637,6 +1768,11 @@
           },
           "structured": {
             "$ref": "#/components/schemas/DeveloperConversationStructured"
+          },
+          "transcript_included": {
+            "default": false,
+            "title": "Transcript Included",
+            "type": "boolean"
           },
           "transcript_segments": {
             "anyOf": [
@@ -2207,6 +2343,11 @@
             "title": "Archive Default Visible",
             "type": "boolean"
           },
+          "effective_limit": {
+            "default": 20,
+            "title": "Effective Limit",
+            "type": "integer"
+          },
           "items": {
             "items": {
               "$ref": "#/components/schemas/DeveloperMemoryVectorItem"
@@ -2214,12 +2355,28 @@
             "title": "Items",
             "type": "array"
           },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
           "policy": {
             "$ref": "#/components/schemas/DeveloperMemoryVectorPolicy"
           },
           "returned_count": {
             "title": "Returned Count",
             "type": "integer"
+          },
+          "search_coverage": {
+            "default": "eligible_indexed_memories",
+            "title": "Search Coverage",
+            "type": "string"
           }
         },
         "required": [
@@ -2701,6 +2858,147 @@
         "title": "MemoryCategory",
         "type": "string"
       },
+      "MemorySearchResponse": {
+        "properties": {
+          "effective_limit": {
+            "default": 20,
+            "title": "Effective Limit",
+            "type": "integer"
+          },
+          "memories": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Memories",
+            "type": "array"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "search_coverage": {
+            "title": "Search Coverage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "search_coverage"
+        ],
+        "title": "MemorySearchResponse",
+        "type": "object"
+      },
+      "PeopleResponse": {
+        "properties": {
+          "people": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "People",
+            "type": "array"
+          }
+        },
+        "title": "PeopleResponse",
+        "type": "object"
+      },
+      "ProfileResponse": {
+        "properties": {
+          "data_sources_used": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Sources Used"
+          },
+          "generated_at": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generated At"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile"
+          },
+          "profile_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Text"
+          }
+        },
+        "title": "ProfileResponse",
+        "type": "object"
+      },
+      "ScreenActivityResponse": {
+        "properties": {
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "screen_activity": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Screen Activity",
+            "type": "array"
+          }
+        },
+        "required": [
+          "has_more"
+        ],
+        "title": "ScreenActivityResponse",
+        "type": "object"
+      },
       "UpdateActionItemRequest": {
         "properties": {
           "completed": {
@@ -3031,6 +3329,39 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/v1/dev/key": {
+      "get": {
+        "description": "Return only the calling key's metadata and effective scopes. No data scope is required.",
+        "operationId": "getCallingApiKey",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevApiKey"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          }
+        },
+        "security": [
+          {
+            "developerApiKey": []
+          }
+        ],
+        "summary": "Get calling API key",
+        "tags": [
+          "API Keys"
+        ]
+      }
+    },
     "/v1/dev/keys": {
       "get": {
         "operationId": "listApiKeys",
@@ -3064,7 +3395,7 @@
         ]
       },
       "post": {
-        "description": "Create a new Developer API key with optional scopes.\n\n- **name**: Descriptive name for the key\n- **scopes**: Optional list of scopes. If not provided, defaults to read-only access.\n  Available scopes:\n  - conversations:read\n  - conversations:write\n  - memories:read\n  - memories:write\n  - action_items:read\n  - action_items:write\n  - goals:read\n  - goals:write",
+        "description": "Create a new Developer API key with optional scopes.\n\n- **name**: Descriptive name for the key\n- **scopes**: Optional list of scopes. If not provided, defaults to read-only access.\n  Available scopes:\n  - conversations:read\n  - conversations:write\n  - memories:read\n  - memories:write\n  - action_items:read\n  - action_items:write\n  - goals:read\n  - goals:write\n  - people:read (explicit opt-in)\n  - profile:read (explicit opt-in)\n  - screen_activity:read (explicit opt-in)",
         "operationId": "createApiKey",
         "requestBody": {
           "content": {
@@ -3689,6 +4020,22 @@
               ],
               "title": "Starred"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
           }
         ],
         "responses": {
@@ -3833,6 +4180,107 @@
           }
         ],
         "summary": "Create Conversation From Segments",
+        "tags": [
+          "Conversations"
+        ]
+      }
+    },
+    "/v1/dev/user/conversations/search": {
+      "get": {
+        "operationId": "searchConversations",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Query",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start_date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start Date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end_date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationSearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "developerApiKey": []
+          }
+        ],
+        "summary": "Search Conversations",
         "tags": [
           "Conversations"
         ]
@@ -4743,7 +5191,7 @@
         ]
       },
       "post": {
-        "description": "Create a new memory for the authenticated user.\n\n- **content**: The content of the memory (1-500 characters)\n- **category**: Memory category (auto-categorized if not provided)\n- **visibility**: Visibility: public or private (default: private)\n- **tags**: List of tags associated with the memory",
+        "description": "Create a new memory for the authenticated user.\n\n- **content**: The content of the memory (1-500 characters)\n- **category**: Memory category (auto-categorized if not provided)\n- **visibility**: Visibility: public or private (default: private)\n- **tags**: List of tags associated with the memory\n\nA memory is identified by its text. Sending text the user already has (ignoring surrounding\nwhitespace; case-sensitive) returns that memory unchanged, so retries are safe without extra\nheaders. Use PATCH to change an existing memory's fields. After a delete, the same text creates\na new memory.",
         "operationId": "createMemory",
         "requestBody": {
           "content": {
@@ -4796,7 +5244,7 @@
     },
     "/v1/dev/user/memories/batch": {
       "post": {
-        "description": "Create multiple memories in a batch.\n\n- **memories**: List of memories to create (max 25)",
+        "description": "Create multiple memories in a batch.\n\n- **memories**: List of memories to create (max 25)\n\nItems follow the single-create rule: text the user already has returns the existing memory at\nthat position, so a retried batch creates nothing twice. `created_count` is the number of\nmemories returned.",
         "operationId": "createMemoriesBatch",
         "requestBody": {
           "content": {
@@ -4842,6 +5290,73 @@
           }
         ],
         "summary": "Create Memories Batch",
+        "tags": [
+          "Memories"
+        ]
+      }
+    },
+    "/v1/dev/user/memories/search": {
+      "get": {
+        "operationId": "searchMemories",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Query",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "maximum": 20,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemorySearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "developerApiKey": []
+          }
+        ],
+        "summary": "Search Memories",
         "tags": [
           "Memories"
         ]
@@ -5033,6 +5548,190 @@
         "summary": "Update Memory",
         "tags": [
           "Memories"
+        ]
+      }
+    },
+    "/v1/dev/user/people": {
+      "get": {
+        "operationId": "listPeople",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PeopleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          }
+        },
+        "security": [
+          {
+            "developerApiKey": []
+          }
+        ],
+        "summary": "Get People",
+        "tags": [
+          "People"
+        ]
+      }
+    },
+    "/v1/dev/user/profile": {
+      "get": {
+        "operationId": "getUserProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          }
+        },
+        "security": [
+          {
+            "developerApiKey": []
+          }
+        ],
+        "summary": "Get Profile",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/v1/dev/user/screen-activity": {
+      "get": {
+        "operationId": "listScreenActivity",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "start_date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start Date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end_date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "app",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "App"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScreenActivityResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "developerApiKey": []
+          }
+        ],
+        "summary": "Get Screen Activity",
+        "tags": [
+          "Screen Activity"
         ]
       }
     }

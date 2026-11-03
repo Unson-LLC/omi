@@ -22,8 +22,11 @@ def system(monkeypatch):
     from utils.conversations import lifecycle
     from utils.sync import bridge
     from database import sync_bridges
+    from database import action_item_refresh
 
     store = StrictFirestore()
+    monkeypatch.setattr(action_item_refresh, 'get_firestore_client', lambda: store)
+    monkeypatch.setattr(action_item_refresh, 'bump_action_items_list_version', lambda uid: None)
     mark = sync_bridges.mark_sync_bridge_cleaned
     monkeypatch.setattr(bridge, 'mark_sync_bridge_cleaned', lambda *a: mark(*a, firestore_client=store))
     assign = db.assign_sync_conversation
@@ -112,6 +115,9 @@ def test_shared_cleanup_retains_capture_and_propagates_task_failure(monkeypatch)
     monkeypatch.setattr(merge, 'retraction_can_be_skipped', lambda *a, **kw: True)
     monkeypatch.setattr(merge, 'MemoryService', MagicMock())
     tasks = MagicMock(side_effect=RuntimeError('task store unavailable'))
+    # The current merge cleanup reads source tasks before deleting them so it
+    # can cancel client reminders. Keep this test hermetic across both the
+    # legacy delete-only path and the reminder-aware path.
     monkeypatch.setattr(action_items, 'get_action_items_by_conversation', lambda *a, **kw: [])
     monkeypatch.setattr(action_items, 'delete_action_items_for_conversation', tasks)
     audio = MagicMock()
@@ -162,6 +168,36 @@ def test_late_audio_copies_without_retracting_completed_ancestor(system):
     assert bridge.finish_sync_bridges('u', 'chunk-004', audio_source_id='chunk-004') == 'chunk-000'
     retract.assert_not_called()
     copy.assert_called_once_with('u', [{'id': 'chunk-004'}], 'chunk-000', strict=True)
+
+
+def test_bridge_redirect_cycle_is_bounded_as_assignment_conflict_subtype(monkeypatch):
+    from utils.sync import bridge
+
+    monkeypatch.setattr(
+        bridge.conversations_db,
+        'get_conversation',
+        lambda uid, conversation_id: {'id': conversation_id, 'sync_merged_into': 'loop'},
+    )
+
+    with pytest.raises(bridge.SyncAssignmentConflict, match='redirect cycle') as exc_info:
+        bridge.finish_sync_bridges('u', 'loop')
+
+    assert exc_info.value.subtype == 'redirect_cycle'
+
+
+def test_bridge_source_shape_conflict_uses_other_subtype(monkeypatch):
+    from utils.sync import bridge
+
+    rows = {
+        'survivor': {'id': 'survivor', 'sync_merged_from': ['donor']},
+        'donor': {'id': 'donor', 'deleted': False},
+    }
+    monkeypatch.setattr(bridge.conversations_db, 'get_conversation', lambda uid, cid: rows.get(cid))
+
+    with pytest.raises(bridge.SyncAssignmentConflict, match='source missing or not a tombstone') as exc_info:
+        bridge.finish_sync_bridges('u', 'survivor')
+
+    assert exc_info.value.subtype == 'other'
 
 
 def test_receipt_does_not_mark_a_newer_tombstone_revision(system):
@@ -259,6 +295,8 @@ def test_sync_bridge_retraction_does_not_claim_the_account_destructive_gate(monk
 
     monkeypatch.setattr(merge, 'retraction_can_be_skipped', lambda *a, **kw: False)
     monkeypatch.setattr(merge, 'MemoryService', FakeMemoryService)
+    # Source-task lookup is part of merge cleanup on current main; avoid
+    # constructing a real Firestore client in this seam-focused test.
     monkeypatch.setattr(action_items, 'get_action_items_by_conversation', lambda *a, **kw: [])
     monkeypatch.setattr(action_items, 'delete_action_items_for_conversation', MagicMock(return_value=0))
     monkeypatch.setattr(merge, 'delete_conversation_audio_files', MagicMock())

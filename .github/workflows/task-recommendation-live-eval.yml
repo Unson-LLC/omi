@@ -9,7 +9,7 @@ permissions:
 jobs:
   live-eval:
     name: Versioned ranking fixture eval
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     timeout-minutes: 20
     steps:
       - name: Checkout code

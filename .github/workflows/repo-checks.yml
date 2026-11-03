@@ -31,7 +31,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -70,7 +71,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Detect changed paths
         id: changes
         uses: ./.github/actions/detect-changes
@@ -85,7 +87,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -187,7 +190,8 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
+          filter: blob:none
+          lfs: false
       - name: Save changed files
         run: |
           scripts/changed-files "${{ needs.changes.outputs.diff_base }}"...HEAD > /tmp/changed-files.txt
