@@ -521,7 +521,7 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
     def test_optional_siri_lane_uses_xcode_27_without_gating_team_ci(self):
         text = _workflow_text()
         advisory = _job_text(text, "desktop-siri-xcode27-advisory")
-        self.assertIn("runs-on: macos-26", advisory)
+        self.assertIn("runs-on: xcode-27", advisory)
         self.assertIn("continue-on-error: true", advisory)
         self.assertIn("timeout-minutes:", advisory)
         self.assertIn("SiriIntentServiceTests", advisory)

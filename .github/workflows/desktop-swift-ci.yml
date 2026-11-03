@@ -671,7 +671,7 @@ jobs:
     name: Desktop Siri Xcode 27 Advisory
     needs: changes
     if: ${{ needs.changes.outputs.full_ci == 'true' && ((github.event_name == 'pull_request' && needs.changes.outputs.should_siri_advisory == 'true') || (github.event_name != 'pull_request' && (needs.changes.outputs.should_run_static == 'true' || needs.changes.outputs.should_run_tests == 'true'))) }}
-    runs-on: macos-26
+    runs-on: xcode-27
     continue-on-error: true
     timeout-minutes: 60
     steps:

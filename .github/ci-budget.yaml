@@ -458,7 +458,7 @@
       "runner_counts": {
         "macos": 1
       },
-      "runs_on": "macos-26"
+      "runs_on": "xcode-27"
     },
     "desktop-swift-ci.yml/desktop-swift": {
       "budget_p50_minutes": 1,
