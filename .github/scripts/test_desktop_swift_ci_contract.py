@@ -136,7 +136,7 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
         """#9440: non-desktop changes must not claim a costly macOS runner."""
         changes = self.jobs["changes"]
 
-        self.assertIn("runs-on: [self-hosted, Linux, wsl-linux]", changes)
+        self.assertIn("runs-on: ubuntu-latest", changes)
         self.assertIn("should_run", changes)
         self.assertIn("should_run_static", changes)
         self.assertIn("should_run_tests", changes)
@@ -427,10 +427,9 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
         concurrency = workflow.split("jobs:", 1)[0]
         triggers = workflow.split("concurrency:", 1)[0]
 
-        # Unson fork: Desktop Swift is no longer a pull_request workflow (EVO
-        # runner capacity). Every push/schedule/dispatch is keyed by exact SHA
-        # so a later main push cannot cancel an earlier selected desktop SHA.
-        self.assertNotIn("pull_request:", triggers.split("on:", 1)[-1].split("permissions:", 1)[0])
+        # PR validation uses hosted runners. Every event remains keyed by exact
+        # SHA so later main pushes cannot cancel earlier release evidence.
+        self.assertIn("pull_request:", triggers.split("on:", 1)[-1].split("permissions:", 1)[0])
         self.assertIn(
             "group: desktop-swift-${{ github.sha }}",
             concurrency,
@@ -522,7 +521,7 @@ class DesktopSwiftCIContractTests(unittest.TestCase):
     def test_optional_siri_lane_uses_xcode_27_without_gating_team_ci(self):
         text = _workflow_text()
         advisory = _job_text(text, "desktop-siri-xcode27-advisory")
-        self.assertIn("runs-on: xcode-27", advisory)
+        self.assertIn("runs-on: macos-26", advisory)
         self.assertIn("continue-on-error: true", advisory)
         self.assertIn("timeout-minutes:", advisory)
         self.assertIn("SiriIntentServiceTests", advisory)

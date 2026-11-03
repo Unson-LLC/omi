@@ -1,6 +1,7 @@
 name: Desktop Swift CI
 
 on:
+  pull_request:
   push:
     branches: main
   schedule:
@@ -27,7 +28,7 @@ concurrency:
 jobs:
   changes:
     name: Detect Desktop Swift Changes
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     outputs:
       diff_base: ${{ steps.changed.outputs.diff_base }}
       full_ci: ${{ steps.tier.outputs.full_ci }}
@@ -484,7 +485,7 @@ jobs:
     name: Desktop Swift Build & Tests
     needs: [changes, desktop-swift-verify, desktop-swift-release-compile]
     if: ${{ always() && needs.changes.outputs.should_run == 'true' }}
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     steps:
       - name: Require static contracts and Swift tests
         env:
@@ -630,7 +631,7 @@ jobs:
     name: Post-merge Desktop Swift Release Compile failure issue
     needs: [changes, desktop-swift-release-compile]
     if: ${{ always() && (github.event_name == 'push' || github.event_name == 'schedule') }}
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
@@ -670,7 +671,7 @@ jobs:
     name: Desktop Siri Xcode 27 Advisory
     needs: changes
     if: ${{ needs.changes.outputs.full_ci == 'true' && ((github.event_name == 'pull_request' && needs.changes.outputs.should_siri_advisory == 'true') || (github.event_name != 'pull_request' && (needs.changes.outputs.should_run_static == 'true' || needs.changes.outputs.should_run_tests == 'true'))) }}
-    runs-on: xcode-27
+    runs-on: macos-26
     continue-on-error: true
     timeout-minutes: 60
     steps:

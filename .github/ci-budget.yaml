@@ -10,45 +10,37 @@
       "budget_p50_minutes": 2,
       "display_name": "Detect Changes",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 211,
+      "expected_runs_per_day": 212,
       "if": null,
       "matrix": {},
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-checks.yml/static-contracts": {
       "budget_p50_minutes": 3,
       "display_name": "Static Contracts",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 9,
+      "expected_runs_per_day": 10,
       "if": "needs.changes.outputs.has_backend_runtime_env == 'true'",
       "matrix": {},
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-emulator-proofs.yml/emulator-proofs": {
       "budget_p50_minutes": 3,
@@ -241,29 +233,25 @@
       "budget_p50_minutes": 3,
       "display_name": "Backend unit guardrails",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 73,
+      "expected_runs_per_day": 74,
       "if": "needs.ci-tier.outputs.full_ci == 'true'",
       "matrix": {},
       "matrix_size": 1,
       "needs": "ci-tier",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: #11183 adds the X connector deploy workflow to this backend-contract trigger; one daily run over the PR M forecast of 72 until the next weekly audit",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-unit-tests.yml/backend-unit-shard": {
       "budget_p50_minutes": 8,
       "display_name": "Backend unit shard ${{ matrix.shard }}/6",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 119,
+      "expected_runs_per_day": 120,
       "if": null,
       "matrix": {
         "shard": [
@@ -278,23 +266,19 @@
       "matrix_size": 6,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: #21237: run 38168319908 selected 1727 files; four shard contract walls were 710/472/772/651s. Six shards reduce 432 files to at most 288, forecasting about 8 minutes per runner including fixed preflight/typecheck work. The 720-second regression gate is unchanged; fanout raises aggregate forecast from 36 to 48 Linux runner-minutes per run without relaxing coverage or isolation.",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 6
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-unit-tests.yml/backend-unit-suite": {
       "budget_p50_minutes": 1,
       "display_name": "Backend unit suite",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 117,
+      "expected_runs_per_day": 118,
       "if": "${{ always() && !cancelled() }}",
       "matrix": {},
       "matrix_size": 1,
@@ -304,39 +288,31 @@
         "backend-unit-guardrails"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: #11183 adds the X connector deploy workflow to this backend-contract trigger; one daily run over the PR M forecast of 116 until the next weekly audit",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-unit-tests.yml/ci-tier": {
       "budget_p50_minutes": 1,
       "display_name": "Resolve CI Tier",
       "expected_runs_class": "unsampled-pr-sentinel",
-      "expected_runs_per_day": 119,
+      "expected_runs_per_day": 120,
       "if": null,
       "matrix": {},
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: #11183 adds the X connector deploy workflow to this backend-contract trigger; one daily label read over the PR M forecast of 118 until the next weekly audit",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "ci-budget-audit.yml/audit": {
       "budget_p50_minutes": 15,
@@ -452,47 +428,43 @@
       "budget_p50_minutes": 2,
       "display_name": "Detect Desktop Swift Changes",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 211,
+      "expected_runs_per_day": 212,
       "if": null,
       "matrix": {},
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "desktop-swift-ci.yml/desktop-siri-xcode27-advisory": {
       "budget_p50_minutes": 31,
       "display_name": "Desktop Siri Xcode 27 Advisory",
       "expected_runs_class": "unsampled-pr-sentinel",
-      "expected_runs_per_day": 1,
+      "expected_runs_per_day": 2,
       "if": "${{ needs.changes.outputs.full_ci == 'true' && ((github.event_name == 'pull_request' && needs.changes.outputs.should_siri_advisory == 'true') || (github.event_name != 'pull_request' && (needs.changes.outputs.should_run_static == 'true' || needs.changes.outputs.should_run_tests == 'true'))) }}",
       "matrix": {},
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "PRs select Siri/App Intents or their selector inputs only; main/health selection is unchanged. Run 38131335528 measured 30m44s, avoided on ordinary API PRs. Budget now reflects that observed job; keep one expected Siri PR/day until post-merge reseed",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "macos",
       "runner_counts": {
         "macos": 1
       },
-      "runs_on": "xcode-27"
+      "runs_on": "macos-26"
     },
     "desktop-swift-ci.yml/desktop-swift": {
       "budget_p50_minutes": 1,
       "display_name": "Desktop Swift Build & Tests",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 29,
+      "expected_runs_per_day": 30,
       "if": "${{ always() && needs.changes.outputs.should_run == 'true' }}",
       "matrix": {},
       "matrix_size": 1,
@@ -502,29 +474,25 @@
         "desktop-swift-release-compile"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "desktop-swift-ci.yml/desktop-swift-release-compile": {
       "budget_p50_minutes": 34,
       "display_name": "Desktop Swift Release Compile",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 4,
+      "expected_runs_per_day": 5,
       "if": "${{ needs.changes.outputs.full_ci == 'true' && needs.changes.outputs.should_release_compile == 'true' }}",
       "matrix": {},
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "macos",
       "runner_counts": {
@@ -536,13 +504,13 @@
       "budget_p50_minutes": 29,
       "display_name": "Desktop Swift Static & Test Contracts",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 30,
+      "expected_runs_per_day": 31,
       "if": "${{ needs.changes.outputs.full_ci == 'true' && (needs.changes.outputs.should_run_static == 'true' || needs.changes.outputs.should_run_tests == 'true' || needs.changes.outputs.should_test_compile == 'true') }}",
       "matrix": {},
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-09-26 PR sample p50 x 1.25, rounded up; generated-only PRs now retain static checks and a measured 502.55s app+test prebuild instead of suites/launchers. Budget rounded to 29 min with one minute headroom for compile selection; actual mixed-lane p50 requires post-merge reseed",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "macos",
       "runner_counts": {
@@ -554,7 +522,7 @@
       "budget_p50_minutes": 5,
       "display_name": "Post-merge Desktop Swift Release Compile failure issue",
       "expected_runs_class": "unsampled-pr-sentinel",
-      "expected_runs_per_day": 1,
+      "expected_runs_per_day": 2,
       "if": "${{ always() && (github.event_name == 'push' || github.event_name == 'schedule') }}",
       "matrix": {},
       "matrix_size": 1,
@@ -563,17 +531,13 @@
         "desktop-swift-release-compile"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Unobserved in one-day PR sample; conservative 5-minute placeholder",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "desktop-windows-ci.yml/build-linux": {
       "budget_p50_minutes": 9,
@@ -2493,8 +2457,8 @@
       "budget_p50_minutes": 1,
       "display_name": "Mobile Release Eligibility",
       "expected_runs_class": "sampled-pr-day",
-      "expected_runs_per_day": 216.1,
-      "if": "${{ always() && github.event_name != 'pull_request' }}",
+      "expected_runs_per_day": 217.1,
+      "if": "${{ always() }}",
       "matrix": {},
       "matrix_size": 1,
       "needs": [
@@ -2509,7 +2473,7 @@
         "dart-tests-kiritimati"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up Include required native/AOT emulator acceptance; reject an unexpectedly skipped selected lane.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "UNS-42: restore PR checks on hosted runners and mobile aggregate; add one daily PR execution to the prior measured forecast, retaining duration and global caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
@@ -3230,8 +3194,9 @@
     "backend-checks.yml": {
       "name": "Backend Checks",
       "owner": "CI maintainers",
-      "rationale": "Initial workflow inventory",
+      "rationale": "UNS-42: restore PR validation on GitHub-hosted Linux/macOS runners; public fork has no self-hosted capacity. Preserve test selection, toolchain checks, matrices and budget limits.",
       "triggers": {
+        "pull_request": "",
         "push": {
           "branches": "main"
         },
@@ -3289,8 +3254,9 @@
     "backend-unit-tests.yml": {
       "name": "Backend Unit Tests",
       "owner": "CI maintainers",
-      "rationale": "#11183 includes the manual X connector job deployment workflow in backend contract CI; one additional daily run over the PR M forecast is budgeted conservatively",
+      "rationale": "UNS-42: restore PR validation on GitHub-hosted Linux/macOS runners; public fork has no self-hosted capacity. Preserve test selection, toolchain checks, matrices and budget limits.",
       "triggers": {
+        "pull_request": "",
         "push": {
           "branches": [
             "main"
@@ -3385,8 +3351,9 @@
     "desktop-swift-ci.yml": {
       "name": "Desktop Swift CI",
       "owner": "CI maintainers",
-      "rationale": "Initial workflow inventory",
+      "rationale": "UNS-42: restore PR validation on GitHub-hosted Linux/macOS runners; public fork has no self-hosted capacity. Preserve test selection, toolchain checks, matrices and budget limits.",
       "triggers": {
+        "pull_request": "",
         "push": {
           "branches": "main"
         },
