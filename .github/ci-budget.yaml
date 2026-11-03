@@ -2337,17 +2337,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-10-13 contributor audit: 59 fork app PRs in 15 days, about four/day. Run secret-free analyzer and Flutter tests without ci:full; retain 17-minute p50, add four PR runs/day (68 Linux minutes/day; 120 at the 30-minute timeout). Nightly adds one regular suite run/day outside PR caps.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-10-13 contributor audit: 59 fork app PRs in 15 days, about four/day. Run secret-free analyzer and Flutter tests without ci:full; retain 17-minute p50, add four PR runs/day (68 Linux minutes/day; 120 at the 30-minute timeout). Nightly adds one regular suite run/day outside PR caps.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/android-compile-smoke": {
       "budget_p50_minutes": 13,
@@ -2359,17 +2355,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Expand PR selection from native build inputs to startup/capture/WAL and acceptance runners after #20437. Forecast four extra runs/day over the prior eight-run budget; retain duration budgets and re-seed next weekly audit.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Expand PR selection from native build inputs to startup/capture/WAL and acceptance runners after #20437. Forecast four extra runs/day over the prior eight-run budget; retain duration budgets and re-seed next weekly audit.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/android-emulator-checks": {
       "budget_p50_minutes": 20,
@@ -2381,17 +2373,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "Mobile maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: PR #20437 reproduced a native Android 16 startup cancellation race missed by host tests. Add native stress plus one-ABI minified AOT startup acceptance on Linux; forecast 12 selected full-tier PR runs/day including startup/WAL inputs. Re-seed after first weekly sample.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: PR #20437 reproduced a native Android 16 startup cancellation race missed by host tests. Add native stress plus one-ABI minified AOT startup acceptance on Linux; forecast 12 selected full-tier PR runs/day including startup/WAL inputs. Re-seed after first weekly sample.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/android-unit-tests": {
       "budget_p50_minutes": 7,
@@ -2403,17 +2391,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Expand PR selection from native build inputs to startup/capture/WAL and acceptance runners after #20437. Forecast four extra runs/day over the prior eight-run budget; retain duration budgets and re-seed next weekly audit.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Expand PR selection from native build inputs to startup/capture/WAL and acceptance runners after #20437. Forecast four extra runs/day over the prior eight-run budget; retain duration budgets and re-seed next weekly audit.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/changes": {
       "budget_p50_minutes": 1,
@@ -2425,17 +2409,13 @@
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/dart-tests-kiritimati": {
       "budget_p50_minutes": 25,
@@ -2447,17 +2427,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/generated-files": {
       "budget_p50_minutes": 4,
@@ -2469,17 +2445,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/ios-compile-check": {
       "budget_p50_minutes": 19,
@@ -2509,17 +2481,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/mobile-release-eligibility": {
       "budget_p50_minutes": 1,
@@ -2541,17 +2509,13 @@
         "dart-tests-kiritimati"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up Include required native/AOT emulator acceptance; reject an unexpectedly skipped selected lane.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up Include required native/AOT emulator acceptance; reject an unexpectedly skipped selected lane.. Manual admission is conservatively budgeted at 0.1 run/day (folded into the four-run increase for compile/JVM and the 12-run emulator forecast); conditionally selected jobs also retain an allowance.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile-app-checks.yml/post-merge-failure-issues": {
       "budget_p50_minutes": 5,
@@ -2571,17 +2535,13 @@
         "dart-tests-kiritimati"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Reconcile regular Dart analyzer/tests alongside existing main/nightly suites, closing each matching failure issue on success. Existing five-minute budget and non-PR execution frequency remain sufficient; PR sentinel retained for inventory accounting.",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Reconcile regular Dart analyzer/tests alongside existing main/nightly suites, closing each matching failure issue on success. Existing five-minute budget and non-PR execution frequency remain sufficient; PR sentinel retained for inventory accounting.",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "mobile_daily_train.yml/dispatch": {
       "budget_p50_minutes": 5,
@@ -2743,17 +2703,13 @@
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Unobserved in one-day PR sample; conservative 5-minute placeholder",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Unobserved in one-day PR sample; conservative 5-minute placeholder",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "public-build-config-preflight.yml/preflight": {
       "budget_p50_minutes": 1,
@@ -2941,17 +2897,13 @@
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "repo-checks.yml/formatting": {
       "budget_p50_minutes": 2,
@@ -2963,17 +2915,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "repo-checks.yml/hygiene": {
       "budget_p50_minutes": 5,
@@ -2985,17 +2933,13 @@
       "matrix_size": 1,
       "needs": "changes",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Firestore index guard adds a diff-scoped cold environment plus seven hermetic test files (local cold setup 16s + tests 52s; reserve 2 minutes). Reuses pinned uv and OpenAPI import dependencies; no whole backend suite. 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: Firestore index guard adds a diff-scoped cold environment plus seven hermetic test files (local cold setup 16s + tests 52s; reserve 2 minutes). Reuses pinned uv and OpenAPI import dependencies; no whole backend suite. 2026-09-26 PR sample p50 x 1.25, rounded up",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "repo-checks.yml/metadata-preflight": {
       "budget_p50_minutes": 2,
@@ -3007,17 +2951,13 @@
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "2026-11-03 Unson fork (UNS-42): PR-triggered CI back on GitHub-hosted ubuntu-latest; the fork has no self-hosted runner, and hosted minutes are free for this public repo. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "repo-hygiene.yml/failure-class-retirement": {
       "budget_p50_minutes": 5,
