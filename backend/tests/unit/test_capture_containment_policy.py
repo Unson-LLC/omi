@@ -103,6 +103,20 @@ def complementary_rows():
     )
 
 
+@pytest.fixture(autouse=True)
+def capture_shadow_experiment_clock(monkeypatch):
+    """Exercise the real admission gate before its hard stop, independent of CI date."""
+    from config import jev_decisions
+
+    class ExperimentDatetime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            instant = datetime(2026, 10, 1, tzinfo=timezone.utc)
+            return instant.astimezone(tz) if tz else instant.replace(tzinfo=None)
+
+    monkeypatch.setattr(jev_decisions, 'datetime', ExperimentDatetime)
+
+
 @pytest.fixture
 def seam(monkeypatch):
     store = StrictFirestore()

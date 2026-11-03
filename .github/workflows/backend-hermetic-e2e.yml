@@ -1,6 +1,8 @@
 name: Backend Hermetic E2E
 
 on:
+  pull_request:
+    branches: main
   push:
     branches: main
   schedule:
@@ -20,7 +22,7 @@ concurrency:
 jobs:
   scope:
     name: Detect Hermetic Backend Scope
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     # The full-history fetch (fetch-depth: 0, required to resolve the PR base
     # live for the scope diff) can exceed two minutes on hosted runners for
     # large merge refs; the old 2-minute job cap killed the fetch mid-transfer
@@ -111,7 +113,7 @@ jobs:
 
   hermetic-e2e:
     name: Hermetic Backend E2E
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: scope
     if: needs.scope.outputs.applies == 'true' && needs.scope.outputs.full_ci == 'true'
@@ -162,7 +164,7 @@ jobs:
 
   listen-pusher-stack-gauntlet:
     name: Listen Pusher Stack Gauntlet
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: scope
     if: needs.scope.outputs.applies == 'true' && needs.scope.outputs.full_ci == 'true' && needs.scope.outputs.run_listen == 'true'
@@ -256,7 +258,7 @@ jobs:
 
   sync-cloud-tasks-stack-gauntlet:
     name: Sync Cloud Tasks Stack Gauntlet
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: scope
     if: needs.scope.outputs.applies == 'true' && needs.scope.outputs.full_ci == 'true' && needs.scope.outputs.run_sync == 'true'
@@ -340,7 +342,7 @@ jobs:
 
   replay-harness-phase0a-gauntlet:
     name: Replay Harness Phase 0A Feasibility (advisory)
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: scope
     if: needs.scope.outputs.applies == 'true' && (github.event_name == 'push' || github.event_name == 'schedule')
@@ -425,7 +427,7 @@ jobs:
 
   merge-gate:
     name: Backend Hermetic Merge Gate
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 2
     # `!cancelled()` rather than `always()`: with cancel-in-progress above, a
     # superseding push cancels this run mid-flight, and under `always()` the
@@ -503,7 +505,7 @@ jobs:
     name: Post-merge hermetic failure issues
     needs: [scope, hermetic-e2e, listen-pusher-stack-gauntlet, sync-cloud-tasks-stack-gauntlet, replay-harness-phase0a-gauntlet]
     if: ${{ always() && (github.event_name == 'push' || github.event_name == 'schedule') }}
-    runs-on: [self-hosted, Linux, wsl-linux]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write

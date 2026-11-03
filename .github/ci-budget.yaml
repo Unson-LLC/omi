@@ -74,17 +74,13 @@
       "matrix_size": 1,
       "needs": "scope",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-hermetic-e2e.yml/listen-pusher-stack-gauntlet": {
       "budget_p50_minutes": 11,
@@ -96,17 +92,13 @@
       "matrix_size": 1,
       "needs": "scope",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-hermetic-e2e.yml/merge-gate": {
       "budget_p50_minutes": 1,
@@ -123,17 +115,13 @@
         "sync-cloud-tasks-stack-gauntlet"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-hermetic-e2e.yml/post-merge-failure-issues": {
       "budget_p50_minutes": 5,
@@ -151,17 +139,13 @@
         "replay-harness-phase0a-gauntlet"
       ],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Unobserved in one-day PR sample; conservative 5-minute placeholder",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Unobserved in one-day PR sample; conservative 5-minute placeholder",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-hermetic-e2e.yml/replay-harness-phase0a-gauntlet": {
       "budget_p50_minutes": 3,
@@ -173,17 +157,13 @@
       "matrix_size": 1,
       "needs": "scope",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-hermetic-e2e.yml/scope": {
       "budget_p50_minutes": 1,
@@ -195,17 +175,13 @@
       "matrix_size": 1,
       "needs": [],
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: 2026-09-26 PR sample p50 x 1.25, rounded up",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-hermetic-e2e.yml/sync-cloud-tasks-stack-gauntlet": {
       "budget_p50_minutes": 5,
@@ -217,17 +193,13 @@
       "matrix_size": 1,
       "needs": "scope",
       "owner": "CI maintainers",
-      "rationale": "2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
+      "rationale": "2026-11-03 UNS-42: use GitHub-hosted Linux for the public fork; no self-hosted runners are available. 2026-10-15 Unson fork: moved to self-hosted runner (EVO-X2); no hosted minutes. Previous: Post-#19593 PR estimate: fork tier + narrowed PR paths applied to the 2026-09-26 internal share; re-seed from the weekly audit after 2026-10-05",
       "reusable": null,
       "runner": "linux",
       "runner_counts": {
         "linux": 1
       },
-      "runs_on": [
-        "self-hosted",
-        "Linux",
-        "wsl-linux"
-      ]
+      "runs_on": "ubuntu-latest"
     },
     "backend-unit-tests.yml/backend-unit-guardrails": {
       "budget_p50_minutes": 3,
@@ -3248,7 +3220,10 @@
             "cron": "53 4 * * *"
           }
         ],
-        "workflow_dispatch": ""
+        "workflow_dispatch": "",
+        "pull_request": {
+          "branches": "main"
+        }
       }
     },
     "backend-unit-tests.yml": {
