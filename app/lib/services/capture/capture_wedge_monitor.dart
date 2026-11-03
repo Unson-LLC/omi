@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:omi/backend/schema/bt_device/bt_device.dart';
 import 'package:omi/services/capture/capture_composition.dart';
 import 'package:omi/services/capture/capture_ingress_health.dart';
+import 'package:omi/services/capture/capture_lifetime.dart';
+import 'package:omi/services/capture/capture_seams.dart';
 import 'package:omi/services/capture/conversation_source_for_device.dart';
 import 'package:omi/services/telemetry/client_telemetry.dart';
 import 'package:omi/services/telemetry/client_telemetry_schema.dart';
@@ -39,13 +41,15 @@ class CaptureWedgeMonitor extends ChangeNotifier {
     Future<void> Function()? transferRetry,
     required String Function() appBuild,
     required String Function() platform,
+    CaptureScheduling? scheduling,
   })  : _now = now ?? DateTime.now,
         _featureGate = featureGate,
         _track = track,
         _bleRetry = bleRetry,
         _transferRetry = transferRetry,
         _appBuild = appBuild,
-        _platform = platform;
+        _platform = platform,
+        _lifetime = CaptureLifetime(scheduling ?? const WallClockCaptureScheduling());
 
   static CaptureWedgeMonitor? _instance;
   static CaptureWedgeMonitor get instance => _instance ??= composeCaptureWedgeMonitor();
@@ -163,6 +167,10 @@ class CaptureWedgeMonitor extends ChangeNotifier {
   final Map<int, _OpenCaptureSession> _openSessions = {};
   final Set<String> _retryInFlightDevices = {};
   DateTime? _lastUploadAt;
+
+  /// Owns every timer this monitor acquires. The connected-socket watchdog is
+  /// registered here the instant it starts, so teardown cannot leak it.
+  final CaptureLifetime _lifetime;
   Timer? _connectedWatchdog;
   String? _lastRetentionRiskFingerprint;
   int _nextSessionHandle = 0;
@@ -175,7 +183,7 @@ class CaptureWedgeMonitor extends ChangeNotifier {
     if (!isCaptureSourceInScope(source)) return -1;
     final handle = ++_nextSessionHandle;
     _openSessions[handle] = _OpenCaptureSession(deviceId: deviceId, source: source, connectedAt: _now());
-    _connectedWatchdog ??= Timer.periodic(connectedWatchdogInterval, (_) => runConnectedWatchdog());
+    _connectedWatchdog ??= _lifetime.periodic(connectedWatchdogInterval, (_) => runConnectedWatchdog());
     return handle;
   }
 
@@ -504,6 +512,8 @@ class CaptureWedgeMonitor extends ChangeNotifier {
     _openSessions.clear();
     _retryInFlightDevices.clear();
     _connectedWatchdog?.cancel();
+    _connectedWatchdog = null;
+    unawaited(_lifetime.close());
     super.dispose();
   }
 
