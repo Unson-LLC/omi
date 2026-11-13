@@ -78,6 +78,7 @@ import 'package:omi/providers/user_provider.dart';
 import 'package:omi/providers/voice_recorder_provider.dart';
 import 'package:omi/providers/phone_call_provider.dart';
 import 'package:omi/services/auth_service.dart';
+import 'package:omi/services/brainbase_ingest/brainbase_r2_ingest_service.dart';
 import 'package:omi/services/notifications.dart';
 import 'package:omi/services/notifications/action_item_notification_handler.dart';
 import 'package:omi/services/notifications/chat_answer_notification_handler.dart';
@@ -262,6 +263,7 @@ Future _init() async {
   };
 
   await ServiceManager.instance().start();
+  unawaited(BrainbaseR2IngestService.instance.resumePendingUploads());
   return;
 }
 
