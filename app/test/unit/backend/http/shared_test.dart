@@ -4,11 +4,13 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:omi/backend/http/shared.dart';
 import 'package:omi/backend/http/clock_skew_detector.dart';
+import 'package:omi/backend/http/http_pool_manager.dart';
 import 'package:omi/backend/preferences.dart';
 import 'package:omi/env/env.dart';
 import 'package:omi/services/auth/auth_token_result.dart';
@@ -146,6 +148,84 @@ void main() {
       expect(chunks, isEmpty);
       expect(event.skewMinutes, 15);
       expect(requestCount, 1);
+    });
+  });
+
+  group('progress multipart transport cleanup', () {
+    late Directory tempDir;
+    late File testFile;
+
+    setUp(() async {
+      tempDir = await Directory.systemTemp.createTemp('omi-multipart-progress-test-');
+      testFile = File('${tempDir.path}/upload.bin');
+      await testFile.writeAsBytes(List<int>.filled(2 * 1024 * 1024, 1));
+    });
+
+    tearDown(() async {
+      await tempDir.delete(recursive: true);
+    });
+
+    test('returns transport failure without a duplicate uncaught error', () async {
+      final uncaught = <Object>[];
+      final handled = <Object>[];
+      const failure = SocketException('offline');
+      final manager = HttpPoolManager.withClient(
+        MockClient.streaming((_, __) async => throw failure),
+      );
+
+      try {
+        await runZonedGuarded(() async {
+          try {
+            await makeMultipartApiCall(
+              url: 'https://upload.invalid/v1/upload',
+              files: [testFile],
+              onUploadProgress: (_, __, ___) {},
+              poolManager: manager,
+            );
+          } catch (error) {
+            handled.add(error);
+          }
+          await Future<void>.delayed(Duration.zero);
+        }, (error, _) => uncaught.add(error));
+      } finally {
+        manager.dispose();
+      }
+
+      expect(handled, [same(failure)]);
+      expect(uncaught, isEmpty);
+    });
+
+    test('cancels the upload subscription after a successful response', () async {
+      final firstChunk = Completer<void>();
+      var progressCalls = 0;
+      late StreamSubscription<List<int>> bodySubscription;
+      final manager = HttpPoolManager.withClient(
+        MockClient.streaming((_, body) async {
+          bodySubscription = body.listen((_) {
+            if (!firstChunk.isCompleted) firstChunk.complete();
+          });
+          await firstChunk.future;
+          await bodySubscription.cancel();
+          return http.StreamedResponse(const Stream<List<int>>.empty(), 200);
+        }),
+      );
+
+      try {
+        final response = await makeMultipartApiCall(
+          url: 'https://upload.invalid/v1/upload',
+          files: [testFile],
+          onUploadProgress: (_, __, ___) => progressCalls++,
+          poolManager: manager,
+        );
+        final progressCallsAfterResponse = progressCalls;
+
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+
+        expect(response.statusCode, 200);
+        expect(progressCalls, progressCallsAfterResponse);
+      } finally {
+        manager.dispose();
+      }
     });
   });
 }
