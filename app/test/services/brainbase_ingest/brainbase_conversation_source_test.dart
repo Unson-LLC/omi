@@ -45,6 +45,69 @@ void main() {
     expect(detail.transcriptSegments.map((segment) => segment.idx).toList(), [0, 1]);
   });
 
+  test('uses cumulative chunk durations and local recognition segment times', () async {
+    final source = BrainbaseConversationSource(
+      pageLoader: ({limit = 50, cursor}) async => BrainbaseTranscriptPage(sessions: [firstSession]),
+      detailLoader: (_) async => BrainbaseTranscriptDetail(
+        session: firstSession,
+        chunks: const [
+          BrainbaseTranscriptChunk(
+            sequence: 2,
+            text: '後半',
+            durationSeconds: 4,
+            segments: [
+              BrainbaseTranscriptSegment(start: 1, end: 2, text: '後半'),
+            ],
+          ),
+          BrainbaseTranscriptChunk(
+            sequence: 1,
+            text: '',
+            durationSeconds: 5,
+          ),
+          BrainbaseTranscriptChunk(
+            sequence: 0,
+            text: '前半',
+            durationSeconds: 10,
+            segments: [
+              BrainbaseTranscriptSegment(start: 2, end: 3, text: '前半'),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    final detail = await source.fetchDetails('session-1');
+
+    expect(detail, isNotNull);
+    expect(detail!.transcriptSegments.map((segment) => segment.text), ['前半', '後半']);
+    expect(detail.transcriptSegments.map((segment) => segment.start), [2, 16]);
+    expect(detail.transcriptSegments.map((segment) => segment.end), [3, 17]);
+    expect(detail.transcriptSegments.map((segment) => segment.idx), [0, 1]);
+  });
+
+  test('keeps recognized text when segment metadata is absent without inventing a second', () async {
+    final source = BrainbaseConversationSource(
+      pageLoader: ({limit = 50, cursor}) async => BrainbaseTranscriptPage(sessions: [firstSession]),
+      detailLoader: (_) async => BrainbaseTranscriptDetail(
+        session: firstSession,
+        chunks: const [
+          BrainbaseTranscriptChunk(sequence: 0, text: '', durationSeconds: 30),
+          BrainbaseTranscriptChunk(sequence: 1, text: '発話', durationSeconds: 4),
+          BrainbaseTranscriptChunk(sequence: 2, text: '時刻不明'),
+        ],
+      ),
+    );
+
+    final detail = await source.fetchDetails('session-1');
+
+    expect(detail, isNotNull);
+    expect(detail!.transcriptSegments.map((segment) => segment.text), ['発話', '時刻不明']);
+    expect(detail.transcriptSegments[0].start, 30);
+    expect(detail.transcriptSegments[0].end, 34);
+    expect(detail.transcriptSegments[1].start, 34);
+    expect(detail.transcriptSegments[1].end, 34);
+  });
+
   test('pagination keeps the cursor and reports the terminal page', () async {
     final cursors = <String?>[];
     final source = BrainbaseConversationSource(

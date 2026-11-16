@@ -10,6 +10,9 @@ class SyncCardProgressLine {
     required int? currentFile,
     required int? totalFiles,
     required String Function(int processed, int total) counterLabel,
+    double? progress,
+    int? uploadedBytes,
+    int? totalBytesToUpload,
     String? speedSuffix,
   }) {
     if (phase != SyncPhase.downloadingFromDevice && phase != SyncPhase.uploadingToCloud) {
@@ -26,20 +29,63 @@ class SyncCardProgressLine {
       current: current,
       total: totalFiles ?? 0,
     );
-    if (normalized.total <= 0) {
+    final percent = _transferPercent(
+      phase: phase,
+      progress: progress,
+      uploadedBytes: uploadedBytes,
+      totalBytesToUpload: totalBytesToUpload,
+      fallbackProcessed: normalized.processed,
+      fallbackTotal: normalized.total,
+    );
+    if (normalized.total <= 0 && percent == null) {
       return speedSuffix;
     }
 
-    final percent = OfflineProcessingDisplay.completionPercent(
-      processed: normalized.processed,
-      total: normalized.total,
-    );
-    final counter = counterLabel(normalized.processed, normalized.total);
-    final parts = <String>['$counter · $percent%'];
+    final parts = <String>[];
+    if (normalized.total > 0) {
+      parts.add(counterLabel(normalized.processed, normalized.total));
+    }
+    if (percent != null) {
+      parts.add('$percent%');
+    }
     if (speedSuffix != null && speedSuffix.isNotEmpty) {
       parts.add(speedSuffix);
     }
     return parts.join(' · ');
+  }
+
+  static int? _transferPercent({
+    required SyncPhase phase,
+    required double? progress,
+    required int? uploadedBytes,
+    required int? totalBytesToUpload,
+    required int fallbackProcessed,
+    required int fallbackTotal,
+  }) {
+    // Cloud uploads can report byte counts independently of completed files.
+    // Prefer those counts when present so a large file does not sit at the
+    // previous file boundary for the entire multipart transfer.
+    if (phase == SyncPhase.uploadingToCloud &&
+        uploadedBytes != null &&
+        totalBytesToUpload != null &&
+        totalBytesToUpload > 0) {
+      final fraction = (uploadedBytes / totalBytesToUpload).clamp(0.0, 1.0).toDouble();
+      return (fraction * 100).round();
+    }
+
+    // Device callbacks report byte-based progress through the percentage
+    // argument. Keep that value independent from completed-file counters.
+    if (progress != null) {
+      return (progress.clamp(0.0, 1.0).toDouble() * 100).round();
+    }
+
+    if (fallbackTotal <= 0) {
+      return null;
+    }
+    return OfflineProcessingDisplay.completionPercent(
+      processed: fallbackProcessed,
+      total: fallbackTotal,
+    );
   }
 
   static String? serverProcessingSubtitle({

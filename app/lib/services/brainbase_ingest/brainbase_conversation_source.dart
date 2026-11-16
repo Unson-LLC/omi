@@ -49,21 +49,45 @@ class BrainbaseConversationSource {
   Future<ServerConversation?> fetchDetails(String id) async {
     try {
       final detail = await detailLoader(id);
-      final segments = detail.chunks.map((chunk) {
-        final segment = TranscriptSegment(
-          id: '${detail.session.id}:${chunk.sequence}',
-          text: chunk.text,
-          speaker: 'SPEAKER_00',
-          isUser: false,
-          personId: null,
-          start: chunk.sequence.toDouble(),
-          end: chunk.sequence.toDouble() + 1,
-          translations: const [],
-          sttProvider: 'brainbase-cloudflare',
-        );
-        return segment;
-      }).toList()
-        ..sort((left, right) => left.start.compareTo(right.start));
+      final segments = <TranscriptSegment>[];
+      final chunks = detail.chunks.toList()..sort((left, right) => left.sequence.compareTo(right.sequence));
+      var elapsedSeconds = 0.0;
+      for (final chunk in chunks) {
+        final localSegments = chunk.segments;
+        if (localSegments.isNotEmpty) {
+          for (var index = 0; index < localSegments.length; index++) {
+            final localSegment = localSegments[index];
+            segments.add(
+              _transcriptSegment(
+                detail.session.id,
+                chunk.sequence,
+                index,
+                localSegment.text,
+                start: elapsedSeconds + localSegment.start,
+                end: elapsedSeconds + localSegment.end,
+              ),
+            );
+          }
+        } else if (chunk.text.trim().isNotEmpty) {
+          // A chunk can retain recognized text even when the provider omitted
+          // segment metadata. Use the known audio span when available; an
+          // unavailable span remains zero rather than becoming a fake second.
+          final durationSeconds = _validDuration(chunk.durationSeconds);
+          segments.add(
+            _transcriptSegment(
+              detail.session.id,
+              chunk.sequence,
+              0,
+              chunk.text,
+              start: elapsedSeconds,
+              end: elapsedSeconds + (durationSeconds ?? 0),
+            ),
+          );
+        }
+
+        final durationSeconds = _validDuration(chunk.durationSeconds);
+        if (durationSeconds != null) elapsedSeconds += durationSeconds;
+      }
       for (var index = 0; index < segments.length; index++) {
         segments[index].idx = index;
       }
@@ -71,6 +95,27 @@ class BrainbaseConversationSource {
     } catch (_) {
       return null;
     }
+  }
+
+  TranscriptSegment _transcriptSegment(
+    String sessionId,
+    int sequence,
+    int segmentIndex,
+    String text, {
+    required double start,
+    required double end,
+  }) {
+    return TranscriptSegment(
+      id: '$sessionId:$sequence${segmentIndex == 0 ? '' : ':$segmentIndex'}',
+      text: text,
+      speaker: 'SPEAKER_00',
+      isUser: false,
+      personId: null,
+      start: start,
+      end: end,
+      translations: const [],
+      sttProvider: 'brainbase-cloudflare',
+    );
   }
 
   Future<({ServerConversation? item, bool ok})> fetchLifecycle(String id) async {
@@ -127,6 +172,11 @@ class BrainbaseConversationSource {
         'recording' || 'capturing' || 'in_progress' => ConversationStatus.in_progress,
         _ => ConversationStatus.processing,
       };
+}
+
+double? _validDuration(double? value) {
+  if (value == null || !value.isFinite || value < 0) return null;
+  return value;
 }
 
 ConversationProvider createBrainbaseConversationProvider({BrainbaseTranscriptClient? client}) {
