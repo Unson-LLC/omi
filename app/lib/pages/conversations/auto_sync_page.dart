@@ -196,6 +196,9 @@ class _AutoSyncPageState extends State<AutoSyncPage> {
             phase: s.phase,
             currentFile: s.currentFile,
             totalFiles: s.totalFiles,
+            progress: s.progress,
+            uploadedBytes: s.uploadedBytes,
+            totalBytesToUpload: s.totalBytesToUpload,
             counterLabel: (processed, total) => l.syncCardProgressOf(processed, total),
           );
           break;
@@ -209,6 +212,9 @@ class _AutoSyncPageState extends State<AutoSyncPage> {
             phase: s.phase,
             currentFile: s.currentFile,
             totalFiles: s.totalFiles,
+            progress: s.progress,
+            uploadedBytes: s.uploadedBytes,
+            totalBytesToUpload: s.totalBytesToUpload,
             counterLabel: (processed, total) => l.syncCardProgressOf(processed, total),
           );
           break;

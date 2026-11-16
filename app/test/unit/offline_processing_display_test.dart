@@ -82,5 +82,40 @@ void main() {
       );
       expect(line, '0/10 · 0%');
     });
+
+    test('device download uses byte transfer progress for the percent', () {
+      final line = SyncCardProgressLine.subtitle(
+        phase: SyncPhase.downloadingFromDevice,
+        currentFile: 1,
+        totalFiles: 404,
+        progress: 0.42,
+        counterLabel: (p, t) => '$p/$t',
+      );
+      expect(line, '0/404 · 42%');
+    });
+
+    test('device transfer can show progress without file counters', () {
+      final line = SyncCardProgressLine.subtitle(
+        phase: SyncPhase.downloadingFromDevice,
+        currentFile: 0,
+        totalFiles: 0,
+        progress: 0.37,
+        counterLabel: (p, t) => '$p/$t',
+      );
+      expect(line, '37%');
+    });
+
+    test('upload byte progress takes precedence over completed-file count', () {
+      final line = SyncCardProgressLine.subtitle(
+        phase: SyncPhase.uploadingToCloud,
+        currentFile: 1,
+        totalFiles: 10,
+        progress: 0.1,
+        uploadedBytes: 500,
+        totalBytesToUpload: 1000,
+        counterLabel: (p, t) => '$p/$t',
+      );
+      expect(line, '1/10 · 50%');
+    });
   });
 }

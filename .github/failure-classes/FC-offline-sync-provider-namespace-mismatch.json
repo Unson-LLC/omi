@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "FC-offline-sync-provider-namespace-mismatch",
+  "violated_contract": "An offline upload job must be reconciled by the provider that accepted its audio. Another provider or an unavailable status endpoint cannot authoritatively clear the job or acknowledge its local audio.",
+  "canonical_prevention": "Route upload and namespaced status reconciliation through one provider adapter; require a matching canonical completion acknowledgement and retain the original WAL and job identity on unknown or unavailable results.",
+  "canonical_prevention_artifact": [
+    "app/test/unit/brainbase_sync_job_routing_test.dart",
+    "app/test/unit/brainbase_wal_reconciliation_test.dart"
+  ],
+  "evidence_prs": [],
+  "scope_hints": [
+    "app/lib/backend/http/api/conversations.dart",
+    "app/lib/services/brainbase_ingest/"
+  ],
+  "status": "open"
+}
