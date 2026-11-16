@@ -136,7 +136,7 @@ class WorkflowContractTests(unittest.TestCase):
         workflow = root / ".github/workflows/release-eligibility.yml"
         workflow.write_text(
             workflow.read_text(encoding="utf-8").replace(
-                "    runs-on: ubuntu-latest", "    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest"
+                "    runs-on: [self-hosted, Linux, wsl-linux]", "    if: github.ref == 'refs/heads/main'\n    runs-on: [self-hosted, Linux, wsl-linux]"
             ),
             encoding="utf-8",
         )
@@ -149,7 +149,7 @@ class WorkflowContractTests(unittest.TestCase):
         workflow = root / ".github/workflows/release-eligibility.yml"
         workflow.write_text(
             workflow.read_text(encoding="utf-8").replace(
-                "    runs-on: ubuntu-latest", "    continue-on-error: true\n    runs-on: ubuntu-latest"
+                "    runs-on: [self-hosted, Linux, wsl-linux]", "    continue-on-error: true\n    runs-on: [self-hosted, Linux, wsl-linux]"
             ),
             encoding="utf-8",
         )

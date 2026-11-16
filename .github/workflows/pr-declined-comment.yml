@@ -4,6 +4,10 @@ on:
   pull_request_target:
     types: [closed]
 
+concurrency:
+  group: pr-declined-comment-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   comment-on-declined-pr:
     # Only run if PR was closed WITHOUT being merged

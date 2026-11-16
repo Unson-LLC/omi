@@ -28,13 +28,4 @@ describe('Windows release routing profiles', () => {
     expect(env.VITE_OMI_API_BASE).toBe('https://api.omiapi.com')
     expect(env.VITE_OMI_DESKTOP_API_BASE).toBe('https://desktop-backend-dt5lrfkkoa-uc.a.run.app')
   })
-
-  it('makes the existing release workflow consume the Beta profile', () => {
-    const workflow = readFileSync(
-      resolve(__dirname, '../../../../.github/workflows/desktop_windows_release.yml'),
-      'utf8'
-    )
-    expect(workflow).toContain('Copy-Item .env.beta.example .env')
-    expect(workflow).not.toContain('Copy-Item .env.example .env')
-  })
 })

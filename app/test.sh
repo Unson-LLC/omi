@@ -5,6 +5,7 @@ set -euo pipefail
 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/mobile_build_wrapper_test.sh"
 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/build_provenance_dart_defines_test.sh"
 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/check_hermetic_test_env_test.sh"
+"$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/install_release_firebase_config_test.sh"
 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/test/shell/l10n_tool_test.sh"
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -62,6 +63,9 @@ if [[ ${#missing_files[@]} -gt 0 ]]; then
 fi
 
 bash "$ROOT_DIR/scripts/check_hermetic_test_env.sh" --app-dir "$ROOT_DIR"
+
+# Exercise the pinned native resource-error paths before Dart mocks.
+python3 scripts/test_whisper_cleanup.py
 
 # Execute registration with the real compile-time opt-in in a separate isolate.
 # Keep the ordinary suite (including the pinned fail-closed guard) unopted-in.

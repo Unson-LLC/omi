@@ -27,7 +27,7 @@ concurrency:
 jobs:
   failure-class-retirement:
     name: Failure-class retirement
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - name: Checkout code
         uses: actions/checkout@v7

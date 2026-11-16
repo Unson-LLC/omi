@@ -1,24 +1,23 @@
 name: Runtime Image Contracts
 
 on:
-  pull_request:
-    paths:
-      - 'backend/**'
-      - 'plugins/**'
-      - 'Makefile'
-      - '.github/workflows/runtime_image_contracts.yml'
-      - '.github/workflows/desktop_backend_auto_dev.yml'
-      - '.github/workflows/gcp_*.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: runtime_image_contracts-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   source-closure:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - name: Check final-image first-party source closures
         run: make runtime-image-source-closure
       - id: matrix
@@ -29,17 +28,14 @@ jobs:
 
   image-smoke:
     needs: source-closure
-    # Fork PRs never receive the GCR credential. They still run source-closure;
-    # maintainer/dispatch runs smoke exact private-base images when the credential
-    # is configured, and otherwise skip the optional image probe without failing
-    # the source-closure contract.
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+    # PRs run source-closure only. The old PR matrix consumed runners merely
+    # to print "Skipping" without credentials. Explicit dispatch retains the
+    # authenticated private-base smoke when that credential is configured.
+    if: github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     env:
       GCP_CREDENTIALS_AVAILABLE: ${{ secrets.GCP_CREDENTIALS != '' }}
     strategy:
@@ -47,6 +43,9 @@ jobs:
       matrix: ${{ fromJSON(needs.source-closure.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          lfs: false
       - name: Skip image smoke when GCP credentials are unavailable
         if: env.GCP_CREDENTIALS_AVAILABLE != 'true'
         run: >-

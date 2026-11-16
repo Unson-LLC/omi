@@ -20,11 +20,23 @@ describe('electron-builder package scripts', () => {
     expect(platformBuilds.map(([name]) => name).sort()).toEqual([
       'build:linux',
       'build:mac',
-      'build:win'
+      'build:win',
+      'build:win:unpack'
     ])
   })
 
   it.each(platformBuilds)('%s passes --publish never', (_name, cmd) => {
     expect(cmd).toContain('--publish never')
   })
+
+  it.each(['build:win', 'build:win:unpack'])(
+    '%s checks the packaged main runtime after electron-builder',
+    (scriptName) => {
+      const command = scripts[scriptName]
+
+      expect(command.indexOf('verify:packaged-main')).toBeGreaterThan(
+        command.indexOf('electron-builder')
+      )
+    }
+  )
 })

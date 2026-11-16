@@ -37,7 +37,7 @@ permissions:
 jobs:
   resolve:
     name: Resolve canonical preview ref
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     outputs:
       slug: ${{ steps.preview.outputs.slug }}
       preview_id: ${{ steps.preview.outputs.preview_id }}
@@ -146,7 +146,7 @@ jobs:
   publish:
     name: Build and publish approved preview
     needs: resolve
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, wsl-linux]
     # Configure desktop-preview-publish with release-maintainers as required
     # reviewers, no self-review, and no administrator bypass.
     environment: desktop-preview-publish
