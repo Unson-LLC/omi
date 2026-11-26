@@ -16,6 +16,15 @@ allprojects {
     }
 }
 
+// posthog_flutter 5.28.0 declares com.posthog:posthog-android:[3.51.0,4.0.0].
+// The inclusive upper bound now resolves 4.0.x, whose API the plugin's Kotlin
+// does not compile against. Hold the 3.x line the app was built on.
+subprojects {
+    configurations.configureEach {
+        resolutionStrategy.force 'com.posthog:posthog-android:3.77.1'
+    }
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
