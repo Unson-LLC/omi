@@ -318,6 +318,14 @@ jobs:
           sudo docker image prune --all --force
           df -h /
 
+      # ubuntu-latest now defaults to Java 25 (class file 69), which the
+      # pinned Gradle 8.14.2 cannot read. Pin Java 21 before any Gradle use.
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -434,6 +442,14 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 1
+
+      # ubuntu-latest now defaults to Java 25 (class file 69), which the
+      # pinned Gradle 8.14.2 cannot read. Pin Java 21 before any Gradle use.
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
