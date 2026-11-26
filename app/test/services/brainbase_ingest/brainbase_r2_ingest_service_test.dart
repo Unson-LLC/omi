@@ -479,6 +479,9 @@ void main() {
       if (request.method == 'POST' && request.url.path.endsWith('/complete')) {
         return http.Response(jsonEncode({'ok': true}), 200);
       }
+      if (request.method == 'POST' && request.url.path.endsWith('/finalize')) {
+        return http.Response(jsonEncode({'ok': true}), 200);
+      }
       throw StateError(
         'Unexpected request: ${request.method} ${request.url}',
       );
@@ -495,6 +498,7 @@ void main() {
     expect(uploaded, [bytes]);
     expect(await file.exists(), isFalse);
     expect(queue.pendingItemCount, 0);
+    expect(queue.isFinalizePending('session-relative'), isFalse);
   });
 
   test('resolves a legacy absolute path inside the current queue directory', () async {
@@ -549,6 +553,9 @@ void main() {
       if (request.method == 'POST' && request.url.path.endsWith('/complete')) {
         return http.Response(jsonEncode({'ok': true}), 200);
       }
+      if (request.method == 'POST' && request.url.path.endsWith('/finalize')) {
+        return http.Response(jsonEncode({'ok': true}), 200);
+      }
       throw StateError(
         'Unexpected request: ${request.method} ${request.url}',
       );
@@ -567,6 +574,7 @@ void main() {
     expect(await oldFile.exists(), isTrue);
     expect(await oldFile.readAsBytes(), oldBytes);
     expect(queue.pendingItemCount, 0);
+    expect(queue.isFinalizePending('session-moved'), isFalse);
   });
 
   test('retains a queue item and rejects relative path traversal', () async {
@@ -753,6 +761,8 @@ void main() {
       final target = File('${outside.path}/target.wav');
       await target.writeAsBytes([8]);
       await Link('${directory.path}/linked.wav').create(target.path);
+      final subdirectory = await Directory('${directory.path}/sub.wav').create();
+      await File('${subdirectory.path}/nested.wav').writeAsBytes([9]);
       await writeManifest([itemFor('keep', 0, kept)]);
 
       final client = MockClient((request) async => throw StateError('no network expected'));
@@ -768,6 +778,7 @@ void main() {
       expect(File('${directory.path}/notes.txt').existsSync(), isTrue);
       expect(FileSystemEntity.typeSync('${directory.path}/linked.wav', followLinks: false), FileSystemEntityType.link);
       expect(target.existsSync(), isTrue);
+      expect(File('${subdirectory.path}/nested.wav').existsSync(), isTrue);
       expect(File('${directory.path}/manifest.json').existsSync(), isTrue);
     });
 
@@ -893,6 +904,7 @@ void main() {
       final bytes = Uint8List.fromList([3, 3, 3]);
       await File('${directory.path}/old_00000000.wav').writeAsBytes(bytes);
       await writeManifest([itemFor('old', 0, bytes)]);
+      final presignStarted = Completer<void>();
       final release = Completer<void>();
       var sessionsCreated = 0;
       final client = MockClient((request) async {
@@ -901,9 +913,12 @@ void main() {
           return http.Response(jsonEncode({'sessionId': 'new'}), 200);
         }
         if (request.url.path.endsWith('/presign')) {
+          if (!presignStarted.isCompleted) presignStarted.complete();
           await release.future;
-          return http.Response(jsonEncode({'error': 'later'}), 503);
+          return http.Response(jsonEncode({'alreadyUploaded': true}), 200);
         }
+        if (request.url.path.endsWith('/complete')) return http.Response('{}', 200);
+        if (request.url.path.endsWith('/finalize')) return http.Response('{}', 200);
         throw StateError('Unexpected request: ${request.method} ${request.url}');
       });
       addTearDown(() {
@@ -916,16 +931,117 @@ void main() {
         directory: directory,
       );
 
-      final stopwatch = Stopwatch()..start();
       await service.resumePendingUploads();
+      // The startup drain is now parked inside the network call.
+      await presignStarted.future.timeout(const Duration(seconds: 2));
+
+      final stopwatch = Stopwatch()..start();
       await service.start(codec: BleAudioCodec.pcm16, deviceId: 'device').timeout(const Duration(seconds: 2));
       stopwatch.stop();
 
       expect(sessionsCreated, 1);
       expect(stopwatch.elapsedMilliseconds, lessThanOrEqualTo(250));
       expect(readManifest()['activeSessionId'], 'new');
+      expect(readManifest()['items'], hasLength(1));
+
+      // Once the network answers, the startup drain finishes the old chunk.
       release.complete();
+      for (var i = 0; i < 100 && (readManifest()['items'] as List).isNotEmpty; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      expect(readManifest()['items'], isEmpty);
+      expect(File('${directory.path}/old_00000000.wav').existsSync(), isFalse);
     });
+
+    test('a drain requested mid-drain runs once the current drain ends', () async {
+      await writeManifest(const [], finalize: ['old']);
+      final finalizeStarted = Completer<void>();
+      final release = Completer<void>();
+      final uploaded = <List<int>>[];
+      final client = MockClient((request) async {
+        if (request.url.path.endsWith('/finalize')) {
+          if (!finalizeStarted.isCompleted) finalizeStarted.complete();
+          await release.future;
+          return http.Response('{}', 200);
+        }
+        if (request.url.path.endsWith('/presign')) {
+          return http.Response(jsonEncode({'putUrl': 'https://upload.test/c', 'alreadyUploaded': false}), 200);
+        }
+        if (request.method == 'PUT') {
+          uploaded.add(request.bodyBytes);
+          return http.Response('', 200);
+        }
+        if (request.url.path.endsWith('/complete')) return http.Response('{}', 200);
+        throw StateError('Unexpected request: ${request.method} ${request.url}');
+      });
+      addTearDown(() {
+        if (!release.isCompleted) release.complete();
+      });
+      final queue = await BrainbaseR2UploadQueue.openAt(
+        directory: directory,
+        baseUrl: 'https://ingest.test',
+        token: 'test-token',
+        client: client,
+      );
+      final running = queue.drain();
+      await finalizeStarted.future.timeout(const Duration(seconds: 2));
+
+      await queue.enqueue(sessionId: 'new', sequence: 0, bytes: Uint8List.fromList([5, 5]));
+      await queue.drain(); // Returns at once: a drain is already running.
+      expect(queue.pendingItemCount, 1);
+
+      release.complete();
+      await running;
+
+      expect(uploaded, [
+        [5, 5],
+      ]);
+      expect(queue.pendingItemCount, 0);
+      expect(queue.isFinalizePending('old'), isFalse);
+    });
+
+    test('sets aside a missing chunk when presign refuses it permanently', () async {
+      await writeManifest([
+        itemFor('expired', 0, Uint8List.fromList([1]))
+      ]);
+      final client = MockClient((request) async {
+        if (request.url.path.endsWith('/presign')) return http.Response('gone', 404);
+        if (request.url.path.endsWith('/finalize')) return http.Response('{}', 200);
+        throw StateError('Unexpected request: ${request.method} ${request.url}');
+      });
+      final queue = await BrainbaseR2UploadQueue.openAt(
+        directory: directory,
+        baseUrl: 'https://ingest.test',
+        token: 'test-token',
+        client: client,
+      );
+      await queue.drain();
+
+      expect(queue.pendingItemCount, 0);
+      expect(queue.corruptedItemCount, 1);
+    });
+
+    for (final status in [503, 429]) {
+      test('keeps a missing chunk queued when presign fails with $status', () async {
+        await writeManifest([
+          itemFor('later', 0, Uint8List.fromList([1]))
+        ]);
+        final client = MockClient((request) async {
+          if (request.url.path.endsWith('/presign')) return http.Response('{}', status);
+          throw StateError('Unexpected request: ${request.method} ${request.url}');
+        });
+        final queue = await BrainbaseR2UploadQueue.openAt(
+          directory: directory,
+          baseUrl: 'https://ingest.test',
+          token: 'test-token',
+          client: client,
+        );
+        await queue.drain();
+
+        expect(queue.pendingItemCount, 1);
+        expect(queue.corruptedItemCount, 0);
+      });
+    }
 
     test('manifest save stays within 25 ms at p95', () async {
       final queue = await BrainbaseR2UploadQueue.openAt(

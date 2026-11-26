@@ -229,6 +229,7 @@ class BrainbaseR2UploadQueue {
   bool _activeSessionHasChunks = false;
   Future<void> _saveSerial = Future.value();
   bool _draining = false;
+  bool _drainRequested = false;
 
   static Future<BrainbaseR2UploadQueue> open({
     required String baseUrl,
@@ -345,91 +346,111 @@ class BrainbaseR2UploadQueue {
     await _save();
   }
 
+  /// Uploads queued chunks, then finalizes stopped sessions.
+  ///
+  /// A call made while a drain is running is not lost: the running drain makes
+  /// one more pass once it finishes cleanly, so a chunk enqueued or a session
+  /// stopped mid-drain is sent without waiting for the retry timer. A drain
+  /// that stops on an error leaves the rest to the timer.
   Future<void> drain() async {
-    if (_draining) return;
+    if (_draining) {
+      _drainRequested = true;
+      return;
+    }
     _draining = true;
     try {
-      while (_items.isNotEmpty) {
-        final item = _items.first;
-        final storedPath = item['path'];
-        if (storedPath is! String) {
-          Logger.error('[BrainbaseIngest] queued file path is invalid');
-          return;
-        }
-        final file = _resolveQueuedFile(storedPath);
-        if (file == null) {
-          Logger.error('[BrainbaseIngest] queued file path rejected');
-          return;
-        }
-        final fileType = await FileSystemEntity.type(
-          file.path,
-          followLinks: false,
-        );
-        if (fileType == FileSystemEntityType.notFound) {
-          await _recoverMissingFile(item);
-          continue;
-        }
-        if (fileType != FileSystemEntityType.file) {
-          Logger.error('[BrainbaseIngest] queued file is not a regular file: ${file.path}');
-          return;
-        }
-        final presign = await _presign(item);
-        if (presign['alreadyUploaded'] != true) {
-          final bytes = await file.readAsBytes();
-          final put = await _client
-              .put(
-                Uri.parse(presign['putUrl'] as String),
-                headers: {
-                  'content-type': 'audio/wav',
-                  'x-amz-meta-sha256': item['sha256'] as String,
-                },
-                body: bytes,
-              )
-              .timeout(_uploadTimeout);
-          if (put.statusCode < 200 || put.statusCode >= 300) {
-            throw HttpException('R2 PUT failed: ${put.statusCode}');
-          }
-        }
-        await _complete(item);
-        // Persist the removal before deleting the audio. A crash in between
-        // leaves only an unreferenced file, which the next open collects; the
-        // reverse order would leave a manifest item whose audio is gone.
-        _items.remove(item);
-        await _save();
-        await _beforeDeleteUploadedFile?.call(file);
-        try {
-          await file.delete();
-        } on FileSystemException catch (error) {
-          Logger.debug('[BrainbaseIngest] uploaded file not deleted; collected on next start: $error');
-        }
-      }
-      for (final sessionId in _finalizeSessions.toList()) {
-        final response = await _client
-            .post(
-              Uri.parse('$_baseUrl/v1/upload-sessions/$sessionId/finalize'),
-              headers: _headers,
-            )
-            .timeout(_requestTimeout);
-        try {
-          _decode(response);
-        } on BrainbaseIngestApiException catch (error) {
-          if (!error.isPermanent) rethrow;
-          // Retrying a refused finalize cannot succeed and would block the
-          // sessions behind it. Keep the session id for diagnosis.
-          _finalizeSessions.remove(sessionId);
-          _rejectedFinalizeSessions.add(sessionId);
-          await _save();
-          Logger.error('[BrainbaseIngest] finalize refused; session set aside: $sessionId (${error.statusCode})');
-          continue;
-        }
-        _finalizeSessions.remove(sessionId);
-        await _save();
-      }
+      do {
+        _drainRequested = false;
+        if (!await _drainOnce()) return;
+      } while (_drainRequested);
     } catch (error) {
       Logger.debug('[BrainbaseIngest] upload paused; will retry: $error');
     } finally {
       _draining = false;
+      _drainRequested = false;
     }
+  }
+
+  /// One pass over the queue. Returns false when it stopped on an item it must
+  /// not touch; network and server errors throw.
+  Future<bool> _drainOnce() async {
+    while (_items.isNotEmpty) {
+      final item = _items.first;
+      final storedPath = item['path'];
+      if (storedPath is! String) {
+        Logger.error('[BrainbaseIngest] queued file path is invalid');
+        return false;
+      }
+      final file = _resolveQueuedFile(storedPath);
+      if (file == null) {
+        Logger.error('[BrainbaseIngest] queued file path rejected');
+        return false;
+      }
+      final fileType = await FileSystemEntity.type(
+        file.path,
+        followLinks: false,
+      );
+      if (fileType == FileSystemEntityType.notFound) {
+        await _recoverMissingFile(item);
+        continue;
+      }
+      if (fileType != FileSystemEntityType.file) {
+        Logger.error('[BrainbaseIngest] queued file is not a regular file: ${file.path}');
+        return false;
+      }
+      final presign = await _presign(item);
+      if (presign['alreadyUploaded'] != true) {
+        final bytes = await file.readAsBytes();
+        final put = await _client
+            .put(
+              Uri.parse(presign['putUrl'] as String),
+              headers: {
+                'content-type': 'audio/wav',
+                'x-amz-meta-sha256': item['sha256'] as String,
+              },
+              body: bytes,
+            )
+            .timeout(_uploadTimeout);
+        if (put.statusCode < 200 || put.statusCode >= 300) {
+          throw HttpException('R2 PUT failed: ${put.statusCode}');
+        }
+      }
+      await _complete(item);
+      // Persist the removal before deleting the audio. A crash in between
+      // leaves only an unreferenced file, which the next open collects; the
+      // reverse order would leave a manifest item whose audio is gone.
+      _items.remove(item);
+      await _save();
+      await _beforeDeleteUploadedFile?.call(file);
+      try {
+        await file.delete();
+      } on FileSystemException catch (error) {
+        Logger.debug('[BrainbaseIngest] uploaded file not deleted; collected on next start: $error');
+      }
+    }
+    for (final sessionId in _finalizeSessions.toList()) {
+      final response = await _client
+          .post(
+            Uri.parse('$_baseUrl/v1/upload-sessions/$sessionId/finalize'),
+            headers: _headers,
+          )
+          .timeout(_requestTimeout);
+      try {
+        _decode(response);
+      } on BrainbaseIngestApiException catch (error) {
+        if (!error.isPermanent) rethrow;
+        // Retrying a refused finalize cannot succeed and would block the
+        // sessions behind it. Keep the session id for diagnosis.
+        _finalizeSessions.remove(sessionId);
+        _rejectedFinalizeSessions.add(sessionId);
+        await _save();
+        Logger.error('[BrainbaseIngest] finalize refused; session set aside: $sessionId (${error.statusCode})');
+        continue;
+      }
+      _finalizeSessions.remove(sessionId);
+      await _save();
+    }
+    return true;
   }
 
   /// Settles a queue item whose local audio file is missing.
@@ -437,14 +458,22 @@ class BrainbaseR2UploadQueue {
   /// If the server already holds the chunk, completing it again is idempotent
   /// and recovers the item. Otherwise the audio is lost: the item is set aside
   /// in [_corruptedItems] so the rest of the queue keeps moving.
+  ///
+  /// A permanent 4xx from presign or complete also sets the item aside: with no
+  /// local audio there is nothing a retry could send. Retryable failures throw
+  /// and keep the item for the next drain.
   Future<void> _recoverMissingFile(Map<String, dynamic> item) async {
-    final presign = await _presign(item);
-    if (presign['alreadyUploaded'] == true) {
-      await _complete(item);
-      _items.remove(item);
-      await _save();
-      Logger.debug('[BrainbaseIngest] recovered an uploaded chunk whose file was missing');
-      return;
+    try {
+      final presign = await _presign(item);
+      if (presign['alreadyUploaded'] == true) {
+        await _complete(item);
+        _items.remove(item);
+        await _save();
+        Logger.debug('[BrainbaseIngest] recovered an uploaded chunk whose file was missing');
+        return;
+      }
+    } on BrainbaseIngestApiException catch (error) {
+      if (!error.isPermanent) rethrow;
     }
     _items.remove(item);
     _corruptedItems.add(item);

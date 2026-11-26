@@ -14,6 +14,7 @@
   シンボリックリンクと `.wav` 以外は触らない。
 - 項目の音声がローカルに無い場合は presign で照合する。`alreadyUploaded` なら complete を送り直して項目を回収する。
   未アップロードなら `corruptedItems` に移して manifest に残し、後続のチャンクの転送を止めない。
+  presign や complete が恒久的な 4xx を返した場合も同じく `corruptedItems` に移す。5xx・通信失敗・401・403・408・425・429 は項目を残して再試行する。
   パスが不正な項目やシンボリックリンクは、これまでどおり項目を保持して転送を止める。
 - finalize が恒久的な 4xx（401・403・408・425・429 を除く）で拒否された session は `rejectedFinalizeSessions` に移し、
   再試行しない。5xx と通信失敗は finalize intent を保持して再試行する。
@@ -33,6 +34,8 @@
   retry timer と drain を開始する。起動処理はこのネットワーク処理を待たず、設定が無効なら何もしない。
 - `resumePendingUploads()` と `start()` は drain を待たない。`_serial` に載るのはローカルのキューを開く処理だけで、
   転送中や応答待ちの drain があっても `start()` は 250ms 以内に戻る。manifest の保存は p95 で 25ms 以内。
+- drain の実行中に来た drain の要求は捨てずに覚えておき、実行中の drain が正常に終わったらもう1回まわす。
+  エラーで止まった drain は retry timer に任せる。
 
 ## 影響範囲
 独自 R2 音声キューの永続化と復旧。通常 WAL、認証先、音声形式、BLE 接続は変更しない。
