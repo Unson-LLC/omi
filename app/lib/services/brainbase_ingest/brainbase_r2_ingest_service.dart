@@ -16,14 +16,48 @@ import 'package:omi/utils/audio/wav_bytes.dart';
 import 'package:omi/utils/logger.dart';
 
 class BrainbaseR2IngestService {
-  BrainbaseR2IngestService._();
+  BrainbaseR2IngestService._({
+    String baseUrl = const String.fromEnvironment('BRAINBASE_INGEST_URL'),
+    String token = const String.fromEnvironment('BRAINBASE_INGEST_TOKEN'),
+    http.Client? client,
+    Future<BrainbaseR2UploadQueue> Function()? openQueue,
+    Duration? retryInterval = const Duration(seconds: 15),
+  })  : _baseUrl = baseUrl,
+        _token = token,
+        _http = client ?? http.Client(),
+        _openQueue = openQueue,
+        _retryInterval = retryInterval;
+
+  /// A service over a queue in [directory], with no retry timer.
+  @visibleForTesting
+  factory BrainbaseR2IngestService.forTesting({
+    required String baseUrl,
+    required String token,
+    required http.Client client,
+    required Directory directory,
+  }) {
+    return BrainbaseR2IngestService._(
+      baseUrl: baseUrl,
+      token: token,
+      client: client,
+      openQueue: () => BrainbaseR2UploadQueue.openAt(
+        directory: directory,
+        baseUrl: baseUrl,
+        token: token,
+        client: client,
+      ),
+      retryInterval: null,
+    );
+  }
 
   static final instance = BrainbaseR2IngestService._();
-  static const _baseUrl = String.fromEnvironment('BRAINBASE_INGEST_URL');
-  static const _token = String.fromEnvironment('BRAINBASE_INGEST_TOKEN');
   static const _chunkSeconds = 30;
 
-  final http.Client _http = http.Client();
+  final String _baseUrl;
+  final String _token;
+  final http.Client _http;
+  final Future<BrainbaseR2UploadQueue> Function()? _openQueue;
+  final Duration? _retryInterval;
   final BytesBuilder _pcm = BytesBuilder(copy: false);
   Future<void> _serial = Future.value();
   Timer? _retryTimer;
@@ -37,13 +71,13 @@ class BrainbaseR2IngestService {
   bool get enabled => _baseUrl.isNotEmpty && _token.isNotEmpty;
 
   /// Reopens the durable queue after app startup, without creating a recording
-  /// session. The caller may fire-and-forget this operation so a slow network
-  /// does not delay the first frame.
+  /// session. Only the local queue open runs on [_serial]; the network drain
+  /// runs beside it, so a slow or hanging upload never delays [start].
   Future<void> resumePendingUploads() {
     final operation = _serial.then((_) async {
       if (!enabled) return;
       await _ensureQueueReady();
-      await _queue!.drain();
+      unawaited(_queue!.drain());
     });
     _serial = operation.catchError((Object error, StackTrace stack) {
       Logger.error(
@@ -57,7 +91,8 @@ class BrainbaseR2IngestService {
     final operation = _serial.then((_) async {
       if (!enabled || _sessionId != null) return;
       await _ensureQueueReady();
-      await _queue!.drain();
+      // Not awaited: pending uploads must not hold up a new recording session.
+      unawaited(_queue!.drain());
       late final String sourceCodec;
       try {
         _sampleRate = brainbaseSampleRate(codec);
@@ -90,15 +125,19 @@ class BrainbaseR2IngestService {
   }
 
   Future<void> _ensureQueueReady() async {
-    _queue ??= await BrainbaseR2UploadQueue.open(
-      baseUrl: _baseUrl,
-      token: _token,
-      client: _http,
-    );
-    _retryTimer ??= Timer.periodic(
-      const Duration(seconds: 15),
-      (_) => unawaited(_queue?.drain()),
-    );
+    _queue ??= await (_openQueue?.call() ??
+        BrainbaseR2UploadQueue.open(
+          baseUrl: _baseUrl,
+          token: _token,
+          client: _http,
+        ));
+    final retryInterval = _retryInterval;
+    if (retryInterval != null) {
+      _retryTimer ??= Timer.periodic(
+        retryInterval,
+        (_) => unawaited(_queue?.drain()),
+      );
+    }
   }
 
   Future<void> addFrames(List<WalFrame> frames) {
@@ -165,6 +204,7 @@ class BrainbaseR2UploadQueue {
     this._baseUrl,
     this._token,
     this._client,
+    this._beforeDeleteUploadedFile,
   );
 
   static const _requestTimeout = Duration(seconds: 15);
@@ -175,8 +215,16 @@ class BrainbaseR2UploadQueue {
   final String _baseUrl;
   final String _token;
   final http.Client _client;
+  final Future<void> Function(File file)? _beforeDeleteUploadedFile;
   final List<Map<String, dynamic>> _items = [];
+
+  /// Items whose audio is gone locally and was never uploaded. They are kept
+  /// out of [_items] so one lost file cannot stall every later chunk.
+  final List<Map<String, dynamic>> _corruptedItems = [];
   final Set<String> _finalizeSessions = {};
+
+  /// Sessions whose finalize the server refused with a permanent 4xx.
+  final Set<String> _rejectedFinalizeSessions = {};
   String? _activeSessionId;
   bool _activeSessionHasChunks = false;
   Future<void> _saveSerial = Future.value();
@@ -202,6 +250,7 @@ class BrainbaseR2UploadQueue {
     required String baseUrl,
     required String token,
     required http.Client client,
+    Future<void> Function(File file)? beforeDeleteUploadedFile,
   }) async {
     await directory.create(recursive: true);
     final queue = BrainbaseR2UploadQueue._(
@@ -210,14 +259,22 @@ class BrainbaseR2UploadQueue {
       baseUrl,
       token,
       client,
+      beforeDeleteUploadedFile,
     );
     await queue._load();
+    await queue._collectOrphanedAudio();
     await queue._recoverOrphanedSessions();
     return queue;
   }
 
   @visibleForTesting
   int get pendingItemCount => _items.length;
+
+  @visibleForTesting
+  int get corruptedItemCount => _corruptedItems.length;
+
+  @visibleForTesting
+  bool isFinalizeRejected(String sessionId) => _rejectedFinalizeSessions.contains(sessionId);
 
   @visibleForTesting
   bool isFinalizePending(String sessionId) => _finalizeSessions.contains(sessionId);
@@ -308,24 +365,15 @@ class BrainbaseR2UploadQueue {
           file.path,
           followLinks: false,
         );
+        if (fileType == FileSystemEntityType.notFound) {
+          await _recoverMissingFile(item);
+          continue;
+        }
         if (fileType != FileSystemEntityType.file) {
-          Logger.error('[BrainbaseIngest] queued file missing: ${file.path}');
+          Logger.error('[BrainbaseIngest] queued file is not a regular file: ${file.path}');
           return;
         }
-        final presignResponse = await _client
-            .post(
-              Uri.parse(
-                '$_baseUrl/v1/upload-sessions/${item['sessionId']}/chunks/${item['sequence']}/presign',
-              ),
-              headers: _headers,
-              body: jsonEncode({
-                'sha256': item['sha256'],
-                'byteLength': item['byteLength'],
-                'contentType': 'audio/wav',
-              }),
-            )
-            .timeout(_requestTimeout);
-        final presign = _decode(presignResponse);
+        final presign = await _presign(item);
         if (presign['alreadyUploaded'] != true) {
           final bytes = await file.readAsBytes();
           final put = await _client
@@ -342,18 +390,18 @@ class BrainbaseR2UploadQueue {
             throw HttpException('R2 PUT failed: ${put.statusCode}');
           }
         }
-        final complete = await _client
-            .post(
-              Uri.parse(
-                '$_baseUrl/v1/upload-sessions/${item['sessionId']}/chunks/${item['sequence']}/complete',
-              ),
-              headers: _headers,
-            )
-            .timeout(_requestTimeout);
-        _decode(complete);
-        await file.delete();
-        _items.removeAt(0);
+        await _complete(item);
+        // Persist the removal before deleting the audio. A crash in between
+        // leaves only an unreferenced file, which the next open collects; the
+        // reverse order would leave a manifest item whose audio is gone.
+        _items.remove(item);
         await _save();
+        await _beforeDeleteUploadedFile?.call(file);
+        try {
+          await file.delete();
+        } on FileSystemException catch (error) {
+          Logger.debug('[BrainbaseIngest] uploaded file not deleted; collected on next start: $error');
+        }
       }
       for (final sessionId in _finalizeSessions.toList()) {
         final response = await _client
@@ -362,7 +410,18 @@ class BrainbaseR2UploadQueue {
               headers: _headers,
             )
             .timeout(_requestTimeout);
-        _decode(response);
+        try {
+          _decode(response);
+        } on BrainbaseIngestApiException catch (error) {
+          if (!error.isPermanent) rethrow;
+          // Retrying a refused finalize cannot succeed and would block the
+          // sessions behind it. Keep the session id for diagnosis.
+          _finalizeSessions.remove(sessionId);
+          _rejectedFinalizeSessions.add(sessionId);
+          await _save();
+          Logger.error('[BrainbaseIngest] finalize refused; session set aside: $sessionId (${error.statusCode})');
+          continue;
+        }
         _finalizeSessions.remove(sessionId);
         await _save();
       }
@@ -372,6 +431,86 @@ class BrainbaseR2UploadQueue {
       _draining = false;
     }
   }
+
+  /// Settles a queue item whose local audio file is missing.
+  ///
+  /// If the server already holds the chunk, completing it again is idempotent
+  /// and recovers the item. Otherwise the audio is lost: the item is set aside
+  /// in [_corruptedItems] so the rest of the queue keeps moving.
+  Future<void> _recoverMissingFile(Map<String, dynamic> item) async {
+    final presign = await _presign(item);
+    if (presign['alreadyUploaded'] == true) {
+      await _complete(item);
+      _items.remove(item);
+      await _save();
+      Logger.debug('[BrainbaseIngest] recovered an uploaded chunk whose file was missing');
+      return;
+    }
+    _items.remove(item);
+    _corruptedItems.add(item);
+    await _save();
+    Logger.error(
+      '[BrainbaseIngest] queued audio missing and not uploaded; set aside: '
+      '${item['sessionId']}#${item['sequence']}',
+    );
+  }
+
+  Future<Map<String, dynamic>> _presign(Map<String, dynamic> item) async {
+    final response = await _client
+        .post(
+          Uri.parse(
+            '$_baseUrl/v1/upload-sessions/${item['sessionId']}/chunks/${item['sequence']}/presign',
+          ),
+          headers: _headers,
+          body: jsonEncode({
+            'sha256': item['sha256'],
+            'byteLength': item['byteLength'],
+            'contentType': 'audio/wav',
+          }),
+        )
+        .timeout(_requestTimeout);
+    return _decode(response);
+  }
+
+  Future<void> _complete(Map<String, dynamic> item) async {
+    final response = await _client
+        .post(
+          Uri.parse(
+            '$_baseUrl/v1/upload-sessions/${item['sessionId']}/chunks/${item['sequence']}/complete',
+          ),
+          headers: _headers,
+        )
+        .timeout(_requestTimeout);
+    _decode(response);
+  }
+
+  /// Deletes queue `.wav` files that no manifest item refers to.
+  ///
+  /// Runs once at open, before this process enqueues anything, so every
+  /// unreferenced file is left over from an earlier process: audio deleted
+  /// after its item was saved away, or written before a crash. Only regular
+  /// files directly inside the queue directory are touched.
+  Future<void> _collectOrphanedAudio() async {
+    final referenced = <String>{};
+    for (final item in [..._items, ..._corruptedItems]) {
+      final storedPath = item['path'];
+      if (storedPath is! String) continue;
+      final file = _resolveQueuedFile(storedPath);
+      if (file != null) referenced.add(_basename(file.path));
+    }
+    await for (final entity in _directory.list(followLinks: false)) {
+      if (entity is! File) continue;
+      final name = _basename(entity.path);
+      if (!name.endsWith('.wav') || referenced.contains(name)) continue;
+      try {
+        await entity.delete();
+      } on FileSystemException catch (error) {
+        Logger.debug('[BrainbaseIngest] orphaned audio not deleted: $error');
+      }
+    }
+  }
+
+  static String _basename(String path) => path.replaceAll('\\', '/').split('/').last;
 
   File? _resolveQueuedFile(String storedPath) {
     final normalized = storedPath.replaceAll('\\', '/');
@@ -383,13 +522,17 @@ class BrainbaseR2UploadQueue {
   }
 
   Map<String, dynamic> _decode(http.Response response) {
-    final value = jsonDecode(response.body) as Map<String, dynamic>;
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw HttpException(
-        'ingest API ${response.statusCode}: ${value['error']}',
-      );
+      Object? error;
+      try {
+        final value = jsonDecode(response.body);
+        if (value is Map<String, dynamic>) error = value['error'];
+      } on FormatException {
+        // Error bodies are not always JSON (proxies, gateways).
+      }
+      throw BrainbaseIngestApiException(response.statusCode, error);
     }
-    return value;
+    return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
   Future<void> _load() async {
@@ -400,6 +543,12 @@ class BrainbaseR2UploadQueue {
     );
     _finalizeSessions.addAll(
       (value['finalizeSessions'] as List<dynamic>? ?? []).cast<String>(),
+    );
+    _corruptedItems.addAll(
+      (value['corruptedItems'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>(),
+    );
+    _rejectedFinalizeSessions.addAll(
+      (value['rejectedFinalizeSessions'] as List<dynamic>? ?? []).cast<String>(),
     );
     final activeSessionId = value['activeSessionId'];
     if (activeSessionId is String && activeSessionId.isNotEmpty) {
@@ -430,7 +579,9 @@ class BrainbaseR2UploadQueue {
   Future<void> _save() async {
     final snapshot = jsonEncode({
       'items': _items,
+      'corruptedItems': _corruptedItems,
       'finalizeSessions': _finalizeSessions.toList(),
+      'rejectedFinalizeSessions': _rejectedFinalizeSessions.toList(),
       'activeSessionId': _activeSessionId,
       'activeSessionHasChunks': _activeSessionHasChunks,
     });
@@ -441,4 +592,16 @@ class BrainbaseR2UploadQueue {
     });
     await _saveSerial;
   }
+}
+
+/// A non-2xx answer from the Brainbase ingest API.
+class BrainbaseIngestApiException extends HttpException {
+  BrainbaseIngestApiException(this.statusCode, Object? error) : super('ingest API $statusCode: $error');
+
+  final int statusCode;
+
+  /// A 4xx the same request cannot fix by retrying. Auth, timeout and rate
+  /// limit answers stay retryable: they depend on server state, not the request.
+  bool get isPermanent =>
+      statusCode >= 400 && statusCode < 500 && !const {401, 403, 408, 425, 429}.contains(statusCode);
 }
