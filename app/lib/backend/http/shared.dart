@@ -485,9 +485,10 @@ bool isOmiListTruncated(http.Response? response) {
 Future<http.StreamedResponse> _sendMultipartWithProgress(
   http.MultipartRequest request,
   UploadProgressCallback? onProgress,
+  HttpPoolManager poolManager,
 ) async {
   if (onProgress == null) {
-    return HttpPoolManager.instance.sendStreaming(request);
+    return poolManager.sendStreaming(request);
   }
 
   final totalBytes = request.contentLength;
@@ -521,9 +522,20 @@ Future<http.StreamedResponse> _sendMultipartWithProgress(
     cancelOnError: true,
   );
 
-  final future = HttpPoolManager.instance.sendStreaming(streamedRequest);
-  future.whenComplete(subscription.cancel);
-  return future;
+  final future = poolManager.sendStreaming(streamedRequest);
+  return detachUploadCleanup(future, subscription.cancel);
+}
+
+/// Runs [cancel] once [future] settles without letting it change the result.
+///
+/// The cancel is best effort: a failing or hanging cancel must not replace an
+/// accepted 200 response (the caller would retry and upload twice) or the
+/// original transport error, and must not delay either of them.
+@visibleForTesting
+Future<T> detachUploadCleanup<T>(Future<T> future, Future<void> Function() cancel) {
+  return future.whenComplete(() {
+    unawaited(Future<void>.sync(cancel).catchError((Object _) {}));
+  });
 }
 
 Future<http.MultipartRequest> _buildMultipartRequest({
@@ -558,8 +570,10 @@ Future<http.Response> makeMultipartApiCall({
   String fileFieldName = 'files',
   String method = 'POST',
   UploadProgressCallback? onUploadProgress,
+  @visibleForTesting HttpPoolManager? poolManager,
 }) async {
   try {
+    final manager = poolManager ?? HttpPoolManager.instance;
     final bool requireAuthCheck = _isRequiredAuthCheck(url);
     Map<String, String> builtHeaders = await buildHeaders(
       requireAuthCheck: requireAuthCheck,
@@ -577,7 +591,7 @@ Future<http.Response> makeMultipartApiCall({
       method: method,
     );
 
-    var streamedResponse = await _sendMultipartWithProgress(request, onUploadProgress);
+    var streamedResponse = await _sendMultipartWithProgress(request, onUploadProgress, manager);
     var response = await http.Response.fromStream(streamedResponse);
 
     if (requireAuthCheck && response.statusCode == 401) {
@@ -595,7 +609,7 @@ Future<http.Response> makeMultipartApiCall({
             fileFieldName: fileFieldName,
             method: method,
           );
-          streamedResponse = await _sendMultipartWithProgress(request, onUploadProgress);
+          streamedResponse = await _sendMultipartWithProgress(request, onUploadProgress, manager);
           return http.Response.fromStream(streamedResponse);
         },
       );
