@@ -523,7 +523,19 @@ Future<http.StreamedResponse> _sendMultipartWithProgress(
   );
 
   final future = poolManager.sendStreaming(streamedRequest);
-  return future.whenComplete(subscription.cancel);
+  return detachUploadCleanup(future, subscription.cancel);
+}
+
+/// Runs [cancel] once [future] settles without letting it change the result.
+///
+/// The cancel is best effort: a failing or hanging cancel must not replace an
+/// accepted 200 response (the caller would retry and upload twice) or the
+/// original transport error, and must not delay either of them.
+@visibleForTesting
+Future<T> detachUploadCleanup<T>(Future<T> future, Future<void> Function() cancel) {
+  return future.whenComplete(() {
+    unawaited(Future<void>.sync(cancel).catchError((Object _) {}));
+  });
 }
 
 Future<http.MultipartRequest> _buildMultipartRequest({

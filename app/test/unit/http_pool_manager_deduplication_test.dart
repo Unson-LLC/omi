@@ -17,14 +17,16 @@ void main() {
     var calls = 0;
     runZonedGuarded(() async {
       final gate = Completer<http.Response>();
-      final manager = HttpPoolManager.withClient(MockClient((_) {
-        calls++;
-        return calls == 1 ? gate.future : Future.value(http.Response('recovered', 200));
-      }));
+      HttpPoolManager? manager;
       try {
+        manager = HttpPoolManager.withClient(MockClient((_) {
+          calls++;
+          return calls == 1 ? gate.future : Future.value(http.Response('recovered', 200));
+        }));
+        final pool = manager;
         Future<void> request() async {
           try {
-            await manager.send(() => http.Request('GET', uri), retries: 0);
+            await pool.send(() => http.Request('GET', uri), retries: 0);
           } catch (error) {
             handled.add(error);
           }
@@ -35,11 +37,11 @@ void main() {
         await Future<void>.delayed(Duration.zero);
         gate.completeError(failure);
         await Future.wait([first, second]);
-        final recovered = await manager.send(() => http.Request('GET', uri), retries: 0);
+        final recovered = await pool.send(() => http.Request('GET', uri), retries: 0);
         expect(recovered.body, 'recovered');
-        await Future<void>.delayed(Duration.zero);
+        await pumpEventQueue();
       } finally {
-        manager.dispose();
+        manager?.dispose();
         finished.complete();
       }
     }, (error, stack) => uncaught.add(error));

@@ -63,6 +63,8 @@ class HttpPoolManager {
     if (isGet) {
       // Return the cleanup future too: discarding it duplicates request errors
       // into the zone even when every caller handles the original failure.
+      // Keep the block body. An arrow body would return what `remove` returns,
+      // which is `tracked` itself, so `tracked` would wait on itself forever.
       final tracked = future.whenComplete(() {
         _pendingGets.remove(url);
       });

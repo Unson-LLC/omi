@@ -185,7 +185,7 @@ void main() {
           } catch (error) {
             handled.add(error);
           }
-          await Future<void>.delayed(Duration.zero);
+          await pumpEventQueue();
         }, (error, _) => uncaught.add(error));
       } finally {
         manager.dispose();
@@ -198,6 +198,8 @@ void main() {
     test('cancels the upload subscription after a successful response', () async {
       final firstChunk = Completer<void>();
       var progressCalls = 0;
+      var lastBytesSent = 0;
+      var lastTotalBytes = 0;
       late StreamSubscription<List<int>> bodySubscription;
       final manager = HttpPoolManager.withClient(
         MockClient.streaming((_, body) async {
@@ -214,18 +216,82 @@ void main() {
         final response = await makeMultipartApiCall(
           url: 'https://upload.invalid/v1/upload',
           files: [testFile],
-          onUploadProgress: (_, __, ___) => progressCalls++,
+          onUploadProgress: (sent, total, _) {
+            progressCalls++;
+            lastBytesSent = sent;
+            lastTotalBytes = total;
+          },
           poolManager: manager,
         );
         final progressCallsAfterResponse = progressCalls;
+        final bytesSentAtResponse = lastBytesSent;
 
         await Future<void>.delayed(const Duration(milliseconds: 50));
 
         expect(response.statusCode, 200);
+        expect(bytesSentAtResponse, lessThan(lastTotalBytes));
         expect(progressCalls, progressCallsAfterResponse);
       } finally {
         manager.dispose();
       }
+    });
+  });
+  group('detachUploadCleanup', () {
+    test('keeps an accepted response when cancel throws', () async {
+      final uncaught = <Object>[];
+      final response = http.StreamedResponse(const Stream<List<int>>.empty(), 200);
+      late http.StreamedResponse result;
+      await runZonedGuarded(() async {
+        result = await detachUploadCleanup(
+          Future.value(response),
+          () async => throw StateError('cancel failed'),
+        );
+        await pumpEventQueue();
+      }, (error, _) => uncaught.add(error));
+
+      expect(result, same(response));
+      expect(uncaught, isEmpty);
+    });
+
+    test('keeps an accepted response when cancel throws synchronously', () async {
+      final response = http.StreamedResponse(const Stream<List<int>>.empty(), 200);
+      final result = await detachUploadCleanup(
+        Future.value(response),
+        () => throw StateError('cancel failed'),
+      );
+
+      expect(result, same(response));
+    });
+
+    test('keeps the original transport error when cancel throws', () async {
+      final uncaught = <Object>[];
+      const failure = SocketException('offline');
+      Object? handled;
+      await runZonedGuarded(() async {
+        try {
+          await detachUploadCleanup<http.StreamedResponse>(
+            Future.error(failure),
+            () async => throw StateError('cancel failed'),
+          );
+        } catch (error) {
+          handled = error;
+        }
+        await pumpEventQueue();
+      }, (error, _) => uncaught.add(error));
+
+      expect(handled, same(failure));
+      expect(uncaught, isEmpty);
+    });
+
+    test('does not wait for a cancel that never completes', () async {
+      final response = http.StreamedResponse(const Stream<List<int>>.empty(), 200);
+      final neverCompletes = Completer<void>();
+      final result = await detachUploadCleanup(
+        Future.value(response),
+        () => neverCompletes.future,
+      ).timeout(const Duration(seconds: 1));
+
+      expect(result, same(response));
     });
   });
 }
