@@ -463,6 +463,7 @@ class BrainbaseR2UploadQueue {
   /// local audio there is nothing a retry could send. Retryable failures throw
   /// and keep the item for the next drain.
   Future<void> _recoverMissingFile(Map<String, dynamic> item) async {
+    int? refusedStatus;
     try {
       final presign = await _presign(item);
       if (presign['alreadyUploaded'] == true) {
@@ -474,13 +475,17 @@ class BrainbaseR2UploadQueue {
       }
     } on BrainbaseIngestApiException catch (error) {
       if (!error.isPermanent) rethrow;
+      refusedStatus = error.statusCode;
     }
     _items.remove(item);
     _corruptedItems.add(item);
     await _save();
     Logger.error(
-      '[BrainbaseIngest] queued audio missing and not uploaded; set aside: '
-      '${item['sessionId']}#${item['sequence']}',
+      refusedStatus == null
+          ? '[BrainbaseIngest] queued audio missing and not uploaded; set aside: '
+              '${item['sessionId']}#${item['sequence']}'
+          : '[BrainbaseIngest] queued audio missing and refused by the server; set aside: '
+              '${item['sessionId']}#${item['sequence']} ($refusedStatus)',
     );
   }
 

@@ -946,10 +946,21 @@ void main() {
 
       // Once the network answers, the startup drain finishes the old chunk.
       release.complete();
-      for (var i = 0; i < 100 && (readManifest()['items'] as List).isNotEmpty; i++) {
+      // The save that clears the old session's finalize intent is the drain's
+      // last write and comes after the audio delete. Once it is on disk the
+      // drain has settled and nothing races the directory teardown.
+      bool settled() {
+        final manifest = readManifest();
+        return (manifest['items'] as List).isEmpty &&
+            (manifest['finalizeSessions'] as List).isEmpty &&
+            !File('${directory.path}/old_00000000.wav').existsSync();
+      }
+
+      for (var i = 0; i < 200 && !settled(); i++) {
         await Future<void>.delayed(const Duration(milliseconds: 10));
       }
       expect(readManifest()['items'], isEmpty);
+      expect(readManifest()['finalizeSessions'], isEmpty);
       expect(File('${directory.path}/old_00000000.wav').existsSync(), isFalse);
     });
 
@@ -1017,6 +1028,35 @@ void main() {
       );
       await queue.drain();
 
+      expect(queue.pendingItemCount, 0);
+      expect(queue.corruptedItemCount, 1);
+    });
+
+    test('sets aside a missing chunk when complete refuses it permanently', () async {
+      await writeManifest([
+        itemFor('closed', 0, Uint8List.fromList([1]))
+      ]);
+      var completes = 0;
+      final client = MockClient((request) async {
+        if (request.url.path.endsWith('/presign')) {
+          return http.Response(jsonEncode({'alreadyUploaded': true}), 200);
+        }
+        if (request.url.path.endsWith('/complete')) {
+          completes++;
+          return http.Response(jsonEncode({'error': 'session finalized'}), 409);
+        }
+        if (request.url.path.endsWith('/finalize')) return http.Response('{}', 200);
+        throw StateError('Unexpected request: ${request.method} ${request.url}');
+      });
+      final queue = await BrainbaseR2UploadQueue.openAt(
+        directory: directory,
+        baseUrl: 'https://ingest.test',
+        token: 'test-token',
+        client: client,
+      );
+      await queue.drain();
+
+      expect(completes, 1);
       expect(queue.pendingItemCount, 0);
       expect(queue.corruptedItemCount, 1);
     });
